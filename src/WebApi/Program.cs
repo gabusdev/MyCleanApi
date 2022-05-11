@@ -1,3 +1,4 @@
+using Infrastructure.Persistence;
 using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
