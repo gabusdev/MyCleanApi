@@ -2,3 +2,4 @@
 global using Application.Common.Exceptions;
 
 global using Mapster;
+global using Serilog;

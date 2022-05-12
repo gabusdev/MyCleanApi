@@ -19,6 +19,8 @@ namespace Infrastructure.Persistence
             services.AddDbContext<ApplicationDbContext>(m =>
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
             
+            Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
+            
             return services;
         }
 
