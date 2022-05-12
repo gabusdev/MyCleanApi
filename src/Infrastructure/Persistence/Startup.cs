@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence
                 .AddTransient<IApplicationDbSeeder, ApplicationDbSeeder>();
 
             // Add Database Context form Enviroment or Configuration files
-            var dBSettings = DatabaseSettingsService.GetDbSettings(config);
+            var dBSettings = DatabaseSettings.GetDbSettings(config);
 
             services.AddDbContext<ApplicationDbContext>(m =>
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
