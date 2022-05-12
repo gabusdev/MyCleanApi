@@ -16,70 +16,35 @@ namespace Infrastructure.Persistence
     {
         internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
         {
+            // Add Initialize and Seed Database Classes
+            services
+                .AddTransient<IApplicationDbInitializer, ApplicationDbInitializer>()
+                .AddTransient<IApplicationDbSeeder, ApplicationDbSeeder>();
+
             // Add Database Context form Enviroment or Configuration files
-            var dBSettings = GetDbSettings(config);
+            var dBSettings = DatabaseSettingsService.GetDbSettings(config);
 
             services.AddDbContext<ApplicationDbContext>(m =>
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
 
             Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
 
-            // Add Initialize and Seed Database Classes
-            services
-                .AddTransient<IApplicationDbInitializer, ApplicationDbInitializer>()
-                .AddTransient<IApplicationDbSeeder, ApplicationDbSeeder>();
-
             return services;
         }
 
-        private static DatabaseSettings GetDbSettings(IConfiguration config)
-        {
-            // First get Settings from Configuration file
-            var databaseSettings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
-
-            // The check if there are Settings in Enviroment
-            GetSettingsFromEnv(databaseSettings);
-
-            if (databaseSettings.DBProvider == null)
-            {
-                databaseSettings.DBProvider = "InMemory";
-            }
-            else if (databaseSettings.DBProvider.ToLower() != "inmemory"
-                && databaseSettings.ConnectionString is null)
-            {
-                throw new InvalidOperationException($"Connection String not provided for {databaseSettings.DBProvider}");
-            }
-            return databaseSettings;
-        }
-        private static void GetSettingsFromEnv(DatabaseSettings dBSettings)
-        {
-            var dbProvider = Environment.GetEnvironmentVariable("dbProvider");
-            if (dbProvider != null)
-                dBSettings.DBProvider = dbProvider;
-
-            var connString = Environment.GetEnvironmentVariable("connString");
-            if (connString != null)
-                dBSettings.ConnectionString = connString;
-        }
         private static (DbContextOptionsBuilder, ServiceLifetime) UseDatabase(this DbContextOptionsBuilder builder, string dbProvider, string connectionString)
         {
             var defaultLifetime = ServiceLifetime.Scoped;
             switch (dbProvider.ToLowerInvariant())
             {
-                /*
+                
                 case DbProviderKeys.Npgsql:
                     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-                    return builder.UseNpgsql(connectionString, e =>
-                         e.MigrationsAssembly("Migrators.PostgreSQL"));
-                */
+                    return (builder.UseNpgsql(connectionString),defaultLifetime);
                 case DbProviderKeys.SqlServer:
                     return (builder.UseSqlServer(connectionString), defaultLifetime);
-                /*
                 case DbProviderKeys.MySql:
-                    return builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e =>
-                         e.MigrationsAssembly("Migrators.MySQL")
-                          .SchemaBehavior(MySqlSchemaBehavior.Ignore));
-                */
+                    return (builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)), defaultLifetime);
                 /*
                 case DbProviderKeys.Oracle:
                     return builder.UseOracle(connectionString, e =>

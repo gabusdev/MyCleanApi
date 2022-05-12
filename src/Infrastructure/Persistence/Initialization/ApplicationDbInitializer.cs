@@ -21,6 +21,13 @@ namespace Infrastructure.Persistence.Initialization
 
         public async Task InitializeDatabaseAsync(CancellationToken cancellationToken)
         {
+            if (_dbContext.Database.IsInMemory())
+            {
+                await _dbSeeder.SeedDatabaseAsync(_dbContext, cancellationToken);
+                Log.Information("Using In Memory database");
+                return;
+            }
+
             if (_dbContext.Database.GetMigrations().Any())
             {
                 if ((await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
