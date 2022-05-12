@@ -1,5 +1,6 @@
 ﻿using Application;
 using Infrastructure;
+using Infrastructure.Persistence;
 
 namespace WebApi
 {
@@ -15,17 +16,19 @@ namespace WebApi
 
             return services;
         }
-        public static WebApplication UseConfigurations(this WebApplication app, IConfiguration config)
+        public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
         {
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
+            app.UseRouting();
+
             app.UseAuthorization();
-            app.MapControllers();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             return app;
         }

@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Persistence.Context;
+using Infrastructure.Persistence.Initialization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,13 +16,19 @@ namespace Infrastructure.Persistence
     {
         internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
         {
+            // Add Database Context form Enviroment or Configuration files
             var dBSettings = GetDbSettings(config);
-            
+
             services.AddDbContext<ApplicationDbContext>(m =>
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
-            
+
             Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
-            
+
+            // Add Initialize and Seed Database Classes
+            services
+                .AddTransient<IApplicationDbInitializer, ApplicationDbInitializer>()
+                .AddTransient<IApplicationDbSeeder, ApplicationDbSeeder>();
+
             return services;
         }
 
@@ -36,7 +44,7 @@ namespace Infrastructure.Persistence
             {
                 databaseSettings.DBProvider = "InMemory";
             }
-            else if (databaseSettings.DBProvider.ToLower() != "inmemory" 
+            else if (databaseSettings.DBProvider.ToLower() != "inmemory"
                 && databaseSettings.ConnectionString is null)
             {
                 throw new InvalidOperationException($"Connection String not provided for {databaseSettings.DBProvider}");
@@ -65,8 +73,7 @@ namespace Infrastructure.Persistence
                          e.MigrationsAssembly("Migrators.PostgreSQL"));
                 */
                 case DbProviderKeys.SqlServer:
-                    return (builder.UseSqlServer(connectionString, e =>
-                         e.MigrationsAssembly("Migrators.MSSQL")),defaultLifetime);
+                    return (builder.UseSqlServer(connectionString), defaultLifetime);
                 /*
                 case DbProviderKeys.MySql:
                     return builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e =>
@@ -79,11 +86,11 @@ namespace Infrastructure.Persistence
                          e.MigrationsAssembly("Migrators.Oracle"));
                 */
                 case DbProviderKeys.InMemory:
-                    return (builder.UseInMemoryDatabase(Guid.NewGuid().ToString()),ServiceLifetime.Singleton);
+                    return (builder.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);
                 default:
                     throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
             }
         }
-        
+
     }
 }

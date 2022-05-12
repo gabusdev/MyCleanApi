@@ -1,5 +1,5 @@
 using Infrastructure.Logging;
-using Infrastructure.Persistence;
+using Infrastructure.Persistence.Initialization;
 using Serilog;
 using WebApi;
 
@@ -9,16 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddConfigurations(builder.Configuration);
 
-
 var app = builder.Build();
 // Use services in the container.
 app.UseConfigurations(builder.Configuration);
+// Create and Seed Database
+await app.InitializeAndSeedDatabaseAsync();
 
 try
 {
     Log.Information("Application is Starting...");
     app.Run();
-    Log.Information("Application is Running...");
 }
 catch (Exception ex)
 {
