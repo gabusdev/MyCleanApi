@@ -10,7 +10,7 @@ namespace Infrastructure.Logging
         {
             var logger = new LoggerConfiguration()
                 .WriteTo.File(
-                    path: "Logs\\api-log-.txt",
+                    path: "Logs\\api-log-.log",
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
                     rollingInterval: RollingInterval.Day,
                     restrictedToMinimumLevel: LogEventLevel.Information
