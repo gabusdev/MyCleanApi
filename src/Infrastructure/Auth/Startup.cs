@@ -1,5 +1,9 @@
-﻿using Infrastructure.Auth.Jwt;
+﻿using Application.Common.Interfaces;
+using Infrastructure.Auth.Jwt;
+using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +13,8 @@ internal static class Startup
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config, bool locked = false)
     {
         return services
+            .AddCurrentUser()
+            .AddPermissions()
             .AddAuthorization(opt =>
             {
                 if (locked)
@@ -25,5 +31,19 @@ internal static class Startup
             })
             .AddJwtAuth(config);
     }
+
+    internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>
+        app.UseMiddleware<CurrentUserMiddleware>();
+
+    private static IServiceCollection AddCurrentUser(this IServiceCollection services) =>
+        services
+            .AddScoped<CurrentUserMiddleware>()
+            .AddScoped<ICurrentUser, CurrentUser>()
+            .AddScoped(sp => (ICurrentUserInitializer)sp.GetRequiredService<ICurrentUser>());
+
+    private static IServiceCollection AddPermissions(this IServiceCollection services) =>
+        services
+            .AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
+            .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 }
 

@@ -1,6 +1,8 @@
 using Application.Common.Interfaces;
+using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Authorization;
 
 namespace WebApi.Controllers
 {
@@ -36,6 +38,7 @@ namespace WebApi.Controllers
         }
 
         [Authorize]
+        [MustHavePermission(ApiAction.View, ApiResource.Brands)]
         [HttpGet("testing")]
         public string Test()
         {

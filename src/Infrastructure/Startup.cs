@@ -21,7 +21,8 @@ namespace Infrastructure
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
         {
             return app
-                .UseExceptionMiddleware();
+                .UseExceptionMiddleware()
+                .UseCurrentUser();
         }
     }
 }

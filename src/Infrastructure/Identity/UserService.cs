@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
+using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,16 @@ namespace Infrastructure.Identity
     internal partial class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserService(UserManager<ApplicationUser> userManager)
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _db;
+
+        public UserService(UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
+            _db = db;
         }
 
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)
