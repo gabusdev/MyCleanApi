@@ -1,13 +1,8 @@
 ﻿using Application.Common.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Identity.Users.UserQueries.GetAll
 {
-    public class GetAllUsersQuery: IQuery<List<UserDetailsDto>> 
+    public class GetAllUsersQuery : IQuery<List<UserDetailsDto>>
     {
         public class GetAllUsersQueryHandler : IdentityQueryHandler<GetAllUsersQuery, List<UserDetailsDto>>
         {
@@ -20,5 +15,5 @@ namespace Application.Identity.Users.UserQueries.GetAll
                 return await _userService.GetListAsync(cancellationToken);
             }
         }
-    }  
+    }
 }

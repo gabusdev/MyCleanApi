@@ -1,10 +1,5 @@
 ﻿using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.UpdateUser;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
@@ -35,7 +30,7 @@ namespace Infrastructure.Identity
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
                 throw new NotFoundException("User not Found");
-            
+
             ChangeUserData(user, request);
 
             var result = await _userManager.UpdateAsync(user);

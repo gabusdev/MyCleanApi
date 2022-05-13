@@ -1,15 +1,13 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using Application.Identity.Tokens;
 using Application.Identity.Tokens.TokenQueries;
 using Infrastructure.Auth.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Infrastructure.Identity;
 
@@ -35,7 +33,7 @@ internal class TokenService : ITokenService
         {
             throw new UnauthorizedException("Authentication Failed");
         }
-        
+
         /*
         if (!user.IsActive)
         {
@@ -119,7 +117,7 @@ internal class TokenService : ITokenService
             expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationInMinutes),
             signingCredentials: signingCredentials
             );
-        
+
         var tokenHandler = new JwtSecurityTokenHandler();
         return tokenHandler.WriteToken(token);
     }

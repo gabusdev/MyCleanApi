@@ -13,7 +13,7 @@ public class UpdateUserRequest
     public string? UserName { get; set; }
 }
 
-public class UpdateUserCommand: UpdateUserRequest, ICommand
+public class UpdateUserCommand : UpdateUserRequest, ICommand
 {
     public string? QueryUserId { get; set; }
 }
@@ -29,7 +29,7 @@ public class UpdateUserCommandHandler : IdentityCommandHandler<UpdateUserCommand
         if (request.Id != request.QueryUserId)
             throw new ConflictException("The Id's privided do not match");
         await _userService.UpdateAsync(request, request.Id);
-        
+
         return Unit.Value;
     }
 }

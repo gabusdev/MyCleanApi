@@ -1,8 +1,8 @@
-using System.Net;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Serilog.Context;
+using System.Net;
 
 namespace Infrastructure.Middlewares;
 

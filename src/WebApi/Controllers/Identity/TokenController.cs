@@ -1,5 +1,4 @@
 ﻿using Application.Identity.Tokens.TokenQueries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Identity
@@ -11,7 +10,7 @@ namespace WebApi.Controllers.Identity
         [HttpPost]
         public Task<TokenResponse> GetTokenAsync(GetTokenQuery query, CancellationToken cancellationToken)
         {
-            return Mediator.Send(query,cancellationToken);
+            return Mediator.Send(query, cancellationToken);
         }
 
         [HttpPost("refresh-token")]

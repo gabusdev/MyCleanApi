@@ -1,13 +1,7 @@
-﻿using Application.Identity.Users.Password;
-using Application.Identity.Users.UserCommands.ToggleUserStatus;
+﻿using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
@@ -18,7 +12,7 @@ namespace Infrastructure.Identity
         {
             _userManager = userManager;
         }
-        
+
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)
         {
             return await _userManager.FindByEmailAsync(email.Normalize()) is ApplicationUser user && user.Id != exceptId;

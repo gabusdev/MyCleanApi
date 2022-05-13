@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             })
             .ToArray();
         }
-        
+
         [Authorize]
         [HttpGet("testing")]
         public string Test()

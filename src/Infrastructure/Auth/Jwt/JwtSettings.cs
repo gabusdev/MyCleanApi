@@ -1,9 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Auth.Jwt
 {
@@ -18,7 +13,7 @@ namespace Infrastructure.Auth.Jwt
 
         public bool Encrypt { get; set; }
         public string Secret { get; set; } = null!;
-        
+
         internal static JwtSettings GetJwtSettings(IConfiguration config)
         {
             var jwtSettings = config.GetSection(nameof(JwtSettings)).Get<JwtSettings>();
@@ -27,10 +22,10 @@ namespace Infrastructure.Auth.Jwt
             if (jwtSettings.Key is null || (jwtSettings.Encrypt is true && jwtSettings.Secret is null))
                 throw new InvalidOperationException("There are not Keys provided for Jwt");
 
-            if (jwtSettings.ExpirationInMinutes == 0)
+            if (jwtSettings.ExpirationInMinutes == default)
                 jwtSettings.ExpirationInMinutes = 15;
 
-            if (jwtSettings.RefreshExpirationInDays == 0)
+            if (jwtSettings.RefreshExpirationInDays == default)
                 jwtSettings.RefreshExpirationInDays = 1;
 
             return jwtSettings;

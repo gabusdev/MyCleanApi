@@ -1,7 +1,3 @@
-
-
-using Application.Identity.Users;
-using Application.Identity.Users.Password;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserCommands.UpdateUser;
@@ -9,18 +5,12 @@ using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetById;
 using Mapster;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.Controllers;
 
 namespace WebApi.Controllers.Identity;
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UsersController : BaseApiController
 {
-    private readonly IUserService _userService;
-
-    public UsersController(IUserService userService) => _userService = userService;
-
     [HttpGet]
     public Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
     {
@@ -37,7 +27,7 @@ public class UsersController : BaseApiController
     public async Task<ActionResult<string>> CreateAsync(CreateUserCommand request)
     {
         var userId = await Mediator.Send(request);
-        return Created("/users/"+userId,  userId);
+        return Created("/users/" + userId, userId);
     }
 
     [HttpPost("self-register")]
@@ -52,7 +42,7 @@ public class UsersController : BaseApiController
     {
         ToggleUserStatusCommand command = request.Adapt<ToggleUserStatusCommand>();
         command.QueryUserId = id;
-        
+
         await Mediator.Send(command, cancellationToken);
         return NoContent();
     }
@@ -60,9 +50,9 @@ public class UsersController : BaseApiController
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateAsync(UpdateUserRequest request, string id)
     {
-        UpdateUserCommand command= request.Adapt<UpdateUserCommand>();
-        command.QueryUserId= id;
-        
+        UpdateUserCommand command = request.Adapt<UpdateUserCommand>();
+        command.QueryUserId = id;
+
         await Mediator.Send(command);
         return NoContent();
     }

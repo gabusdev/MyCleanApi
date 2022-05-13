@@ -13,30 +13,32 @@ namespace WebApi.Services
         public string GetOrigin()
         {
             var context = _requestAccesor.HttpContext;
-            
             if (context == null)
             {
                 return "/";
             }
-            
             var request = context.Request;
-            
-            
             return $"{request.Scheme}://{request.Host.Value}{request.PathBase.Value}";
         }
-    
+
         public string GetPath()
         {
             var context = _requestAccesor.HttpContext;
-
             if (context == null)
             {
                 return "/";
             }
-
             var request = context.Request;
+            return request.Path.Value ?? "/";
+        }
 
-            return request.Path.Value?? "/";
+        public string GetRequestIpAddress()
+        {
+            var context = _requestAccesor.HttpContext;
+            
+            return context!.Request.Headers.ContainsKey("X-Forwarded-For")
+            ? context.Request.Headers["X-Forwarded-For"]
+            : context.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "N/A";
         }
     }
 }
