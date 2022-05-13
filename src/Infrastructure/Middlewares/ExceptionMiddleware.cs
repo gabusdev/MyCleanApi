@@ -1,9 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Serilog;
 using Serilog.Context;
 
 namespace Infrastructure.Middlewares;

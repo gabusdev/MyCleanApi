@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Infrastructure.Middlewares;
+using Infrastructure.Auth;
 
 namespace Infrastructure
 {
@@ -15,11 +16,13 @@ namespace Infrastructure
             return services
                 .AddPersistence(config)
                 .AddIdentity(config)
+                .AddAuth(config)
                 .AddExceptionMiddleware();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
         {
-            return app.UseExceptionMiddleware();
+            return app
+                .UseExceptionMiddleware();
         }
     }
 }

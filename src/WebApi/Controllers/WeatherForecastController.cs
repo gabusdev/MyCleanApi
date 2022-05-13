@@ -1,4 +1,5 @@
 using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -33,6 +34,8 @@ namespace WebApi.Controllers
             })
             .ToArray();
         }
+        
+        [Authorize]
         [HttpGet("testing")]
         public string Test()
         {

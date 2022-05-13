@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Exceptions
 {
-    internal class ValidationException : CustomException
+    public class ValidationException : CustomException
     {
         public ValidationException(List<string>? errors = default)
         : base("Validation Errors Occurred.", errors, HttpStatusCode.BadRequest) { }

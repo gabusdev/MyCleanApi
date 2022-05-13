@@ -18,7 +18,7 @@ namespace Infrastructure.Identity
             // If Create failed throw exception
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Validation Errors Occurred.", result.GetErrors());
+                throw new ValidationException(result.GetErrors());
             }
 
             // If param roles is null asign role User to the array of roles
@@ -42,7 +42,7 @@ namespace Infrastructure.Identity
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Update profile failed", result.GetErrors());
+                throw new ValidationException(result.GetErrors());
             }
 
         }
