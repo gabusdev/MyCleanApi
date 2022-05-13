@@ -1,8 +1,8 @@
-namespace Application.Identity.Users.UserCommands;
+namespace Application.Identity.Users.UserCommands.CreateUser;
 
-public class CreateUserRequestValidator : AbstractValidator<CreateUserCommand>
+public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
-    public CreateUserRequestValidator(IUserService userService)
+    public CreateUserCommandValidator(IUserService userService)
     {
         RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()

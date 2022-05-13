@@ -1,6 +1,8 @@
-namespace Application.Identity.Users.UserCommands;
+using Application.Common.Messaging;
 
-public class CreateUserCommand: IRequest<string>
+namespace Application.Identity.Users.UserCommands.CreateUser;
+
+public class CreateUserCommand : ICommand<string>
 {
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
@@ -11,7 +13,7 @@ public class CreateUserCommand: IRequest<string>
     public string? PhoneNumber { get; set; }
 }
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, string>
+public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, string>
 {
     private readonly IUserService _userService;
     private readonly IHttpContextService _httpContextService;
@@ -26,6 +28,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, strin
     {
         var newUserId = await _userService.CreateAsync(request, _httpContextService.GetOrigin());
 
-        return _httpContextService.GetPath() + newUserId;
+        return newUserId;
     }
 }

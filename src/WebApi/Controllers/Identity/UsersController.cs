@@ -3,6 +3,9 @@
 using Application.Identity.Users;
 using Application.Identity.Users.Password;
 using Application.Identity.Users.UserCommands;
+using Application.Identity.Users.UserCommands.CreateUser;
+using Application.Identity.Users.UserCommands.ToggleUserStatus;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers;
@@ -28,9 +31,10 @@ public class UsersController : BaseApiController
     }
 
     [HttpPost]
-    public Task<string> CreateAsync(CreateUserCommand request)
+    public async Task<ActionResult<string>> CreateAsync(CreateUserCommand request)
     {
-        return Mediator.Send(request);
+        var userId = await Mediator.Send(request);
+        return Created("/users/"+userId,  userId);
     }
 
     [HttpPost("self-register")]
@@ -42,13 +46,11 @@ public class UsersController : BaseApiController
     [HttpPost("{id}/toggle-status")]
     public async Task<ActionResult> ToggleStatusAsync(string id, ToggleUserStatusRequest request, CancellationToken cancellationToken)
     {
-        if (id != request.UserId)
-        {
-            return BadRequest();
-        }
-
-        await _userService.ToggleStatusAsync(request, cancellationToken);
-        return Ok();
+        ToggleUserStatusCommand command = request.Adapt<ToggleUserStatusCommand>();
+        command.QueryUserId = id;
+        
+        await Mediator.Send(command, cancellationToken);
+        return NoContent();
     }
 
     [HttpPut("{id}")]
