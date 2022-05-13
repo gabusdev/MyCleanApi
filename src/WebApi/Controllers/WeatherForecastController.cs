@@ -51,7 +51,7 @@ namespace WebApi.Controllers
             return _httpContextService.GetPath();
         }
 
-        [Authorize]
+        [MustHavePermission(ApiAction.Delete, ApiResource.Users)]
         [HttpGet("testing2")]
         public List<string> Test2()
         {
@@ -64,14 +64,17 @@ namespace WebApi.Controllers
             lista.Add(User.GetUserId());
             return x;
         }
+
+        [Authorize]
         [HttpGet("testing3")]
         public async Task<List<string>> Test3()
         {
             var u = _cu.GetUserId();
             var x = await _us.GetRolesAsync(u, new CancellationToken());
             var z = x.Select(dto => dto.RoleName).ToList();
-            z.Add(_cu.IsInRole(ApiRoles.Admin) ? "yes" : "no");
-            return z;
+            var y = await _us.GetPermissionsAsync(u,new CancellationToken());
+            y.Add(""+y.Count);
+            return y;
         }
     }
 }
