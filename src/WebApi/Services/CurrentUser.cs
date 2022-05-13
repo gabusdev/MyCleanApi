@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Shared.Authorization;
 using System.Security.Claims;
 
-namespace Infrastructure.Auth;
+namespace WebApi.Services;
 
 public class CurrentUser : ICurrentUser
 {
     private readonly IHttpContextAccessor _httpContextAccesor;
-    
+
     private ClaimsPrincipal? _user;
 
     public CurrentUser(IHttpContextAccessor httpContextAccesor)
