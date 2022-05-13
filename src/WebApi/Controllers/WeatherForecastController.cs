@@ -52,11 +52,13 @@ namespace WebApi.Controllers
         public List<string> Test2()
         {
             var lista = new List<string>();
+            var x = _cu.GetUserClaims().Select(c => $"{c.Type}: {c.Value}").ToList();
+            lista.Add(""+x.Count());
             lista.Add(_cu.GetUserId());
             lista.Add(_cu.GetUserEmail());
             lista.Add(_cu.Name);
             lista.Add(User.GetUserId());
-            return lista;
+            return x;
         }
     }
 }
