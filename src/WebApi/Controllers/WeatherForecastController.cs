@@ -1,4 +1,5 @@
 using Application.Common.Interfaces;
+using Application.Identity.Users;
 using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace WebApi.Controllers
     {
         private readonly IHttpContextService _httpContextService;
         private readonly ICurrentUser _cu;
+        private readonly IUserService _us;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -21,11 +23,13 @@ namespace WebApi.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
             IHttpContextService httpContextService,
-            ICurrentUser cu)
+            ICurrentUser cu,
+            IUserService us)
         {
             _logger = logger;
             _httpContextService = httpContextService;
             _cu = cu;
+            _us = us;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -59,6 +63,15 @@ namespace WebApi.Controllers
             lista.Add(_cu.Name);
             lista.Add(User.GetUserId());
             return x;
+        }
+        [HttpGet("testing3")]
+        public async Task<List<string>> Test3()
+        {
+            var u = _cu.GetUserId();
+            var x = await _us.GetRolesAsync(u, new CancellationToken());
+            var z = x.Select(dto => dto.RoleName).ToList();
+            z.Add(_cu.IsInRole(ApiRoles.Admin) ? "yes" : "no");
+            return z;
         }
     }
 }
