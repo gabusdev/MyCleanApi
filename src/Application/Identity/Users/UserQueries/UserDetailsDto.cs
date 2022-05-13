@@ -1,4 +1,4 @@
-namespace Application.Identity.Users;
+namespace Application.Identity.Users.UserQueries;
 
 public class UserDetailsDto
 {

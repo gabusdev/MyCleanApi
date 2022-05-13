@@ -1,8 +1,9 @@
 using System.Security.Claims;
 using Application.Identity.Users.Password;
-using Application.Identity.Users.UserCommands;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
+using Application.Identity.Users.UserCommands.UpdateUser;
+using Application.Identity.Users.UserQueries;
 
 namespace Application.Identity.Users;
 

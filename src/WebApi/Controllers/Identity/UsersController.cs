@@ -2,9 +2,12 @@
 
 using Application.Identity.Users;
 using Application.Identity.Users.Password;
-using Application.Identity.Users.UserCommands;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
+using Application.Identity.Users.UserCommands.UpdateUser;
+using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.UserQueries.GetAll;
+using Application.Identity.Users.UserQueries.GetById;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +24,13 @@ public class UsersController : BaseApiController
     [HttpGet]
     public Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
     {
-        return _userService.GetListAsync(cancellationToken);
+        return Mediator.Send(new GetAllUsersQuery(), cancellationToken);
     }
 
     [HttpGet("{id}")]
     public Task<UserDetailsDto> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        return _userService.GetAsync(id, cancellationToken);
+        return Mediator.Send(new GetUserByIdQuery() { UserId = id }, cancellationToken);
     }
 
     [HttpPost]
@@ -38,9 +41,10 @@ public class UsersController : BaseApiController
     }
 
     [HttpPost("self-register")]
-    public Task<string> SelfRegisterAsync(CreateUserCommand request)
+    public async Task<ActionResult<string>> SelfRegisterAsync(CreateUserCommand request)
     {
-        return _userService.CreateAsync(request, GetOriginFromRequest());
+        var userId = await Mediator.Send(request);
+        return Created("/users/" + userId, userId);
     }
 
     [HttpPost("{id}/toggle-status")]
@@ -56,7 +60,10 @@ public class UsersController : BaseApiController
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateAsync(UpdateUserRequest request, string id)
     {
-        await _userService.UpdateAsync(request, id);
+        UpdateUserCommand command= request.Adapt<UpdateUserCommand>();
+        command.QueryUserId= id;
+        
+        await Mediator.Send(command);
         return NoContent();
     }
 

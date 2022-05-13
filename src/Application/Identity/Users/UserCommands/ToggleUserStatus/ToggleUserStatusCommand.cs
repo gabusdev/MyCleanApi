@@ -1,3 +1,4 @@
+using Application.Common.Exceptions;
 using Application.Common.Messaging;
 
 namespace Application.Identity.Users.UserCommands.ToggleUserStatus;
@@ -21,6 +22,9 @@ public class ToggleUserStatusCommandHandler : IdentityCommandHandler<ToggleUserS
 
     public override async Task<Unit> Handle(ToggleUserStatusCommand request, CancellationToken cancellationToken)
     {
+        if (request.QueryUserId != request.UserId)
+            throw new ConflictException("The Id's privided do not match");
+
         await _userService.ToggleStatusAsync(request, cancellationToken);
         return Unit.Value;
     }

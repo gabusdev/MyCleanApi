@@ -14,8 +14,7 @@ namespace Application.Identity.Users.UserCommands.ToggleUserStatus
                 .NotEmpty();
             RuleFor(c => c.UserId)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty()
-                .Equal(c => c.QueryUserId);
+                .NotEmpty();
         }
     }
 }

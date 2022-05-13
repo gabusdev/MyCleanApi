@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Users.Password;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
+using Application.Identity.Users.UserQueries;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

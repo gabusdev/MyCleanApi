@@ -1,4 +1,4 @@
-namespace Application.Identity.Users.UserCommands;
+namespace Application.Identity.Users.UserCommands.UpdateUser;
 
 public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
 {

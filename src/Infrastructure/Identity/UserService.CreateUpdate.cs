@@ -1,5 +1,5 @@
-﻿using Application.Identity.Users.UserCommands;
-using Application.Identity.Users.UserCommands.CreateUser;
+﻿using Application.Identity.Users.UserCommands.CreateUser;
+using Application.Identity.Users.UserCommands.UpdateUser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
