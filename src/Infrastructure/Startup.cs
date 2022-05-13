@@ -3,6 +3,8 @@ using Infrastructure.Identity;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Builder;
+using Infrastructure.Middlewares;
 
 namespace Infrastructure
 {
@@ -12,7 +14,12 @@ namespace Infrastructure
         {
             return services
                 .AddPersistence(config)
-                .AddIdentity(config);
+                .AddIdentity(config)
+                .AddExceptionMiddleware();
+        }
+        public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
+        {
+            return app.UseExceptionMiddleware();
         }
     }
 }

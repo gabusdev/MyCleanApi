@@ -33,6 +33,9 @@ namespace Infrastructure.Identity
         public async Task UpdateAsync(UpdateUserRequest request, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                throw new NotFoundException("User not Found");
+            
             ChangeUserData(user, request);
 
             var result = await _userManager.UpdateAsync(user);

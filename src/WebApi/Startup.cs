@@ -10,15 +10,15 @@ namespace WebApi
     {
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration config)
         {
+            services.AddHttpContextAccessor();
+            services.AddTransient<IHttpContextService, HttpContextService>();
+
+            services.AddApplication();
+            services.AddInfrastructure(config);
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            
-            services.AddHttpContextAccessor();
-            services.AddTransient<IHttpContextService, HttpContextService>();
-            
-            services.AddApplication();
-            services.AddInfrastructure(config);
             
             return services;
         }
@@ -31,6 +31,8 @@ namespace WebApi
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseInfraestructure();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
