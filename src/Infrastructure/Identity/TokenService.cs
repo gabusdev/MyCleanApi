@@ -4,6 +4,7 @@ using Infrastructure.Auth.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Shared.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -59,8 +60,8 @@ internal class TokenService : ITokenService
     public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenQuery request, string ipAddress)
     {
         var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
-        //string? userEmail = userPrincipal.GetEmail();
-        var user = await _userManager.FindByEmailAsync("admin@mail.com");
+        string? userEmail = userPrincipal.GetEmail();
+        var user = await _userManager.FindByEmailAsync(userEmail);
         if (user is null)
         {
             throw new UnauthorizedException("Authentication Failed");
@@ -95,8 +96,10 @@ internal class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
+            new(ApiClaims.FirstName, user.FirstName ?? string.Empty),
             new(ClaimTypes.Surname, user.LastName ?? string.Empty),
-            new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+            new(ApiClaims.IpAddress, ipAddress)
+            //new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
         };
 
     private string GenerateRefreshToken()

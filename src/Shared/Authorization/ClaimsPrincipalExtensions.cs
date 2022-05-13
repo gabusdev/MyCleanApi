@@ -10,6 +10,9 @@ public static class ClaimsPrincipalExtensions
     public static string? GetFullName(this ClaimsPrincipal principal)
         => principal?.FindFirst(ApiClaims.Fullname)?.Value;
 
+    public static string? GetUserName(this ClaimsPrincipal principal)
+        => principal.FindFirstValue(ApiClaims.FirstName);
+
     public static string? GetFirstName(this ClaimsPrincipal principal)
         => principal?.FindFirst(ClaimTypes.Name)?.Value;
 

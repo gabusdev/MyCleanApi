@@ -11,6 +11,7 @@ namespace WebApi.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly IHttpContextService _httpContextService;
+        private readonly ICurrentUser _cu;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -19,10 +20,12 @@ namespace WebApi.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-            IHttpContextService httpContextService)
+            IHttpContextService httpContextService,
+            ICurrentUser cu)
         {
             _logger = logger;
             _httpContextService = httpContextService;
+            _cu = cu;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -37,12 +40,23 @@ namespace WebApi.Controllers
             .ToArray();
         }
 
-        [Authorize]
-        [MustHavePermission(ApiAction.View, ApiResource.Brands)]
+        [MustHavePermission(ApiAction.View, ApiResource.Tests)]
         [HttpGet("testing")]
         public string Test()
         {
             return _httpContextService.GetPath();
+        }
+
+        [Authorize]
+        [HttpGet("testing2")]
+        public List<string> Test2()
+        {
+            var lista = new List<string>();
+            lista.Add(_cu.GetUserId());
+            lista.Add(_cu.GetUserEmail());
+            lista.Add(_cu.Name);
+            lista.Add(User.GetUserId());
+            return lista;
         }
     }
 }

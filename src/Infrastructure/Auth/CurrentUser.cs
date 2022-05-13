@@ -1,12 +1,21 @@
 using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Shared.Authorization;
 using System.Security.Claims;
 
 namespace Infrastructure.Auth;
 
-public class CurrentUser : ICurrentUser, ICurrentUserInitializer
+public class CurrentUser : ICurrentUser
 {
+    private readonly IHttpContextAccessor _httpContextAccesor;
+    
     private ClaimsPrincipal? _user;
+
+    public CurrentUser(IHttpContextAccessor httpContextAccesor)
+    {
+        _httpContextAccesor = httpContextAccesor;
+        _user = _httpContextAccesor.HttpContext?.User;
+    }
 
     public string? Name => _user?.Identity?.Name;
 
@@ -14,7 +23,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserInitializer
 
     public string GetUserId() =>
         IsAuthenticated()
-            ? _user?.GetUserId() ?? Guid.Empty.ToString()
+            ? _user?.GetUserId() ?? string.Empty
             : _userId;
 
     public string? GetUserEmail() =>

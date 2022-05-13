@@ -4,11 +4,13 @@ namespace Shared.Authorization;
 
 public static class ApiRoles
 {
+    public const string SuperUser = nameof(SuperUser);
     public const string Admin = nameof(Admin);
     public const string Basic = nameof(Basic);
 
     public static IReadOnlyList<string> DefaultRoles { get; } = new ReadOnlyCollection<string>(new[]
     {
+        SuperUser,
         Admin,
         Basic
     });
