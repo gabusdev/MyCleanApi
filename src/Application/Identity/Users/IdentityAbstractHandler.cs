@@ -1,12 +1,11 @@
 ﻿using Application.Common.Messaging;
-using Application.Identity.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Identity
+namespace Application.Identity.Users
 {
     public abstract class IdentityCommandHandler<TCommand>
         : IdentityCommandHandler<TCommand, Unit>

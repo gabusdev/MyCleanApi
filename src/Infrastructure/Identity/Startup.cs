@@ -1,3 +1,4 @@
+using Application.Identity.Tokens;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ public static class Startup
     public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration config) =>
         services
             .AddScoped<IUserService, UserService>()
+            .AddScoped<ITokenService, TokenService>()
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
                 {
                     options.Password.RequiredLength = 6;

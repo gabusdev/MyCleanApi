@@ -13,7 +13,8 @@ namespace Infrastructure.Auth.Jwt
 
         public string ValidIssuer { get; set; } = null!;
         public string ValidAudience { get; set; } = null!;
-        public int ExpirationInMinute { get; set; }
+        public int ExpirationInMinutes { get; set; }
+        public int RefreshExpirationInDays { get; set; }
 
         public bool Encrypt { get; set; }
         public string Secret { get; set; } = null!;
@@ -25,6 +26,12 @@ namespace Infrastructure.Auth.Jwt
             GetSettingsFromEnv(jwtSettings);
             if (jwtSettings.Key is null || (jwtSettings.Encrypt is true && jwtSettings.Secret is null))
                 throw new InvalidOperationException("There are not Keys provided for Jwt");
+
+            if (jwtSettings.ExpirationInMinutes == 0)
+                jwtSettings.ExpirationInMinutes = 15;
+
+            if (jwtSettings.RefreshExpirationInDays == 0)
+                jwtSettings.RefreshExpirationInDays = 1;
 
             return jwtSettings;
         }
