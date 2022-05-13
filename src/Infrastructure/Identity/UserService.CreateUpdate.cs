@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Identity.Users.UserCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Infrastructure.Identity
 {
     internal partial class UserService
     {
-        public async Task<string> CreateAsync(CreateUserRequest request, string origin)
+        public async Task<string> CreateAsync(CreateUserCommand request, string origin)
         {
             var user = request.Adapt<ApplicationUser>();
             var result = await _userManager.CreateAsync(user, request.Password);

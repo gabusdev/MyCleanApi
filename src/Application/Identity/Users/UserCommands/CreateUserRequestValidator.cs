@@ -1,6 +1,6 @@
-namespace Application.Identity.Users;
+namespace Application.Identity.Users.UserCommands;
 
-public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
+public class CreateUserRequestValidator : AbstractValidator<CreateUserCommand>
 {
     public CreateUserRequestValidator(IUserService userService)
     {

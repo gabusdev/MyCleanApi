@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Application.Identity.Users.Password;
+using Application.Identity.Users.UserCommands;
 
 namespace Application.Identity.Users;
 
@@ -19,7 +20,7 @@ public interface IUserService
 
     Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken);
 
-    Task<string> CreateAsync(CreateUserRequest request, string origin);
+    Task<string> CreateAsync(CreateUserCommand request, string origin);
     Task UpdateAsync(UpdateUserRequest request, string userId);
 
     Task<string> ForgotPasswordAsync(ForgotPasswordRequest request);

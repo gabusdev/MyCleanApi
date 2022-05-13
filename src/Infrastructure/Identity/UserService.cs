@@ -1,4 +1,5 @@
 ﻿using Application.Identity.Users.Password;
+using Application.Identity.Users.UserCommands;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

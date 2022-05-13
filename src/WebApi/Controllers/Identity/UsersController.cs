@@ -2,6 +2,7 @@
 
 using Application.Identity.Users;
 using Application.Identity.Users.Password;
+using Application.Identity.Users.UserCommands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers;
@@ -27,13 +28,13 @@ public class UsersController : BaseApiController
     }
 
     [HttpPost]
-    public Task<string> CreateAsync(CreateUserRequest request)
+    public Task<string> CreateAsync(CreateUserCommand request)
     {
-        return _userService.CreateAsync(request, GetOriginFromRequest());
+        return Mediator.Send(request);
     }
 
     [HttpPost("self-register")]
-    public Task<string> SelfRegisterAsync(CreateUserRequest request)
+    public Task<string> SelfRegisterAsync(CreateUserCommand request)
     {
         return _userService.CreateAsync(request, GetOriginFromRequest());
     }

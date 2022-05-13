@@ -1,3 +1,4 @@
+using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -6,6 +7,7 @@ namespace WebApi.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IHttpContextService _httpContextService;
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,9 +15,11 @@ namespace WebApi.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,
+            IHttpContextService httpContextService)
         {
             _logger = logger;
+            _httpContextService = httpContextService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -28,6 +32,11 @@ namespace WebApi.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpGet("testing")]
+        public string Test()
+        {
+            return _httpContextService.GetPath();
         }
     }
 }

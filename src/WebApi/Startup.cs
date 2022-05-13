@@ -1,6 +1,8 @@
 ﻿using Application;
+using Application.Common.Interfaces;
 using Infrastructure;
 using Infrastructure.Persistence;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -11,9 +13,13 @@ namespace WebApi
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            
+            services.AddHttpContextAccessor();
+            services.AddTransient<IHttpContextService, HttpContextService>();
+            
             services.AddApplication();
             services.AddInfrastructure(config);
-
+            
             return services;
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
