@@ -1,4 +1,6 @@
-using Application.Identity.Users.Password;
+using Application.Identity.Users.Password.Commands.ChangePassword;
+using Application.Identity.Users.Password.Commands.ResetPassword;
+using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserCommands.UpdateUser;
@@ -28,7 +30,7 @@ public interface IUserService
     Task<string> CreateAsync(CreateUserCommand request, string origin);
     Task UpdateAsync(UpdateUserRequest request, string userId);
 
-    Task<string> ForgotPasswordAsync(ForgotPasswordRequest request);
-    Task ResetPasswordAsync(ResetPasswordRequest request);
-    Task ChangePasswordAsync(ChangePasswordRequest request, string userId);
+    Task<string> ForgotPasswordAsync(ForgotPasswordQuery request);
+    Task ResetPasswordAsync(ResetPasswordCommand request);
+    Task ChangePasswordAsync(ChangePasswordCommand request, string userId);
 }
