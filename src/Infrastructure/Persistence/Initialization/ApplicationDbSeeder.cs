@@ -84,14 +84,17 @@ namespace Infrastructure.Persistence.Initialization
         {
             // Create User
             if (await _userManager.Users.FirstOrDefaultAsync(u => u.Email == user.Email)
-                is not ApplicationUser adminUser)
+                is not ApplicationUser existingUser)
             {
                 Log.Information($"Seeding Default User '{user.FirstName} {user.LastName}'");
                 var password = new PasswordHasher<ApplicationUser>();
                 user.PasswordHash = password.HashPassword(user, pass);
                 await _userManager.CreateAsync(user);
             }
-
+            else
+            {
+                user = existingUser;
+            }
             // Assign role to user
             if (!await _userManager.IsInRoleAsync(user, role))
             {
