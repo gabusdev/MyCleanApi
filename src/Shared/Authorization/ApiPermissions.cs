@@ -28,6 +28,7 @@ public static class ApiResource
     public const string UserRoles = nameof(UserRoles);
     public const string Roles = nameof(Roles);
     public const string RoleClaims = nameof(RoleClaims);
+    public const string Permisions = nameof(Permisions);
     public const string Tests = nameof(Tests);
     public const string Self = nameof(Self);
 
@@ -62,6 +63,7 @@ public static class ApiPermissions
         new("Delete Roles", ApiAction.Delete, ApiResource.Roles, IsRoot: true),
         new("View RoleClaims", ApiAction.View, ApiResource.RoleClaims),
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
+        new("View Permissions", ApiAction.View, ApiResource.Permisions),
         new("Use Tests Stuff", ApiAction.View, ApiResource.Tests)
         
     };

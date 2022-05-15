@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Common.Behaviors;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Application
@@ -10,8 +11,10 @@ namespace Application
             var assembly = Assembly.GetExecutingAssembly();
 
             services
+                .AddMediatR(assembly)
                 .AddValidatorsFromAssembly(assembly)
-                .AddMediatR(assembly);
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+                
 
             return services;
         }
