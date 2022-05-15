@@ -13,6 +13,7 @@ namespace WebApi.Controllers.Identity
     {
         [HttpGet]
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
+        [SwaggerOperation("Get Roles", "Returns a List with All Roles.")]
         public async Task<List<RoleDto>> GetAllRoles()
         {
             return await Mediator.Send(new GetAllRolesQuery());
@@ -20,12 +21,14 @@ namespace WebApi.Controllers.Identity
 
         [HttpGet("{id}")]
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
+        [SwaggerOperation("Get Role Info", "Returns the Info About a specified role with its Permissions.")]
         public async Task<RoleDto> GetRoles(string id)
         {
             return await Mediator.Send(new GetRoleWithPermissionsQuery() { RoleId = id });
         }
 
         [HttpGet("permissions")]
+        [SwaggerOperation("Get All Permissions", "Returns a List with All Permissions to use by Roles.")]
         [MustHavePermission(ApiAction.View, ApiResource.Permisions)]
         public async Task<List<string>> GetAllPermissions()
         {
@@ -35,6 +38,7 @@ namespace WebApi.Controllers.Identity
         [HttpPost]
         [MustHavePermission(ApiAction.Create, ApiResource.Roles)]
         [MustHavePermission(ApiAction.Update, ApiResource.Roles)]
+        [SwaggerOperation("Register or Update Role", "Updates a Role with the specified Id. Not Id provided creates one.")]
         public async Task<ActionResult> RegisterRole(CreateOrUpdateRoleCommand command)
         {
             await Mediator.Send(command);
@@ -44,6 +48,7 @@ namespace WebApi.Controllers.Identity
         [HttpPost("permissions")]
         [MustHavePermission(ApiAction.Update, ApiResource.Roles)]
         [MustHavePermission(ApiAction.Update, ApiResource.RoleClaims)]
+        [SwaggerOperation("Set Role Permissions", "Sets the Specified Permissions to a Role.")]
         public async Task<ActionResult> UpdatePermissions(UpdateRolePermissionsCommand command)
         {
             await Mediator.Send(command);
