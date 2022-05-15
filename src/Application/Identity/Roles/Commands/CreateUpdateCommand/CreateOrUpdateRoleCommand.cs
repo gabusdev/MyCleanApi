@@ -7,6 +7,7 @@ public class CreateOrUpdateRoleCommand: ICommand
     public string? Id { get; set; }
     public string Name { get; set; } = default!;
     public string? Description { get; set; }
+    public double SecurityLevel { get; set; }
 
     public class CreateOrUpdateRoleCommandHandler : ICommandHandler<CreateOrUpdateRoleCommand, Unit>
     {
@@ -25,9 +26,16 @@ public class CreateOrUpdateRoleCommand: ICommand
 
 public class CreateOrUpdateRoleRequestValidator : AbstractValidator<CreateOrUpdateRoleCommand>
 {
-    public CreateOrUpdateRoleRequestValidator(IRoleService roleService) =>
+    public CreateOrUpdateRoleRequestValidator(IRoleService roleService)
+    {
         RuleFor(r => r.Name)
             .NotEmpty()
             .MustAsync(async (role, name, _) => !await roleService.ExistsAsync(name, role.Id))
                 .WithMessage("Similar Role already exists.");
+        RuleFor(r => r.SecurityLevel)
+            .NotEmpty()
+            .GreaterThan(0);
+    }
+        
+    
 }

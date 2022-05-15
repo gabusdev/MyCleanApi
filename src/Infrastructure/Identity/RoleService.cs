@@ -63,7 +63,7 @@ internal class RoleService : IRoleService
         if (string.IsNullOrEmpty(request.Id))
         {
             // Create a new role.
-            var role = new ApplicationRole(request.Name, request.Description);
+            var role = new ApplicationRole(request.Name, request.Description, request.SecurityLevel);
             var result = await _roleManager.CreateAsync(role);
 
             if (!result.Succeeded)
@@ -88,6 +88,7 @@ internal class RoleService : IRoleService
             role.Name = request.Name;
             role.NormalizedName = request.Name.ToUpperInvariant();
             role.Description = request.Description;
+            role.SecurityLevel = request.SecurityLevel;
             var result = await _roleManager.UpdateAsync(role);
 
             if (!result.Succeeded)
