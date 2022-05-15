@@ -56,10 +56,10 @@ public static class ApiPermissions
         new("Delete Users", ApiAction.Delete, ApiResource.Users, IsRoot: true),
         new("Export Users", ApiAction.Export, ApiResource.Users),
         new("View UserRoles", ApiAction.View, ApiResource.UserRoles),
-        new("Update UserRoles", ApiAction.Update, ApiResource.UserRoles),
+        new("Update UserRoles", ApiAction.Update, ApiResource.UserRoles, IsRoot: true),
         new("View Roles", ApiAction.View, ApiResource.Roles),
         new("Create Roles", ApiAction.Create, ApiResource.Roles, IsRoot: true),
-        new("Update Roles", ApiAction.Update, ApiResource.Roles),
+        new("Update Roles", ApiAction.Update, ApiResource.Roles, IsRoot: true),
         new("Delete Roles", ApiAction.Delete, ApiResource.Roles, IsRoot: true),
         new("View RoleClaims", ApiAction.View, ApiResource.RoleClaims),
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
@@ -69,8 +69,7 @@ public static class ApiPermissions
     };
 
     public static IReadOnlyList<ApiPermission> All { get; } = new ReadOnlyCollection<ApiPermission>(_all);
-    //public static IReadOnlyList<ApiPermission> Root { get; } = new ReadOnlyCollection<ApiPermission>(_all.Where(p => p.IsRoot).ToArray());
-    public static IReadOnlyList<ApiPermission> Admin { get; } = new ReadOnlyCollection<ApiPermission>(_all.Where(p => !p.IsRoot).ToArray());
+    public static IReadOnlyList<ApiPermission> NoRoot { get; } = new ReadOnlyCollection<ApiPermission>(_all.Where(p => !p.IsRoot).ToArray());
     public static IReadOnlyList<ApiPermission> Basic { get; } = new ReadOnlyCollection<ApiPermission>(_all.Where(p => p.IsBasic).ToArray());
 }
 

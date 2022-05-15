@@ -23,7 +23,6 @@ namespace Infrastructure.Persistence.Initialization
             await SeedRolesAsync(dbContext);
             await SeedAdminUserAsync();
             await SeedGuestUserAsync();
-            await SeedSuperUserAsync();
         }
 
         private async Task SeedAdminUserAsync()
@@ -62,24 +61,6 @@ namespace Infrastructure.Persistence.Initialization
             await SeedUser(guestUser, "guest", ApiRoles.Basic);
         }
 
-        private async Task SeedSuperUserAsync()
-        {
-            string superUserName = "superUser".ToLowerInvariant();
-            var superUser = new ApplicationUser
-            {
-                FirstName = "SuperUser".ToLowerInvariant(),
-                LastName = ApiRoles.SuperUser,
-                Email = "superuser@mail.com",
-                UserName = superUserName,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                NormalizedEmail = "superuser@mail.com".ToUpperInvariant(),
-                NormalizedUserName = superUserName.ToUpperInvariant(),
-                IsActive = true
-            };
-            await SeedUser(superUser, "superuser", ApiRoles.SuperUser);
-        }
-
         private async Task SeedUser(ApplicationUser user, string pass, string role)
         {
             // Create User
@@ -105,33 +86,27 @@ namespace Infrastructure.Persistence.Initialization
         
         private async Task SeedRolesAsync(ApplicationDbContext dbContext)
         {
-            foreach (string roleName in ApiRoles.DefaultRoles)
-            {
-                if (await _roleManager.Roles.SingleOrDefaultAsync(r => r.Name == roleName)
-                    is not ApplicationRole role)
-                {
-                    // Create the role
-                    Log.Information($"Seeding {roleName} Role");
-                    role = new ApplicationRole(roleName, $"Default App {roleName} Role");
-                    await _roleManager.CreateAsync(role);
-                }
+            // Create Admin Role
+            var adminRole = new ApplicationRole(ApiRoles.Admin, "Administrator Role", 0);
+            await SeedRoleAsync(dbContext, adminRole, ApiPermissions.All);
 
-                // Assign permissions
-                if (roleName == ApiRoles.Basic)
-                {
-                    await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Basic, role);
-                }
-                else if (roleName == ApiRoles.Admin)
-                {
-                    await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.Admin, role);
-                }
-                else if (roleName == ApiRoles.SuperUser)
-                {
-                    await AssignPermissionsToRoleAsync(dbContext, ApiPermissions.All, role);
-                }
-            }
+            // Create Basic Role
+            var basicRole = new ApplicationRole(ApiRoles.Basic, "Basic Role", 100);
+            await SeedRoleAsync(dbContext, basicRole, ApiPermissions.Basic);
         }
-
+        private async Task SeedRoleAsync(ApplicationDbContext dbContext, ApplicationRole role, IReadOnlyList<ApiPermission> permissions)
+        {
+            if (await _roleManager.Roles.SingleOrDefaultAsync(r => r.Name == role.Name)
+                    is not ApplicationRole existingRole)
+            {
+                Log.Information($"Seeding {ApiRoles.Admin} Role");
+                role = new ApplicationRole(role.Name, role.Description, role.SecurityLevel);
+                await _roleManager.CreateAsync(role);
+            }
+            else
+                role = existingRole;
+            await AssignPermissionsToRoleAsync(dbContext,permissions, role);
+        }
         private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<ApiPermission> permissions, ApplicationRole role)
         {
             var currentClaims = await _roleManager.GetClaimsAsync(role);

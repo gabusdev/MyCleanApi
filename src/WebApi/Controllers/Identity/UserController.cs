@@ -17,7 +17,7 @@ using static Application.Identity.Users.SetUserRolesRequest;
 
 namespace WebApi.Controllers.Identity;
 [Route("api/[controller]")]
-public class UsersController : BaseApiController
+public class UserController : BaseApiController
 {
     [HttpGet]
     [MustHavePermission(ApiAction.View,ApiResource.Users)]

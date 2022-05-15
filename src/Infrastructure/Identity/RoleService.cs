@@ -58,7 +58,7 @@ internal class RoleService : IRoleService
         return role;
     }
 
-    public async Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleRequest request)
+    public async Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleCommand request)
     {
         if (string.IsNullOrEmpty(request.Id))
         {
@@ -99,11 +99,11 @@ internal class RoleService : IRoleService
         }
     }
 
-    public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsRequest request, CancellationToken cancellationToken)
+    public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsCommand request, CancellationToken cancellationToken)
     {
         var role = await _roleManager.FindByIdAsync(request.RoleId);
         _ = role ?? throw new NotFoundException("Role Not Found");
-        if (role.Name == ApiRoles.Admin || role.Name == ApiRoles.SuperUser)
+        if (role.Name == ApiRoles.Admin)
         {
             throw new ConflictException("Not allowed to modify Permissions for this Role.");
         }
@@ -123,7 +123,7 @@ internal class RoleService : IRoleService
         // Add all permissions that were not previously selected
         foreach (string permission in request.Permissions.Where(c => !currentClaims.Any(p => p.Value == c)))
         {
-            if (!string.IsNullOrEmpty(permission))
+            if (!string.IsNullOrEmpty(permission) && ApiPermissions.All.Any(p => p.Name == permission))
             {
                 _db.RoleClaims.Add(new ApplicationRoleClaim
                 {
@@ -158,5 +158,18 @@ internal class RoleService : IRoleService
         await _roleManager.DeleteAsync(role);
 
         return string.Format("Role {0} Deleted.", role.Name);
+    }
+
+    public async Task<double> GetSecurityLevel(string name)
+    {
+        var role = await _roleManager.FindByNameAsync(name);
+
+        return role.SecurityLevel;
+    }
+
+    public List<string> GetAllPermissions()
+    {
+        var apiPermissions = ApiPermissions.All.Select(ap => ap.Name);
+        return apiPermissions.ToList();
     }
 }

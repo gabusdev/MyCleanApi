@@ -23,10 +23,12 @@ namespace Application.Identity.Users.UserQueries.GetRoles
             public async override Task<List<UserRoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
             {
                 var current = _currentUser.GetUserId();
+                
+                var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
                 var roles = await _userService.GetRolesAsync(request.UserId, cancellationToken);
 
-                if (await _userService.HasRoleAsync(current, ApiRoles.SuperUser, cancellationToken))
-                    roles = roles.Where(r => r.RoleName != ApiRoles.SuperUser).ToList();
+                if (!currentIsAdmin)
+                    roles = roles.Where(r => r.RoleName != ApiRoles.Admin).ToList();
                 
                 return roles;
             }

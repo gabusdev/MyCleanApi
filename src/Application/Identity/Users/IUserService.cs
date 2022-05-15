@@ -25,6 +25,7 @@ public interface IUserService
     Task<bool> HasRoleAsync(string userId, string role, CancellationToken cancellationToken);
     Task<List<UserRoleDto>> GetRolesAsync(string userId, CancellationToken cancellationToken);
     Task<string> AssignRolesAsync(string userId, SetUserRolesRequest request, CancellationToken cancellationToken);
+    Task<double> GetSecurityLevel(string userId, CancellationToken cancellationToken);
 
     Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken);
 

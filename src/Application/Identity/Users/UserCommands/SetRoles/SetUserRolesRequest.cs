@@ -21,29 +21,38 @@ public class SetUserRolesRequest
         public async override Task<Unit> Handle(SetUserRolesCommand request, CancellationToken cancellationToken)
         {
             var current = _currentUser.GetUserId();
-            var currentIsSuper = await _userService.HasRoleAsync(current, ApiRoles.SuperUser, cancellationToken);
             var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
 
             var objective = request.UserId;
-            var objectiveIsSuper = await _userService.HasRoleAsync(objective, ApiRoles.SuperUser, cancellationToken);
             var objectiveIsAdmin = await _userService.HasRoleAsync(objective, ApiRoles.Admin, cancellationToken);
-
-            if (!currentIsSuper)
+            
+            if (objectiveIsAdmin)
             {
-                if(request.UserRoles.Find(ur => ur.RoleName == ApiRoles.SuperUser) is not null)
-                {
-                    throw new ForbiddenException("Only SuperUser can asign SuperUser Role");
-                }
-
+                if (!currentIsAdmin)
+                    throw new ForbiddenException("Not Enough Permissions");
+                else
+                    request.UserRoles = request.UserRoles.Where(ur => ur.RoleName != ApiRoles.Admin).ToList();
             }
-
-            if (!currentIsSuper || !currentIsAdmin)
+            else
             {
-                if (request.UserRoles.Find(ur => ur.RoleName == ApiRoles.Admin) is not null)
+                if (await _userService.GetSecurityLevel(current, cancellationToken)
+                == await _userService.GetSecurityLevel(objective, cancellationToken))
                 {
-                    throw new ForbiddenException("Only SuperUser can asign SuperUser Role");
+                    throw new ForbiddenException("Can't Change Roles of Same Role Objective");
                 }
-
+            }
+            
+            if (request.UserRoles.Find(ur => ur.RoleName == ApiRoles.Admin) is UserRoleDto adminRole)
+            {
+                if (currentIsAdmin)
+                {
+                    adminRole.Enabled = false;
+                }
+                else 
+                {
+                    throw new ForbiddenException("Not Enough Permissions");
+                }
+                
             }
 
             await _userService.AssignRolesAsync(request.UserId, request, cancellationToken);

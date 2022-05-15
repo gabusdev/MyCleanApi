@@ -9,6 +9,9 @@ namespace Infrastructure.Identity
         public async Task<string> CreateAsync(CreateUserCommand request, string origin)
         {
             var user = request.Adapt<ApplicationUser>();
+            
+            user.IsActive = true;
+            
             var result = await _userManager.CreateAsync(user, request.Password);
 
             // If Create failed throw exception

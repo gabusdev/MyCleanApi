@@ -44,7 +44,10 @@ internal partial class UserService
     {
         var userRoles = new List<UserRoleDto>();
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
+
+        _ = user ?? throw new NotFoundException("User Not Found.");
+
         var roles = await _roleManager.Roles.AsNoTracking().ToListAsync(cancellationToken);
         foreach (var role in roles)
         {
@@ -69,5 +72,22 @@ internal partial class UserService
         return await _userManager.IsInRoleAsync(user,role);
     }
 
+    public async Task<double> GetSecurityLevel(string userId, CancellationToken cancellationToken)
+    {
+        var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
+
+        _ = user ?? throw new NotFoundException("User Not Found.");
+
+        var roleNames = await _userManager.GetRolesAsync(user);
+        var roles = new List<ApplicationRole>();
+
+        foreach (var role in roleNames)
+        {
+            roles.Add(await _roleManager.FindByNameAsync(role));
+        }
+        var level = roles.Count > 0 ? roles.Min(r => r.SecurityLevel) : double.PositiveInfinity;
+
+        return level;
+    }
 }
 
