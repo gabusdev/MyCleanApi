@@ -1,5 +1,3 @@
-using Application.Common.Messaging;
-
 namespace Application.Identity.Tokens.TokenQueries;
 
 public record GetTokenQuery(string Email, string Password) : IQuery<TokenResponse>;

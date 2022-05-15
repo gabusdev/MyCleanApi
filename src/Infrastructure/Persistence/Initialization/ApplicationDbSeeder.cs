@@ -83,7 +83,7 @@ namespace Infrastructure.Persistence.Initialization
                 await _userManager.AddToRoleAsync(user, role);
             }
         }
-        
+
         private async Task SeedRolesAsync(ApplicationDbContext dbContext)
         {
             // Create Admin Role
@@ -105,7 +105,7 @@ namespace Infrastructure.Persistence.Initialization
             }
             else
                 role = existingRole;
-            await AssignPermissionsToRoleAsync(dbContext,permissions, role);
+            await AssignPermissionsToRoleAsync(dbContext, permissions, role);
         }
         private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<ApiPermission> permissions, ApplicationRole role)
         {

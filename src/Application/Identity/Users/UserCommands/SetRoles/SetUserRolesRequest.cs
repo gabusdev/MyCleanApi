@@ -25,7 +25,7 @@ public class SetUserRolesRequest
 
             var objective = request.UserId;
             var objectiveIsAdmin = await _userService.HasRoleAsync(objective, ApiRoles.Admin, cancellationToken);
-            
+
             if (objectiveIsAdmin)
             {
                 if (!currentIsAdmin)
@@ -41,18 +41,18 @@ public class SetUserRolesRequest
                     throw new ForbiddenException("Can't Change Roles of Same Role Objective");
                 }
             }
-            
+
             if (request.UserRoles.Find(ur => ur.RoleName == ApiRoles.Admin) is UserRoleDto adminRole)
             {
                 if (currentIsAdmin)
                 {
                     adminRole.Enabled = false;
                 }
-                else 
+                else
                 {
                     throw new ForbiddenException("Not Enough Permissions");
                 }
-                
+
             }
 
             await _userService.AssignRolesAsync(request.UserId, request, cancellationToken);

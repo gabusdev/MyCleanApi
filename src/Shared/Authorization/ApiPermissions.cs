@@ -23,7 +23,7 @@ public static class ApiResource
 
     //public const string Products = nameof(Products);
     //public const string Brands = nameof(Brands);
-    
+
     public const string Users = nameof(Users);
     public const string UserRoles = nameof(UserRoles);
     public const string Roles = nameof(Roles);
@@ -65,7 +65,7 @@ public static class ApiPermissions
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
         new("View Permissions", ApiAction.View, ApiResource.Permisions),
         new("Use Tests Stuff", ApiAction.View, ApiResource.Tests)
-        
+
     };
 
     public static IReadOnlyList<ApiPermission> All { get; } = new ReadOnlyCollection<ApiPermission>(_all);

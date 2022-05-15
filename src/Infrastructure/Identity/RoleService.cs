@@ -1,11 +1,8 @@
 using Application.Common.Interfaces;
 using Application.Identity.Roles;
-using Infrastructure.Identity;
 using Infrastructure.Persistence.Context;
-using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Shared.Authorization;
 
 namespace Infrastructure.Identity;

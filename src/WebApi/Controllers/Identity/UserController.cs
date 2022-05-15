@@ -1,11 +1,9 @@
 using Application.Identity.Users;
-using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.DeleteUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
-using Application.Identity.Users.UserCommands.UpdateUser;
 using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetById;
@@ -20,7 +18,7 @@ namespace WebApi.Controllers.Identity;
 public class UserController : BaseApiController
 {
     [HttpGet]
-    [MustHavePermission(ApiAction.View,ApiResource.Users)]
+    [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
     public async Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
     {
@@ -28,6 +26,7 @@ public class UserController : BaseApiController
     }
 
     [HttpGet("{id}")]
+    [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [MustHavePermission(ApiAction.Search, ApiResource.Users)]
     [SwaggerOperation("Get User by Id", "Search for the user with given Id")]
     public async Task<UserDetailsDto> GetByIdAsync(string id, CancellationToken cancellationToken)
@@ -52,7 +51,7 @@ public class UserController : BaseApiController
         var userId = await Mediator.Send(request);
         return Created("/users/" + userId, userId);
     }
-    
+
     [HttpPost("{id}/toggle-status")]
     [MustHavePermission(ApiAction.Update, ApiResource.Users)]
     [SwaggerOperation("Toggle Status", "Toggles the Active Status of a User")]
@@ -64,7 +63,7 @@ public class UserController : BaseApiController
         await Mediator.Send(command, cancellationToken);
         return NoContent();
     }
-    
+
     [HttpDelete]
     [MustHavePermission(ApiAction.Delete, ApiResource.Users)]
     [SwaggerOperation("Delete User", "Deletes an User With Id given.")]

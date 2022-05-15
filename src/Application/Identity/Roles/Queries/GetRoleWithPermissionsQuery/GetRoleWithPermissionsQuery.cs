@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery
+﻿namespace Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery
 {
-    public class GetRoleWithPermissionsQuery: IQuery<RoleDto>
+    public class GetRoleWithPermissionsQuery : IQuery<RoleDto>
     {
         public string RoleId { get; set; } = null!;
         public class GetRoleWithPermissionsQueryHandler : IQueryHandler<GetRoleWithPermissionsQuery, RoleDto>

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Identity.Users.Password.Commands.ChangePassword;
+﻿namespace Application.Identity.Users.Password.Commands.ChangePassword;
 
 public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
 {
@@ -21,6 +15,6 @@ public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCo
             .Equal(p => p.NewPassword)
                 .WithMessage("Passwords do not match.");
     }
-        
+
 }
 

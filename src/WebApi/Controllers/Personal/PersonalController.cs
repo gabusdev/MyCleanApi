@@ -4,7 +4,6 @@ using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetById;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Personal
@@ -41,11 +40,11 @@ namespace WebApi.Controllers.Personal
         }
 
         [HttpGet("permissions")]
-        [MustHavePermission(ApiAction.View,ApiResource.Permisions)]
+        [MustHavePermission(ApiAction.View, ApiResource.Permisions)]
         [SwaggerOperation("Get Permissions", "Get permissions of currently logged in user.")]
         public async Task<List<string>> GetPermissionsAsync(CancellationToken cancellationToken)
         {
-            return await Mediator.Send(new GetUserPermissionsQuery() { UserId=User.GetUserId() }, cancellationToken);
+            return await Mediator.Send(new GetUserPermissionsQuery() { UserId = User.GetUserId() }, cancellationToken);
         }
     }
 }

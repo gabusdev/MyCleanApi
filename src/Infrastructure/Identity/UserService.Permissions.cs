@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity
 {
@@ -18,7 +13,7 @@ namespace Infrastructure.Identity
 
             var userRoles = await _userManager.GetRolesAsync(user);
             var permissions = new List<string>();
-            
+
             foreach (var role in await _roleManager.Roles
                 .Where(r => userRoles.Contains(r.Name))
                 .ToListAsync(cancellationToken))
@@ -35,7 +30,7 @@ namespace Infrastructure.Identity
         public async Task<bool> HasPermissionAsync(string userId, string permission, CancellationToken cancellationToken)
         {
             var permissions = await GetPermissionsAsync(userId, cancellationToken);
-            
+
             return permissions?.Contains(permission) ?? false;
         }
     }

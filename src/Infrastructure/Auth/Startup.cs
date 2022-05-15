@@ -1,5 +1,4 @@
-﻿using Application.Common.Interfaces;
-using Infrastructure.Auth.Jwt;
+﻿using Infrastructure.Auth.Jwt;
 using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +36,7 @@ internal static class Startup
 
     private static IServiceCollection AddCurrentUser(this IServiceCollection services) =>
         services;
-            //.AddScoped<ICurrentUser, CurrentUser>();
+    //.AddScoped<ICurrentUser, CurrentUser>();
 
     private static IServiceCollection AddPermissions(this IServiceCollection services) =>
         services

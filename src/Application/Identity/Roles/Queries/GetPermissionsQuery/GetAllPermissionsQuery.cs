@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Identity.Roles.Queries.GetPermissionsQuery
+﻿namespace Application.Identity.Roles.Queries.GetPermissionsQuery
 {
-    public class GetAllPermissionsQuery: IQuery<List<string>>
+    public class GetAllPermissionsQuery : IQuery<List<string>>
     {
         public class GetAllPermissionsQueryHandler : IQueryHandler<GetAllPermissionsQuery, List<string>>
         {

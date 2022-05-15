@@ -1,10 +1,4 @@
-﻿using Application.Identity.Users.UserQueries.GetById;
-using Shared.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shared.Authorization;
 
 namespace Application.Identity.Users.UserQueries.GetRoles
 {
@@ -23,13 +17,13 @@ namespace Application.Identity.Users.UserQueries.GetRoles
             public async override Task<List<UserRoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
             {
                 var current = _currentUser.GetUserId();
-                
+
                 var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
                 var roles = await _userService.GetRolesAsync(request.UserId, cancellationToken);
 
                 if (!currentIsAdmin)
                     roles = roles.Where(r => r.RoleName != ApiRoles.Admin).ToList();
-                
+
                 return roles;
             }
         }

@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Identity;
 
@@ -68,8 +62,8 @@ internal partial class UserService
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
         _ = user ?? throw new NotFoundException("User Not Found.");
-        
-        return await _userManager.IsInRoleAsync(user,role);
+
+        return await _userManager.IsInRoleAsync(user, role);
     }
 
     public async Task<double> GetSecurityLevel(string userId, CancellationToken cancellationToken)

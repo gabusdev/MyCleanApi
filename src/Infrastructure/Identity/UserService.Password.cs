@@ -9,7 +9,7 @@ namespace Infrastructure.Identity
         public async Task ChangePasswordAsync(ChangePasswordCommand request, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            
+
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded)
                 throw new ConflictException(result.Errors.First().Description);
@@ -17,7 +17,7 @@ namespace Infrastructure.Identity
         public async Task<string> ForgotPasswordAsync(ForgotPasswordQuery request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
-            
+
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             return token;
@@ -25,9 +25,9 @@ namespace Infrastructure.Identity
         public async Task ResetPasswordAsync(ResetPasswordCommand request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
-            
+
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
-            
+
             if (!result.Succeeded)
                 throw new ConflictException(result.Errors.First().Description);
         }

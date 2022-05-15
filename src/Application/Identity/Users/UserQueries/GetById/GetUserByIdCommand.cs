@@ -1,6 +1,4 @@
-﻿using Application.Common.Messaging;
-
-namespace Application.Identity.Users.UserQueries.GetById
+﻿namespace Application.Identity.Users.UserQueries.GetById
 {
     public class GetUserByIdQuery : IQuery<UserDetailsDto>
     {

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Identity.Roles.Queries.GetAllRolesQuery
+﻿namespace Application.Identity.Roles.Queries.GetAllRolesQuery
 {
-    public class GetAllRolesQuery: IQuery<List<RoleDto>>
+    public class GetAllRolesQuery : IQuery<List<RoleDto>>
     {
         public class GetAllRolesQueryHandler : IQueryHandler<GetAllRolesQuery, List<RoleDto>>
         {

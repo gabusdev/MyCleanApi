@@ -1,6 +1,4 @@
-﻿using Application.Common.Exceptions;
-
-namespace Application.Common.Behaviors;
+﻿namespace Application.Common.Behaviors;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
      where TRequest : IRequest<TResponse>

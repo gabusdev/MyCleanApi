@@ -1,6 +1,3 @@
-using Application.Common.Exceptions;
-using Application.Common.Messaging;
-
 namespace Application.Identity.Users.UserCommands.UpdateUser;
 
 public class UpdateUserRequest

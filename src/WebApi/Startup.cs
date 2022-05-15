@@ -18,7 +18,7 @@ namespace WebApi
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c=>
+            services.AddSwaggerGen(c =>
                 c.EnableAnnotations()
             );
 

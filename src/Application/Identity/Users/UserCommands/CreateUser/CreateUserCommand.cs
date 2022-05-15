@@ -1,5 +1,3 @@
-using Application.Common.Messaging;
-
 namespace Application.Identity.Users.UserCommands.CreateUser;
 
 public class CreateUserCommand : ICommand<string>

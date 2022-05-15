@@ -1,5 +1,3 @@
-using Application.Common.Messaging;
-
 namespace Application.Identity.Tokens.TokenQueries;
 
 public record RefreshTokenQuery(string Token, string RefreshToken) : IQuery<TokenResponse>;

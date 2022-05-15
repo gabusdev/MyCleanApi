@@ -2,7 +2,6 @@
 using Application.Identity.Roles.Queries.GetAllRolesQuery;
 using Application.Identity.Roles.Queries.GetPermissionsQuery;
 using Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Identity
@@ -21,6 +20,7 @@ namespace WebApi.Controllers.Identity
 
         [HttpGet("{id}")]
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
+        [MustHavePermission(ApiAction.Search, ApiResource.Roles)]
         [SwaggerOperation("Get Role Info", "Returns the Info About a specified role with its Permissions.")]
         public async Task<RoleDto> GetRoles(string id)
         {
@@ -46,7 +46,6 @@ namespace WebApi.Controllers.Identity
         }
 
         [HttpPost("permissions")]
-        [MustHavePermission(ApiAction.Update, ApiResource.Roles)]
         [MustHavePermission(ApiAction.Update, ApiResource.RoleClaims)]
         [SwaggerOperation("Set Role Permissions", "Sets the Specified Permissions to a Role.")]
         public async Task<ActionResult> UpdatePermissions(UpdateRolePermissionsCommand command)

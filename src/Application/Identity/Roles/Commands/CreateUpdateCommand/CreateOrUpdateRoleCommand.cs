@@ -1,8 +1,6 @@
-using Application.Identity.Users;
-
 namespace Application.Identity.Roles;
 
-public class CreateOrUpdateRoleCommand: ICommand
+public class CreateOrUpdateRoleCommand : ICommand
 {
     public string? Id { get; set; }
     public string Name { get; set; } = default!;
@@ -36,6 +34,6 @@ public class CreateOrUpdateRoleRequestValidator : AbstractValidator<CreateOrUpda
             .NotEmpty()
             .GreaterThan(0);
     }
-        
-    
+
+
 }

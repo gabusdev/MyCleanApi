@@ -1,6 +1,4 @@
-﻿using Application.Common.Messaging;
-
-namespace Application.Identity.Users
+﻿namespace Application.Identity.Users
 {
     public abstract class IdentityCommandHandler<TCommand>
         : IdentityCommandHandler<TCommand, Unit>

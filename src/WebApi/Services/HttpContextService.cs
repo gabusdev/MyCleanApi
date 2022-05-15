@@ -35,7 +35,7 @@ namespace WebApi.Services
         public string GetRequestIpAddress()
         {
             var context = _requestAccesor.HttpContext;
-            
+
             return context!.Request.Headers.ContainsKey("X-Forwarded-For")
             ? context.Request.Headers["X-Forwarded-For"]
             : context.Connection.RemoteIpAddress?.MapToIPv4().ToString() ?? "N/A";

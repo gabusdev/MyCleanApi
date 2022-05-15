@@ -14,7 +14,7 @@ namespace Application
                 .AddMediatR(assembly)
                 .AddValidatorsFromAssembly(assembly)
                 .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-                
+
 
             return services;
         }

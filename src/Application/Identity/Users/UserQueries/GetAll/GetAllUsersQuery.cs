@@ -1,6 +1,4 @@
-﻿using Application.Common.Messaging;
-
-namespace Application.Identity.Users.UserQueries.GetAll
+﻿namespace Application.Identity.Users.UserQueries.GetAll
 {
     public class GetAllUsersQuery : IQuery<List<UserDetailsDto>>
     {
