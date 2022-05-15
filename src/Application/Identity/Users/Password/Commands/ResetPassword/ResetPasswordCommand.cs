@@ -23,23 +23,3 @@ public class ResetPasswordCommand : ICommand
         }
     }
 }
-
-public class ResetPasswordCommandValidator : AbstractValidator<ResetPasswordCommand>
-{
-    public ResetPasswordCommandValidator()
-    {
-        RuleFor(p => p.Email)
-            .NotEmpty()
-            .EmailAddress();
-
-        RuleFor(p => p.Password)
-            .NotEmpty();
-
-        RuleFor(p => p.ConfirmNewPassword)
-            .NotEmpty()
-            .Equal(p => p.Password);
-
-        RuleFor(p => p.Token)
-            .NotEmpty();
-    }
-}

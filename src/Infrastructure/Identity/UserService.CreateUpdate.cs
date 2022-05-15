@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.UpdateUser;
+using Shared.Authorization;
 
 namespace Infrastructure.Identity
 {
@@ -16,11 +17,8 @@ namespace Infrastructure.Identity
                 throw new ValidationException(result.GetErrors());
             }
 
-            // If param roles is null asign role User to the array of roles
-            //if (roles == null) roles = new string[] { Enum.GetName(RoleEnum.User)! };
-
             // Add Roles to new user
-            //await _userManager.AddToRolesAsync(user, roles);
+            await _userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
             return user.Id;
         }
@@ -40,6 +38,16 @@ namespace Infrastructure.Identity
                 throw new ValidationException(result.GetErrors());
             }
 
+        }
+
+        public async Task DeleteAsync(string userId, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                throw new NotFoundException("User not Found");
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                throw new ConflictException(result.Errors.First().Description);
         }
 
         private static void ChangeUserData(ApplicationUser user, UpdateUserRequest updateRequest)

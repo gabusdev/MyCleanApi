@@ -1,15 +1,19 @@
+using Application.Identity.Users;
 using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 using Application.Identity.Users.UserCommands.CreateUser;
+using Application.Identity.Users.UserCommands.DeleteUser;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserCommands.UpdateUser;
 using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetById;
+using Application.Identity.Users.UserQueries.GetRoles;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Identity.Users.SetUserRolesRequest;
 
 namespace WebApi.Controllers.Identity;
 [Route("api/[controller]")]
@@ -40,7 +44,6 @@ public class UsersController : BaseApiController
         return Created("/users/" + userId, userId);
     }
 
-    
     [HttpPost("self-register")]
     [AllowAnonymous]
     [SwaggerOperation("Register", "Self Register a New User")]
@@ -49,7 +52,7 @@ public class UsersController : BaseApiController
         var userId = await Mediator.Send(request);
         return Created("/users/" + userId, userId);
     }
-
+    
     [HttpPost("{id}/toggle-status")]
     [MustHavePermission(ApiAction.Update, ApiResource.Users)]
     [SwaggerOperation("Toggle Status", "Toggles the Active Status of a User")]
@@ -61,16 +64,32 @@ public class UsersController : BaseApiController
         await Mediator.Send(command, cancellationToken);
         return NoContent();
     }
-
-    [HttpPut("{id}")]
-    [MustHavePermission(ApiAction.Update, ApiResource.Users)]
-    [SwaggerOperation("Update User","Updates a User with given Id.")]
-    public async Task<ActionResult> UpdateAsync(UpdateUserRequest request, string id)
+    
+    [HttpDelete]
+    [MustHavePermission(ApiAction.Delete, ApiResource.Users)]
+    [SwaggerOperation("Delete User", "Deletes an User With Id given.")]
+    public async Task<ActionResult> DeleteAsync(DeleteUserCommand command)
     {
-        UpdateUserCommand command = request.Adapt<UpdateUserCommand>();
-        command.QueryUserId = id;
-
         await Mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpGet("{id}/roles")]
+    [MustHavePermission(ApiAction.View, ApiResource.UserRoles)]
+    [SwaggerOperation("Get Roles", "Get a user's roles.")]
+    public async Task<List<UserRoleDto>> GetRolesAsync(string id, CancellationToken cancellationToken)
+    {
+        return await Mediator.Send(new GetRolesQuery() { UserId = id });
+    }
+
+    [HttpPost("{id}/roles")]
+    [MustHavePermission(ApiAction.Update, ApiResource.UserRoles)]
+    [SwaggerOperation("Set Roles", "Update a user's assigned roles.")]
+    public async Task<ActionResult> AssignRolesAsync(string id, SetUserRolesRequest request, CancellationToken cancellationToken)
+    {
+        SetUserRolesCommand command = request.Adapt<SetUserRolesCommand>();
+        command.UserId = id;
+        await Mediator.Send(command, cancellationToken);
         return NoContent();
     }
 
@@ -90,4 +109,24 @@ public class UsersController : BaseApiController
         await Mediator.Send(command);
         return NoContent();
     }
+
+
+
+
+    /*
+     * This Endpoint is used depending on Politics of the Api Owner
+     * There is already in Personal Controllers
+     * 
+    [HttpPut("{id}")]
+    [MustHavePermission(ApiAction.Update, ApiResource.Users)]
+    [SwaggerOperation("Update User","Updates a User with given Id.")]
+    public async Task<ActionResult> UpdateAsync(UpdateUserRequest request, string id)
+    {
+        UpdateUserCommand command = request.Adapt<UpdateUserCommand>();
+        command.QueryUserId = id;
+
+        await Mediator.Send(command);
+        return NoContent();
+    }
+    */
 }
