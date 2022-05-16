@@ -29,13 +29,10 @@ namespace WebApi
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseHttpsRedirection();
-            app.UseRouting();
-
             app.UseInfraestructure();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseHttpsRedirection();
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {

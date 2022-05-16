@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Auth;
 using Infrastructure.Identity;
+using Infrastructure.Localization;
 using Infrastructure.Middlewares;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -16,12 +17,15 @@ namespace Infrastructure
                 .AddPersistence(config)
                 .AddIdentity(config)
                 .AddAuth(config)
-                .AddExceptionMiddleware();
+                .AddExceptionMiddleware()
+                .AddJsonLocalization();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
         {
             return app
-                .UseExceptionMiddleware();
+                .UseExceptionMiddleware()
+                .UseAuth()
+                .UseLocalization();
         }
     }
 }

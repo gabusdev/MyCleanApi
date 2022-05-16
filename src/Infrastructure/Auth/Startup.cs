@@ -2,6 +2,7 @@
 using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,5 +34,11 @@ internal static class Startup
         services
             .AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
             .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+    internal static IApplicationBuilder UseAuth(this IApplicationBuilder app) =>
+        app
+            .UseAuthorization()
+            .UseAuthentication();
+            
 }
 
