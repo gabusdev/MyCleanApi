@@ -58,6 +58,7 @@ public static class ApiPermissions
         new("View UserRoles", ApiAction.View, ApiResource.UserRoles),
         new("Update UserRoles", ApiAction.Update, ApiResource.UserRoles, IsRoot: true),
         new("View Roles", ApiAction.View, ApiResource.Roles),
+        new("Search Roles", ApiAction.Search, ApiResource.Roles),
         new("Create Roles", ApiAction.Create, ApiResource.Roles, IsRoot: true),
         new("Update Roles", ApiAction.Update, ApiResource.Roles, IsRoot: true),
         new("Delete Roles", ApiAction.Delete, ApiResource.Roles, IsRoot: true),
