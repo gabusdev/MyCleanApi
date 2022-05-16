@@ -1,4 +1,4 @@
-namespace Application.Identity.Roles;
+namespace Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 
 public class UpdateRolePermissionsCommand : ICommand
 {

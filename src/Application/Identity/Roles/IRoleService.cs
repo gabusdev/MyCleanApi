@@ -1,3 +1,6 @@
+using Application.Identity.Roles.Commands.CreateUpdateCommand;
+using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
+
 namespace Application.Identity.Roles;
 
 public interface IRoleService

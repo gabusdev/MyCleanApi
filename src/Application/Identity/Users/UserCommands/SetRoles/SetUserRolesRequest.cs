@@ -1,6 +1,7 @@
+using Application.Identity.Users.UserQueries;
 using Shared.Authorization;
 
-namespace Application.Identity.Users;
+namespace Application.Identity.Users.UserCommands.SetRoles;
 
 public class SetUserRolesRequest
 {

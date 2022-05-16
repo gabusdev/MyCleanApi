@@ -1,17 +1,17 @@
-using Application.Identity.Users;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.DeleteUser;
+using Application.Identity.Users.UserCommands.SetRoles;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetById;
-using Application.Identity.Users.UserQueries.GetRoles;
+using Application.Identity.Users.UserQueries.GetUserRoles;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Application.Identity.Users.SetUserRolesRequest;
+using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;
 
 namespace WebApi.Controllers.Identity;
 [Route("api/[controller]")]
@@ -78,7 +78,7 @@ public class UserController : BaseApiController
     [SwaggerOperation("Get Roles", "Get a user's roles.")]
     public async Task<List<UserRoleDto>> GetRolesAsync(string id, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new GetRolesQuery() { UserId = id });
+        return await Mediator.Send(new GetUserRolesQuery() { UserId = id }, cancellationToken);
     }
 
     [HttpPost("{id}/roles")]

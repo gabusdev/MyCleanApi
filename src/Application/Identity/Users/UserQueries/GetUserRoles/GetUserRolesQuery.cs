@@ -1,11 +1,11 @@
 ﻿using Shared.Authorization;
 
-namespace Application.Identity.Users.UserQueries.GetRoles
+namespace Application.Identity.Users.UserQueries.GetUserRoles
 {
-    public class GetRolesQuery : IQuery<List<UserRoleDto>>
+    public class GetUserRolesQuery : IQuery<List<UserRoleDto>>
     {
         public string UserId { get; set; } = null!;
-        public class GetRolesQueryHandler : IdentityQueryHandler<GetRolesQuery, List<UserRoleDto>>
+        public class GetRolesQueryHandler : IdentityQueryHandler<GetUserRolesQuery, List<UserRoleDto>>
         {
 
             private readonly ICurrentUser _currentUser;
@@ -14,7 +14,7 @@ namespace Application.Identity.Users.UserQueries.GetRoles
                 _currentUser = currentUser;
             }
 
-            public async override Task<List<UserRoleDto>> Handle(GetRolesQuery request, CancellationToken cancellationToken)
+            public async override Task<List<UserRoleDto>> Handle(GetUserRolesQuery request, CancellationToken cancellationToken)
             {
                 var current = _currentUser.GetUserId();
 

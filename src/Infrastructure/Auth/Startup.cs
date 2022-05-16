@@ -12,7 +12,6 @@ internal static class Startup
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config, bool locked = false)
     {
         return services
-            //.AddCurrentUser()
             .AddPermissions()
             .AddAuthorization(opt =>
             {
@@ -30,13 +29,6 @@ internal static class Startup
             })
             .AddJwtAuth(config);
     }
-
-    internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>
-        app;
-
-    private static IServiceCollection AddCurrentUser(this IServiceCollection services) =>
-        services;
-    //.AddScoped<ICurrentUser, CurrentUser>();
 
     private static IServiceCollection AddPermissions(this IServiceCollection services) =>
         services
