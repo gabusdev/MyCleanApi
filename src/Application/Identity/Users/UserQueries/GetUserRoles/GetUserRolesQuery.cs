@@ -27,5 +27,13 @@ namespace Application.Identity.Users.UserQueries.GetUserRoles
                 return roles;
             }
         }
+        public class GetRolesQueryHandlerValidator : AbstractValidator<GetUserRolesQuery>
+        {
+            public GetRolesQueryHandlerValidator()
+            {
+                RuleFor(x => x.UserId)
+                    .NotEmpty();
+            }
+        }
     }
 }

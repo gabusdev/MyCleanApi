@@ -12,7 +12,7 @@ internal partial class UserService
 
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException("User Not Found.");
+        _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
         foreach (var userRole in request.UserRoles)
         {
@@ -42,7 +42,7 @@ internal partial class UserService
 
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException("User Not Found.");
+        _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
         var roles = await _roleManager.Roles.AsNoTracking().ToListAsync(cancellationToken);
         foreach (var role in roles)
@@ -63,7 +63,7 @@ internal partial class UserService
     {
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException("User Not Found.");
+        _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
         return await _userManager.IsInRoleAsync(user, role);
     }
@@ -72,7 +72,7 @@ internal partial class UserService
     {
         var user = await _userManager.Users.Where(u => u.Id == userId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException("User Not Found.");
+        _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
         var roleNames = await _userManager.GetRolesAsync(user);
         var roles = new List<ApplicationRole>();

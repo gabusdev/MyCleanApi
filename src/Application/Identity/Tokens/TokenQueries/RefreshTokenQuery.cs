@@ -17,3 +17,14 @@ public class RefreshTokenRequestHandler : IQueryHandler<RefreshTokenQuery, Token
         return await _tokenService.RefreshTokenAsync(request, _httpContextService.GetRequestIpAddress());
     }
 }
+
+public class RefreshTokenQueryValidator: AbstractValidator<RefreshTokenQuery>
+{
+    public RefreshTokenQueryValidator()
+    {
+        RuleFor(q => q.Token).
+            NotEmpty();
+        RuleFor(q => q.RefreshToken)
+            .NotEmpty();
+    }
+}

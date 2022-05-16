@@ -4,8 +4,7 @@ namespace Application.Common.Exceptions
 {
     public class ValidationException : CustomException
     {
-        public ValidationException(List<string>? errors = default)
-        : base("Validation Errors Occurred.", errors, HttpStatusCode.BadRequest) { }
-
+        public ValidationException(string message, List<string>? errors = default)
+        : base(message, errors, HttpStatusCode.BadRequest) { }
     }
 }

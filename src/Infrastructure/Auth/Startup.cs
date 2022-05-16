@@ -37,8 +37,8 @@ internal static class Startup
 
     internal static IApplicationBuilder UseAuth(this IApplicationBuilder app) =>
         app
-            .UseAuthorization()
-            .UseAuthentication();
+            .UseAuthentication()
+            .UseAuthorization();
             
 }
 

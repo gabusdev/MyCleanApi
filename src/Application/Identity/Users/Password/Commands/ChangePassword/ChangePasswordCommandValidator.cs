@@ -1,8 +1,10 @@
-﻿namespace Application.Identity.Users.Password.Commands.ChangePassword;
+﻿using Microsoft.Extensions.Localization;
+
+namespace Application.Identity.Users.Password.Commands.ChangePassword;
 
 public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCommand>
 {
-    public ChangePasswordCommandValidator()
+    public ChangePasswordCommandValidator(IStringLocalizer<ChangePasswordCommandValidator> localizer)
     {
         RuleFor(p => p.Password)
             .NotEmpty();
@@ -13,7 +15,7 @@ public class ChangePasswordCommandValidator : AbstractValidator<ChangePasswordCo
 
         RuleFor(p => p.ConfirmNewPassword)
             .Equal(p => p.NewPassword)
-                .WithMessage("Passwords do not match.");
+                .WithMessage(localizer["validation.pass.missmatch"]);
     }
 
 }

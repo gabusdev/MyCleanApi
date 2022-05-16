@@ -9,14 +9,16 @@ namespace Infrastructure.Identity
         public async Task ChangePasswordAsync(ChangePasswordCommand request, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
+            
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded)
-                throw new ConflictException(result.Errors.First().Description);
+                throw new ConflictException(_localizer["generic.error"]);
         }
         public async Task<string> ForgotPasswordAsync(ForgotPasswordQuery request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
 
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -25,11 +27,12 @@ namespace Infrastructure.Identity
         public async Task ResetPasswordAsync(ResetPasswordCommand request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
 
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
             if (!result.Succeeded)
-                throw new ConflictException(result.Errors.First().Description);
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
         }
     }
 }

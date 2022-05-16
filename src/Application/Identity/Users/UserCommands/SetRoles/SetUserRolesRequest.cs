@@ -59,4 +59,12 @@ public class SetUserRolesRequest
             return Unit.Value;
         }
     }
+    public class SetUserRolesCommandValidator : AbstractValidator<SetUserRolesCommand>
+    {
+        public SetUserRolesCommandValidator()
+        {
+            RuleFor(c => c.UserId)
+                .NotEmpty();
+        }
+    }
 }

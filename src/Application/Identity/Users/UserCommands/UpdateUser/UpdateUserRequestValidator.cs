@@ -1,11 +1,15 @@
+using Microsoft.Extensions.Localization;
+
 namespace Application.Identity.Users.UserCommands.UpdateUser;
 
-public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
+public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {
-    public UpdateUserRequestValidator(IUserService userService)
+    public UpdateUserCommandValidator(IUserService userService, IStringLocalizer<UpdateUserCommandValidator> localizer)
     {
         RuleFor(p => p.Id)
-            .NotEmpty();
+            .NotEmpty()
+            .Equal(p => p.CurrentUserId)
+                .WithMessage(localizer["validation.id.missmatch"]);
 
         RuleFor(p => p.FirstName)
             .NotEmpty()
@@ -15,16 +19,22 @@ public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
             .NotEmpty()
             .MaximumLength(75);
 
+        RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
+            .NotEmpty()
+            .MinimumLength(6)
+            .MustAsync(async (user, name, _) => !await userService.ExistsWithNameAsync(name, user.Id))
+                .WithMessage((_, name) => localizer["validation.username.used", name]);
+
         RuleFor(p => p.Email)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage("Invalid Email Address.")
             .MustAsync(async (user, email, _) => !await userService.ExistsWithEmailAsync(email, user.Id))
-                .WithMessage((_, email) => string.Format("Email {0} is already registered.", email));
+                .WithMessage((_, email) => localizer["validation.email.used", email]);
 
-        RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
+        RuleFor(p => p.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (user, phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!, user.Id))
-                .WithMessage((_, phone) => string.Format("Phone number {0} is already registered.", phone))
+                .WithMessage((_, phone) => localizer["validation.phone.used", phone!])
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
     }
 }

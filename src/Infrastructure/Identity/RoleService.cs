@@ -5,6 +5,7 @@ using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Shared.Authorization;
 
 namespace Infrastructure.Identity;
@@ -15,17 +16,20 @@ internal class RoleService : IRoleService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationDbContext _db;
     private readonly ICurrentUser _currentUser;
+    private readonly IStringLocalizer<RoleService> _localizer;
 
     public RoleService(
         RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager,
         ApplicationDbContext db,
-        ICurrentUser currentUser)
+        ICurrentUser currentUser,
+        IStringLocalizer<RoleService> stringLocalizer)
     {
         _roleManager = roleManager;
         _userManager = userManager;
         _db = db;
         _currentUser = currentUser;
+        _localizer = stringLocalizer;
     }
 
     public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken) =>
@@ -43,7 +47,7 @@ internal class RoleService : IRoleService
     public async Task<RoleDto> GetByIdAsync(string id) =>
         await _db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
             ? role.Adapt<RoleDto>()
-            : throw new NotFoundException("Role Not Found");
+            : throw new NotFoundException(_localizer["entity.notfound", "Role"]);
 
     public async Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
     {
@@ -57,7 +61,7 @@ internal class RoleService : IRoleService
         return role;
     }
 
-    public async Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleCommand request)
+    public async Task CreateOrUpdateAsync(CreateOrUpdateRoleCommand request)
     {
         if (string.IsNullOrEmpty(request.Id))
         {
@@ -67,21 +71,19 @@ internal class RoleService : IRoleService
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Register role failed", result.GetErrors());
+                throw new InternalServerException(_localizer["entity.create.failed", "Role"], result.GetErrors());
             }
-
-            return string.Format("Role {0} Created.", request.Name);
         }
         else
         {
             // Update an existing role.
             var role = await _roleManager.FindByIdAsync(request.Id);
 
-            _ = role ?? throw new NotFoundException("Role Not Found");
+            _ = role ?? throw new NotFoundException(_localizer["entity.notfound", "Role"]);
 
             if (ApiRoles.IsDefault(role.Name))
             {
-                throw new ConflictException(string.Format("Not allowed to modify {0} Role.", role.Name));
+                throw new ConflictException(_localizer["identity.notallowed"]);
             }
 
             role.Name = request.Name;
@@ -92,20 +94,18 @@ internal class RoleService : IRoleService
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Update role failed", result.GetErrors());
+                throw new InternalServerException(_localizer["entity.update.failed", role.Id], result.GetErrors());
             }
-
-            return string.Format("Role {0} Updated.", role.Name);
         }
     }
 
-    public async Task<string> UpdatePermissionsAsync(UpdateRolePermissionsCommand request, CancellationToken cancellationToken)
+    public async Task UpdatePermissionsAsync(UpdateRolePermissionsCommand request, CancellationToken cancellationToken)
     {
         var role = await _roleManager.FindByIdAsync(request.RoleId);
-        _ = role ?? throw new NotFoundException("Role Not Found");
+        _ = role ?? throw new NotFoundException(_localizer["entity.notfound", "Role"]);
         if (role.Name == ApiRoles.Admin)
         {
-            throw new ConflictException("Not allowed to modify Permissions for this Role.");
+            throw new ConflictException(_localizer["identity.notallowed"]);
         }
 
         var currentClaims = await _roleManager.GetClaimsAsync(role);
@@ -116,7 +116,7 @@ internal class RoleService : IRoleService
             var removeResult = await _roleManager.RemoveClaimAsync(role, claim);
             if (!removeResult.Succeeded)
             {
-                throw new InternalServerException("Update permissions failed.", removeResult.GetErrors());
+                throw new InternalServerException(_localizer["entity.delete.failed", role.Id], removeResult.GetErrors());
             }
         }
 
@@ -135,29 +135,25 @@ internal class RoleService : IRoleService
                 await _db.SaveChangesAsync(cancellationToken);
             }
         }
-
-        return "Permissions Updated.";
     }
 
-    public async Task<string> DeleteAsync(string id)
+    public async Task DeleteAsync(string id)
     {
         var role = await _roleManager.FindByIdAsync(id);
 
-        _ = role ?? throw new NotFoundException("Role Not Found");
+        _ = role ?? throw new NotFoundException(_localizer["entity.notfound", "Role"]);
 
         if (ApiRoles.IsDefault(role.Name))
         {
-            throw new ConflictException(string.Format("Not allowed to delete {0} Role.", role.Name));
+            throw new ConflictException(_localizer["identity.notallowed"]);
         }
 
         if ((await _userManager.GetUsersInRoleAsync(role.Name)).Count > 0)
         {
-            throw new ConflictException(string.Format("Not allowed to delete {0} Role as it is being used.", role.Name));
+            throw new ConflictException(_localizer["identity.notallowed"]);
         }
 
         await _roleManager.DeleteAsync(role);
-
-        return string.Format("Role {0} Deleted.", role.Name);
     }
 
     public async Task<double> GetSecurityLevel(string name)

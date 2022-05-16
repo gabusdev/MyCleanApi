@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Localization;
+
 namespace Application.Identity.Roles.Commands.CreateUpdateCommand;
 
 public class CreateOrUpdateRoleCommand : ICommand
@@ -24,15 +26,16 @@ public class CreateOrUpdateRoleCommand : ICommand
 
 public class CreateOrUpdateRoleRequestValidator : AbstractValidator<CreateOrUpdateRoleCommand>
 {
-    public CreateOrUpdateRoleRequestValidator(IRoleService roleService)
+    public CreateOrUpdateRoleRequestValidator(IRoleService roleService, IStringLocalizer<CreateOrUpdateRoleRequestValidator> localizer)
     {
         RuleFor(r => r.Name)
             .NotEmpty()
             .MustAsync(async (role, name, _) => !await roleService.ExistsAsync(name, role.Id))
-                .WithMessage("Similar Role already exists.");
+                .WithMessage(localizer["validation.role.similar"]);
         RuleFor(r => r.SecurityLevel)
             .NotEmpty()
-            .GreaterThan(0);
+            .GreaterThan(0)
+                .WithMessage(localizer["validation.role.seclevel"]);
     }
 
 

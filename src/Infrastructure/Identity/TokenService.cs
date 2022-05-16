@@ -3,6 +3,7 @@ using Application.Identity.Tokens.TokenQueries;
 using Infrastructure.Auth.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Authorization;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,14 +18,17 @@ internal class TokenService : ITokenService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IConfiguration _configuration;
     private readonly JwtSettings _jwtSettings;
+    private readonly IStringLocalizer<TokenService> _localizer;
 
     public TokenService(
         UserManager<ApplicationUser> userManager,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        IStringLocalizer<TokenService> localizer)
     {
         _userManager = userManager;
         _configuration = configuration;
         _jwtSettings = JwtSettings.GetJwtSettings(_configuration);
+        _localizer = localizer;
     }
 
     public async Task<TokenResponse> GetTokenAsync(GetTokenQuery request, string ipAddress, CancellationToken cancellationToken)
@@ -32,16 +36,14 @@ internal class TokenService : ITokenService
         var user = await _userManager.FindByEmailAsync(request.Email.Trim().Normalize());
         if (user is null)
         {
-            throw new UnauthorizedException("Authentication Failed");
+            throw new UnauthorizedException(_localizer["identity.invalidcredentials"]);
         }
 
-        /*
         if (!user.IsActive)
         {
-            throw new UnauthorizedException("User is not longer Active");
+            throw new UnauthorizedException(_localizer["identity.usernotactive"]);
         }
-        */
-
+        
         /*
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
@@ -51,7 +53,7 @@ internal class TokenService : ITokenService
 
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
         {
-            throw new UnauthorizedException("Invalid Credentials");
+            throw new UnauthorizedException(_localizer["identity.invalidcredentials"]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
@@ -64,12 +66,12 @@ internal class TokenService : ITokenService
         var user = await _userManager.FindByEmailAsync(userEmail);
         if (user is null)
         {
-            throw new UnauthorizedException("Authentication Failed");
+            throw new UnauthorizedException(_localizer["auth.failed"]);
         }
 
         if (user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
         {
-            throw new UnauthorizedException("Invalid Refresh Token");
+            throw new UnauthorizedException(_localizer["identity.invalidrefreshtoken"]);
         }
 
         return await GenerateTokensAndUpdateUser(user, ipAddress);
@@ -149,7 +151,7 @@ internal class TokenService : ITokenService
                 SecurityAlgorithms.HmacSha256,
                 StringComparison.InvariantCultureIgnoreCase))
         {
-            throw new UnauthorizedException("Invalid Token");
+            throw new UnauthorizedException(_localizer["identity.invalidtoken"]);
         }
 
         return principal;

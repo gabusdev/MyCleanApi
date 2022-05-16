@@ -13,19 +13,19 @@ namespace WebApi.Controllers.Personal
     [ApiController]
     public class PersonalController : BaseApiController
     {
-        [HttpGet("profile")]
+        [HttpGet]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]
         public async Task<UserDetailsDto> GetProfileAsync(CancellationToken cancellationToken)
         {
             return await Mediator.Send(new GetUserByIdQuery() { UserId = User.GetUserId() }, cancellationToken);
         }
 
-        [HttpPut("profile")]
+        [HttpPut]
         [SwaggerOperation("Update Profile", "Update profile details of currently logged in user.")]
         public async Task<ActionResult> UpdateProfileAsync(UpdateUserRequest request)
         {
             UpdateUserCommand command = request.Adapt<UpdateUserCommand>();
-            command.QueryUserId = User.GetUserId();
+            command.CurrentUserId = User.GetUserId();
 
             await Mediator.Send(command);
             return NoContent();

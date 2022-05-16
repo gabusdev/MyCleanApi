@@ -9,7 +9,7 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
 
-            _ = user ?? throw new NotFoundException("User Not Found.");
+            _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
             var userRoles = await _userManager.GetRolesAsync(user);
             var permissions = new List<string>();

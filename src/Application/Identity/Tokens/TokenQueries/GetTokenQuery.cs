@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Localization;
+
 namespace Application.Identity.Tokens.TokenQueries;
 
 public record GetTokenQuery(string Email, string Password) : IQuery<TokenResponse>;
@@ -24,8 +26,7 @@ public class TokenRequestValidator : AbstractValidator<GetTokenQuery>
     {
         RuleFor(p => p.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .EmailAddress()
-                .WithMessage("Invalid Email Address.");
+            .EmailAddress();
 
         RuleFor(p => p.Password).Cascade(CascadeMode.Stop)
             .NotEmpty();

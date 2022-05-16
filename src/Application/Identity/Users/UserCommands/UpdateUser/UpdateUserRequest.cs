@@ -12,7 +12,7 @@ public class UpdateUserRequest
 
 public class UpdateUserCommand : UpdateUserRequest, ICommand
 {
-    public string? QueryUserId { get; set; }
+    public string? CurrentUserId { get; set; }
 }
 
 public class UpdateUserCommandHandler : IdentityCommandHandler<UpdateUserCommand>
@@ -23,7 +23,7 @@ public class UpdateUserCommandHandler : IdentityCommandHandler<UpdateUserCommand
 
     public override async Task<Unit> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        if (request.Id != request.QueryUserId)
+        if (request.Id != request.CurrentUserId)
             throw new ConflictException("The Id's privided do not match");
         await _userService.UpdateAsync(request, request.Id);
 

@@ -1,25 +1,26 @@
+using Microsoft.Extensions.Localization;
+
 namespace Application.Identity.Users.UserCommands.CreateUser;
 
 public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {
-    public CreateUserCommandValidator(IUserService userService)
+    public CreateUserCommandValidator(IUserService userService, IStringLocalizer<CreateUserCommandValidator> localizer)
     {
         RuleFor(u => u.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
-                .WithMessage("Invalid Email Address.")
             .MustAsync(async (email, _) => !await userService.ExistsWithEmailAsync(email))
-                .WithMessage((_, email) => string.Format("Email {0} is already registered.", email));
+                .WithMessage((_, email) => localizer["validation.email.used", email]);
 
         RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .MinimumLength(6)
             .MustAsync(async (name, _) => !await userService.ExistsWithNameAsync(name))
-                .WithMessage((_, name) => string.Format("Username {0} is already taken.", name));
+                .WithMessage((_, name) => localizer["validation.username.used", name]);
 
         RuleFor(u => u.PhoneNumber).Cascade(CascadeMode.Stop)
             .MustAsync(async (phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!))
-                .WithMessage((_, phone) => string.Format("Phone number {0} is already registered.", phone))
+                .WithMessage((_, phone) => string.Format(localizer["validation.phone.used", phone!]))
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
 
         RuleFor(p => p.FirstName).Cascade(CascadeMode.Stop)
@@ -34,6 +35,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(p => p.ConfirmPassword).Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .Equal(p => p.Password);
+            .Equal(p => p.Password)
+                .WithMessage(localizer["validation.pass.missmatch"]);
     }
 }

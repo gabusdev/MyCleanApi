@@ -20,7 +20,7 @@ internal class JsonStringLocalizer : IStringLocalizer
         {
             // Get the value from the localization JSON file
             string? value = GetLocalizedString(name);
-            Log.Information($"Palabra: {name}, Culture:{Thread.CurrentThread.CurrentCulture.Name}, Valor: {value}");
+            
             // return that localized string
             return new LocalizedString(name, value ?? name, value == null);
         }

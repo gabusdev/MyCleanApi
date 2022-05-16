@@ -3,7 +3,7 @@
     public class GetUserPermissionsQuery : IQuery<List<string>>
     {
         public string? UserId { get; set; }
-
+        
         public class GetUserPermissionsQueryHandler : IdentityQueryHandler<GetUserPermissionsQuery, List<string>>
         {
             public GetUserPermissionsQueryHandler(IUserService userService, IHttpContextService httpContextService) : base(userService, httpContextService)
@@ -18,6 +18,15 @@
                     return await _userService.GetPermissionsAsync(request.UserId, cancellationToken);
                 }
                 throw new NotFoundException("User not Found");
+            }
+        }
+
+        public class GetUserPermissionsQueryValidator : AbstractValidator<GetUserPermissionsQuery>
+        {
+            public GetUserPermissionsQueryValidator()
+            {
+                RuleFor(x => x.UserId)
+                    .NotEmpty();
             }
         }
     }

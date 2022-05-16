@@ -4,11 +4,11 @@ namespace Application.Common.Exceptions
 {
     internal class FluentValidationException : ValidationException
     {
-        public FluentValidationException(List<string> errors)
-            : base(errors) { }
-        public FluentValidationException(IEnumerable<ValidationFailure> failures)
+        public FluentValidationException(string message, List<string> errors)
+            : base(message, errors) { }
+        public FluentValidationException(string message, IEnumerable<ValidationFailure> failures)
             : this
-            (failures.Select(f => $"{f.ErrorMessage}").ToList())
+            (message, failures.Select(f => $"{f.ErrorMessage}").ToList())
         { }
 
 

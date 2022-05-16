@@ -17,7 +17,7 @@ namespace Infrastructure.Identity
             // If Create failed throw exception
             if (!result.Succeeded)
             {
-                throw new ValidationException(result.GetErrors());
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
             }
 
             // Add Roles to new user
@@ -30,7 +30,7 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
-                throw new NotFoundException("User not Found");
+                throw new NotFoundException(_localizer["identity.usernotfound"]);
 
             ChangeUserData(user, request);
 
@@ -38,7 +38,7 @@ namespace Infrastructure.Identity
 
             if (!result.Succeeded)
             {
-                throw new ValidationException(result.GetErrors());
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
             }
 
         }
@@ -47,10 +47,10 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
-                throw new NotFoundException("User not Found");
+                throw new NotFoundException(_localizer["identity.usernotfound"]);
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
-                throw new ConflictException(result.Errors.First().Description);
+                throw new ConflictException(_localizer["entity.delete.failed", userId]);
         }
 
         private static void ChangeUserData(ApplicationUser user, UpdateUserRequest updateRequest)

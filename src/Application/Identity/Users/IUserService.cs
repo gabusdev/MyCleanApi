@@ -12,7 +12,7 @@ namespace Application.Identity.Users;
 public interface IUserService
 {
 
-    Task<bool> ExistsWithNameAsync(string name);
+    Task<bool> ExistsWithNameAsync(string name, string? exceptId = null);
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);
 
