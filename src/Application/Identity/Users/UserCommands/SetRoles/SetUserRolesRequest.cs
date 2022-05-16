@@ -53,7 +53,6 @@ public class SetUserRolesRequest
                 {
                     throw new ForbiddenException("Not Enough Permissions");
                 }
-
             }
 
             await _userService.AssignRolesAsync(request.UserId, request, cancellationToken);
