@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Auth;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
+using Infrastructure.Mailing;
 using Infrastructure.Middlewares;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -15,6 +16,7 @@ namespace Infrastructure
         {
             return services
                 .AddPersistence(config)
+                .AddMailing(config)
                 .AddIdentity(config)
                 .AddAuth(config)
                 .AddExceptionMiddleware()

@@ -1,3 +1,4 @@
+using Application.Identity.Users;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 using Application.Identity.Users.UserCommands.CreateUser;
@@ -17,6 +18,12 @@ namespace WebApi.Controllers.Identity;
 [Route("api/[controller]")]
 public class UserController : BaseApiController
 {
+    private readonly IUserService _userService;
+    public UserController(IUserService userService)
+    {
+        _userService = userService;
+    }
+    
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
@@ -109,7 +116,13 @@ public class UserController : BaseApiController
         return NoContent();
     }
 
-
+    [HttpGet("confirm-email")]
+    [AllowAnonymous]
+    [SwaggerOperation("Confirm email address for a user.", "")]
+    public async Task<string> ConfirmEmailAsync([FromQuery] string userId, [FromQuery] string code, CancellationToken cancellationToken)
+    {
+        return await _userService.ConfirmEmailAsync(userId, code, cancellationToken);
+    }
 
 
     /*

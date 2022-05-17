@@ -1,4 +1,5 @@
-﻿using Application.Identity.Users.UserCommands.CreateUser;
+﻿using Application.Common.Mailing;
+using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.UpdateUser;
 using Shared.Authorization;
 
@@ -22,6 +23,26 @@ namespace Infrastructure.Identity
 
             // Add Roles to new user
             await _userManager.AddToRoleAsync(user, ApiRoles.Basic);
+
+            // If its required email confirmation
+            //if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
+            if (true && !string.IsNullOrEmpty(user.Email))
+            {
+                // send verification email
+                string emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);
+                RegisterUserEmailModel eMailModel = new RegisterUserEmailModel()
+                {
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Url = emailVerificationUri
+                };
+                var mailRequest = new MailRequest(
+                    new List<string> { user.Email },
+                    _localizer["Confirm Registration"],
+                    _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
+                await _mailService.SendAsync(mailRequest);
+                
+            }
 
             return user.Id;
         }
@@ -61,5 +82,6 @@ namespace Infrastructure.Identity
             user.UserName = updateRequest.UserName ?? default;
             user.PhoneNumber = updateRequest.PhoneNumber ?? default;
         }
+        
     }
 }

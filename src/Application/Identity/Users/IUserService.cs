@@ -37,4 +37,6 @@ public interface IUserService
     Task<string> ForgotPasswordAsync(ForgotPasswordQuery request);
     Task ResetPasswordAsync(ResetPasswordCommand request);
     Task ChangePasswordAsync(ChangePasswordCommand request, string userId);
+
+    Task<string> ConfirmEmailAsync(string userId, string code, CancellationToken cancellationToken);
 }
