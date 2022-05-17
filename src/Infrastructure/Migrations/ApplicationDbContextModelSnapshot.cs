@@ -42,6 +42,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<double>("SecurityLevel")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")

@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Identity.Users.UserCommands.CreateUser;
+using Application.Identity.Users.UserCommands.UpdateUser;
+using Shared.Authorization;
 
 namespace Infrastructure.Identity
 {
     internal partial class UserService
     {
-        public async Task<string> CreateAsync(CreateUserRequest request, string origin)
+        public async Task<string> CreateAsync(CreateUserCommand request, string origin)
         {
             var user = request.Adapt<ApplicationUser>();
+
+            user.IsActive = true;
+
             var result = await _userManager.CreateAsync(user, request.Password);
 
             // If Create failed throw exception
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Validation Errors Occurred.", result.GetErrors());
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
             }
 
-            // If param roles is null asign role User to the array of roles
-            //if (roles == null) roles = new string[] { Enum.GetName(RoleEnum.User)! };
-
             // Add Roles to new user
-            //await _userManager.AddToRolesAsync(user, roles);
+            await _userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
             return user.Id;
         }
@@ -31,15 +29,28 @@ namespace Infrastructure.Identity
         public async Task UpdateAsync(UpdateUserRequest request, string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                throw new NotFoundException(_localizer["identity.usernotfound"]);
+
             ChangeUserData(user, request);
 
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)
             {
-                throw new InternalServerException("Update profile failed", result.GetErrors());
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
             }
 
+        }
+
+        public async Task DeleteAsync(string userId, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user is null)
+                throw new NotFoundException(_localizer["identity.usernotfound"]);
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                throw new ConflictException(_localizer["entity.delete.failed", userId]);
         }
 
         private static void ChangeUserData(ApplicationUser user, UpdateUserRequest updateRequest)

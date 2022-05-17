@@ -1,14 +1,8 @@
 ﻿using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Initialization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence
 {
@@ -37,10 +31,10 @@ namespace Infrastructure.Persistence
             var defaultLifetime = ServiceLifetime.Scoped;
             switch (dbProvider.ToLowerInvariant())
             {
-                
+
                 case DbProviderKeys.Npgsql:
                     AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-                    return (builder.UseNpgsql(connectionString),defaultLifetime);
+                    return (builder.UseNpgsql(connectionString), defaultLifetime);
                 case DbProviderKeys.SqlServer:
                     return (builder.UseSqlServer(connectionString), defaultLifetime);
                 case DbProviderKeys.MySql:

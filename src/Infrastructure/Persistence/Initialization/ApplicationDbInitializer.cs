@@ -1,14 +1,9 @@
 ﻿using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Initialization
 {
-    internal class ApplicationDbInitializer: IApplicationDbInitializer
+    internal class ApplicationDbInitializer : IApplicationDbInitializer
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IApplicationDbSeeder _dbSeeder;

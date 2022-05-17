@@ -1,30 +1,39 @@
-﻿using Application.Identity.Users.Password;
+﻿using Application.Identity.Users.UserCommands.ToggleUserStatus;
+using Application.Identity.Users.UserQueries;
+using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Localization;
+using Shared.Authorization;
 
 namespace Infrastructure.Identity
 {
     internal partial class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public UserService(UserManager<ApplicationUser> userManager)
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _db;
+        private readonly IStringLocalizer<UserService> _localizer;
+
+        public UserService(UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            ApplicationDbContext db,
+            IStringLocalizer<UserService> localizer)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
+            _db = db;
+            _localizer = localizer;
         }
-        
+
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)
         {
             return await _userManager.FindByEmailAsync(email.Normalize()) is ApplicationUser user && user.Id != exceptId;
         }
 
-        public async Task<bool> ExistsWithNameAsync(string name)
+        public async Task<bool> ExistsWithNameAsync(string name, string? exceptId = null)
         {
-            return await _userManager.FindByNameAsync(name) is not null;
+            return await _userManager.FindByNameAsync(name) is ApplicationUser user && user.Id != exceptId;
         }
 
         public async Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null)
@@ -35,7 +44,7 @@ namespace Infrastructure.Identity
         public async Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            _ = user ?? throw new NotFoundException("User Not Found.");
+            _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
             return user.Adapt<UserDetailsDto>();
         }
@@ -56,15 +65,13 @@ namespace Infrastructure.Identity
             var user = await _userManager.Users.Where(u => u.Id == request.UserId)
                                 .FirstOrDefaultAsync(cancellationToken);
 
-            _ = user ?? throw new NotFoundException("User Not Found.");
+            _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
 
-            /*
-            bool isAdmin = await _userManager.IsInRoleAsync(user, FSHRoles.Admin);
+            bool isAdmin = await _userManager.IsInRoleAsync(user, ApiRoles.Admin);
             if (isAdmin)
             {
-                throw new ConflictException(_localizer["Administrators Profile's Status cannot be toggled"]);
+                throw new ConflictException(_localizer["identity.notallowed"]);
             }
-            */
 
             user.IsActive = request.ActivateUser;
 

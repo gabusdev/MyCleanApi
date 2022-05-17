@@ -1,6 +1,7 @@
 ﻿using Application;
+using Application.Common.Interfaces;
 using Infrastructure;
-using Infrastructure.Persistence;
+using WebApi.Services;
 
 namespace WebApi
 {
@@ -8,11 +9,18 @@ namespace WebApi
     {
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration config)
         {
-            services.AddControllers();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddHttpContextAccessor();
+            services.AddTransient<ICurrentUser, CurrentUser>();
+            services.AddTransient<IHttpContextService, HttpContextService>();
+
             services.AddApplication();
             services.AddInfrastructure(config);
+
+            services.AddControllers();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(c =>
+                c.EnableAnnotations()
+            );
 
             return services;
         }
@@ -21,10 +29,11 @@ namespace WebApi
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseInfraestructure();
 
-            app.UseAuthorization();
+            app.UseHttpsRedirection();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

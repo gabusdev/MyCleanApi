@@ -1,25 +1,38 @@
-﻿using Application.Identity.Users.Password;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Identity.Users.Password.Commands.ChangePassword;
+using Application.Identity.Users.Password.Commands.ResetPassword;
+using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 
 namespace Infrastructure.Identity
 {
     internal partial class UserService
     {
-        public Task ChangePasswordAsync(ChangePasswordRequest request, string userId)
+        public async Task ChangePasswordAsync(ChangePasswordCommand request, string userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
+            
+            var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
+            if (!result.Succeeded)
+                throw new ConflictException(_localizer["generic.error"]);
         }
-        public Task<string> ForgotPasswordAsync(ForgotPasswordRequest request)
+        public async Task<string> ForgotPasswordAsync(ForgotPasswordQuery request)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
+
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return token;
         }
-        public Task ResetPasswordAsync(ResetPasswordRequest request)
+        public async Task ResetPasswordAsync(ResetPasswordCommand request)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(request.Email);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
+
+            var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
+
+            if (!result.Succeeded)
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
         }
     }
 }
