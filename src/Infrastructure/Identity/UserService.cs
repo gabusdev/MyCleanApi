@@ -1,10 +1,12 @@
 ﻿using Application.Common.Mailing;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
+using Infrastructure.Auth;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Shared.Authorization;
 
 namespace Infrastructure.Identity
@@ -17,13 +19,15 @@ namespace Infrastructure.Identity
         private readonly IStringLocalizer<UserService> _localizer;
         private readonly IEmailTemplateService _templateService;
         private readonly IMailService _mailService;
+        private readonly SecuritySettings _securitySettings;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             ApplicationDbContext db,
             IStringLocalizer<UserService> localizer,
             IEmailTemplateService templateService,
-            IMailService mailService)
+            IMailService mailService,
+            IOptions<SecuritySettings> securitySettings)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -31,6 +35,7 @@ namespace Infrastructure.Identity
             _localizer = localizer;
             _templateService = templateService;
             _mailService = mailService;
+            _securitySettings = securitySettings.Value;
         }
 
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)

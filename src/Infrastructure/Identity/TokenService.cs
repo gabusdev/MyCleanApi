@@ -1,9 +1,11 @@
 using Application.Identity.Tokens;
 using Application.Identity.Tokens.TokenQueries;
+using Infrastructure.Auth;
 using Infrastructure.Auth.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Authorization;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,16 +21,19 @@ internal class TokenService : ITokenService
     private readonly IConfiguration _configuration;
     private readonly JwtSettings _jwtSettings;
     private readonly IStringLocalizer<TokenService> _localizer;
+    private readonly SecuritySettings _securitySettings;
 
     public TokenService(
         UserManager<ApplicationUser> userManager,
         IConfiguration configuration,
-        IStringLocalizer<TokenService> localizer)
+        IStringLocalizer<TokenService> localizer,
+        IOptions<SecuritySettings> securitySettings)
     {
         _userManager = userManager;
         _configuration = configuration;
         _jwtSettings = JwtSettings.GetJwtSettings(_configuration);
         _localizer = localizer;
+        _securitySettings = securitySettings.Value;
     }
 
     public async Task<TokenResponse> GetTokenAsync(GetTokenQuery request, string ipAddress, CancellationToken cancellationToken)
@@ -44,13 +49,11 @@ internal class TokenService : ITokenService
             throw new UnauthorizedException(_localizer["identity.usernotactive"]);
         }
         
-        /*
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
             throw new UnauthorizedException(_localizer["identity.emailnotconfirmed"]);
         }
-        */
-
+        
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
         {
             throw new UnauthorizedException(_localizer["identity.invalidcredentials"]);

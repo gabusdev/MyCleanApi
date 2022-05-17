@@ -25,8 +25,7 @@ namespace Infrastructure.Identity
             await _userManager.AddToRoleAsync(user, ApiRoles.Basic);
 
             // If its required email confirmation
-            //if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
-            if (true && !string.IsNullOrEmpty(user.Email))
+            if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
             {
                 // send verification email
                 string emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);

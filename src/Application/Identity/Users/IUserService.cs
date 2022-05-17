@@ -34,7 +34,7 @@ public interface IUserService
     Task UpdateAsync(UpdateUserRequest request, string userId);
     Task DeleteAsync(string userId, CancellationToken cancellationToken);
 
-    Task<string> ForgotPasswordAsync(ForgotPasswordQuery request);
+    Task<string> ForgotPasswordAsync(ForgotPasswordQuery request, string origin);
     Task ResetPasswordAsync(ResetPasswordCommand request);
     Task ChangePasswordAsync(ChangePasswordCommand request, string userId);
 

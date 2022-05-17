@@ -12,7 +12,7 @@ public class ForgotPasswordQuery : IQuery<string>
 
         public override async Task<string> Handle(ForgotPasswordQuery request, CancellationToken cancellationToken)
         {
-            var token = await _userService.ForgotPasswordAsync(request);
+            var token = await _userService.ForgotPasswordAsync(request, _httpContextService.GetOrigin());
             return token;
         }
     }

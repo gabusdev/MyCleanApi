@@ -12,6 +12,7 @@ internal static class Startup
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config, bool locked = false)
     {
         return services
+            .Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)))
             .AddPermissions()
             .AddAuthorization(opt =>
             {
