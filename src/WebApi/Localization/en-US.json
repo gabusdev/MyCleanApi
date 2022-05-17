@@ -12,7 +12,7 @@
   "identity.invalidtoken": "Invalid Token.",
   "identity.invalidrefreshtoken": "Invalid Refresh Token.",
   "identity.notallowed": "Not Allowed To Do That.",
-  "entity.notfound": "{0} {1} Not Found.",
+  "entity.notfound": "{0} Not Found.",
   "entity.create.failed": "Failed To Create {0}.",
   "entity.update.failed": "Failed To Update {0}.",
   "entity.delete.failed": "Failed To Delete {0}.",

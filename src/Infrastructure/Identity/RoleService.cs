@@ -2,6 +2,7 @@ using Application.Common.Interfaces;
 using Application.Identity.Roles;
 using Application.Identity.Roles.Commands.CreateUpdateCommand;
 using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
+using Application.Identity.Users.UserQueries;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -167,5 +168,13 @@ internal class RoleService : IRoleService
     {
         var apiPermissions = ApiPermissions.All.Select(ap => ap.Name);
         return apiPermissions.ToList();
+    }
+
+    public async Task<IEnumerable<UserDetailsDto>> GetUsersByIdAsync(string roleId)
+    {
+        var role = await _roleManager.FindByIdAsync(roleId);
+        _ = role ?? throw new NotFoundException(_localizer["entity.notfound", "Role"]);
+        var users = await _userManager.GetUsersInRoleAsync(role.Name);
+        return users.Adapt<IEnumerable<UserDetailsDto>>();
     }
 }

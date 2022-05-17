@@ -4,6 +4,8 @@ using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 using Application.Identity.Roles.Queries.GetAllRolesQuery;
 using Application.Identity.Roles.Queries.GetPermissionsQuery;
 using Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery;
+using Application.Identity.Roles.Queries.GetUsersByRole;
+using Application.Identity.Users.UserQueries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.Identity
@@ -27,6 +29,16 @@ namespace WebApi.Controllers.Identity
         public async Task<RoleDto> GetRoles(string id)
         {
             return await Mediator.Send(new GetRoleWithPermissionsQuery() { RoleId = id });
+        }
+
+        [HttpGet("{id}/users")]
+        [MustHavePermission(ApiAction.View, ApiResource.Roles)]
+        [MustHavePermission(ApiAction.View, ApiResource.Users)]
+        [MustHavePermission(ApiAction.View, ApiResource.UserRoles)]
+        [SwaggerOperation("Get Users by Role", "Returns a List with all Users within a Role.")]
+        public async Task<List<UserDetailsDto>> GetUsersbyRoles(string id)
+        {
+            return await Mediator.Send(new GetUsersByRoleQuery() { RoleId = id });
         }
 
         [HttpGet("permissions")]
