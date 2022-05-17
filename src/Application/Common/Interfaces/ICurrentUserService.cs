@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace Application.Common.Interfaces;
 
-public interface ICurrentUser
+public interface ICurrentUserService
 {
     string? Name { get; }
 

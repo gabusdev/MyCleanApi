@@ -10,11 +10,11 @@ namespace Infrastructure.Middlewares;
 
 internal class ExceptionMiddleware : IMiddleware
 {
-    private readonly ICurrentUser _currentUser;
+    private readonly ICurrentUserService _currentUser;
     private readonly IStringLocalizer<ExceptionMiddleware> _localizer;
 
     public ExceptionMiddleware(
-        ICurrentUser currentUser,
+        ICurrentUserService currentUser,
         IStringLocalizer<ExceptionMiddleware> localizer)
     {
         _currentUser = currentUser;

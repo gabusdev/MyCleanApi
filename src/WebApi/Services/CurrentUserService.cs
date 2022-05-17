@@ -3,13 +3,13 @@ using System.Security.Claims;
 
 namespace WebApi.Services;
 
-public class CurrentUser : ICurrentUser
+public class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccesor;
 
     private ClaimsPrincipal? _user;
 
-    public CurrentUser(IHttpContextAccessor httpContextAccesor)
+    public CurrentUserService(IHttpContextAccessor httpContextAccesor)
     {
         _httpContextAccesor = httpContextAccesor;
         _user = _httpContextAccesor.HttpContext?.User;
@@ -38,26 +38,4 @@ public class CurrentUser : ICurrentUser
     public IEnumerable<Claim>? GetUserClaims() =>
         _user?.Claims;
 
-    public void SetCurrentUser(ClaimsPrincipal user)
-    {
-        if (_user != null)
-        {
-            throw new Exception("Method reserved for in-scope initialization");
-        }
-
-        _user = user;
-    }
-
-    public void SetCurrentUserId(string userId)
-    {
-        if (_userId != string.Empty)
-        {
-            throw new Exception("Method reserved for in-scope initialization");
-        }
-
-        if (!string.IsNullOrEmpty(userId))
-        {
-            _userId = userId;
-        }
-    }
 }

@@ -8,8 +8,8 @@ public class ChangePasswordCommand : ICommand
 
     public class ChangePasswordRequestHandler : IdentityCommandHandler<ChangePasswordCommand>
     {
-        private readonly ICurrentUser _currentUser;
-        public ChangePasswordRequestHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUser currentUser) : base(userService, httpContextService)
+        private readonly ICurrentUserService _currentUser;
+        public ChangePasswordRequestHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUserService currentUser) : base(userService, httpContextService)
         {
             _currentUser = currentUser;
         }

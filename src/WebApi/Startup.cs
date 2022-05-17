@@ -10,7 +10,7 @@ namespace WebApi
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration config)
         {
             services.AddHttpContextAccessor();
-            services.AddTransient<ICurrentUser, CurrentUser>();
+            services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IHttpContextService, HttpContextService>();
 
             services.AddApplication();

@@ -16,14 +16,14 @@ internal class RoleService : IRoleService
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationDbContext _db;
-    private readonly ICurrentUser _currentUser;
+    private readonly ICurrentUserService _currentUser;
     private readonly IStringLocalizer<RoleService> _localizer;
 
     public RoleService(
         RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager,
         ApplicationDbContext db,
-        ICurrentUser currentUser,
+        ICurrentUserService currentUser,
         IStringLocalizer<RoleService> stringLocalizer)
     {
         _roleManager = roleManager;

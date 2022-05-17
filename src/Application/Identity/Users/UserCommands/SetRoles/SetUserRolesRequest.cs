@@ -13,8 +13,8 @@ public class SetUserRolesRequest
     }
     public class SetUserRolesCommandHandler : IdentityCommandHandler<SetUserRolesCommand>
     {
-        private readonly ICurrentUser _currentUser;
-        public SetUserRolesCommandHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUser currentUser) : base(userService, httpContextService)
+        private readonly ICurrentUserService _currentUser;
+        public SetUserRolesCommandHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUserService currentUser) : base(userService, httpContextService)
         {
             _currentUser = currentUser;
         }

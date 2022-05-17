@@ -8,8 +8,8 @@ namespace Application.Identity.Users.UserQueries.GetUserRoles
         public class GetRolesQueryHandler : IdentityQueryHandler<GetUserRolesQuery, List<UserRoleDto>>
         {
 
-            private readonly ICurrentUser _currentUser;
-            public GetRolesQueryHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUser currentUser) : base(userService, httpContextService)
+            private readonly ICurrentUserService _currentUser;
+            public GetRolesQueryHandler(IUserService userService, IHttpContextService httpContextService, ICurrentUserService currentUser) : base(userService, httpContextService)
             {
                 _currentUser = currentUser;
             }
