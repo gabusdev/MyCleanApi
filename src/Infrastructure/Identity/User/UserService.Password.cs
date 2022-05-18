@@ -31,8 +31,9 @@ namespace Infrastructure.Identity
                 new List<string> { request.Email },
                 _localizer["Reset Password"],
                 _localizer[$"Your Password Reset Token is '{token}'. You can reset your password using the {passwordResetUrl} Endpoint."]);
-            await _mailService.SendAsync(mailRequest);
-
+            
+            _jobService.Enqueue(() => _mailService.SendAsync(mailRequest));
+            
             return "Password Reset Mail Sent";
         }
         public async Task ResetPasswordAsync(ResetPasswordCommand request)

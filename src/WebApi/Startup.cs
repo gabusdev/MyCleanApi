@@ -1,5 +1,6 @@
 ﻿using Application;
 using Application.Common.Interfaces;
+using Hangfire;
 using Infrastructure;
 using WebApi.Services;
 
@@ -37,6 +38,7 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHangfireDashboard();
             });
 
             return app;

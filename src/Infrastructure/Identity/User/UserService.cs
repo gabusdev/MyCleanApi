@@ -1,4 +1,5 @@
-﻿using Application.Common.Mailing;
+﻿using Application.Common.Interfaces;
+using Application.Common.Mailing;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Infrastructure.Auth;
@@ -22,6 +23,7 @@ namespace Infrastructure.Identity
         private readonly IEmailTemplateService _templateService;
         private readonly IMailService _mailService;
         private readonly SecuritySettings _securitySettings;
+        private readonly IJobService _jobService;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -29,7 +31,8 @@ namespace Infrastructure.Identity
             IStringLocalizer<UserService> localizer,
             IEmailTemplateService templateService,
             IMailService mailService,
-            IOptions<SecuritySettings> securitySettings)
+            IOptions<SecuritySettings> securitySettings,
+            IJobService jobService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -38,6 +41,7 @@ namespace Infrastructure.Identity
             _templateService = templateService;
             _mailService = mailService;
             _securitySettings = securitySettings.Value;
+            _jobService = jobService;
         }
 
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)

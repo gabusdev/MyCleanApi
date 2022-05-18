@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Auth;
+using Infrastructure.BackgroundJobs;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -15,6 +16,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             return services
+                .AddBackgroundJobs(config)
                 .AddPersistence(config)
                 .AddMailing(config)
                 .AddIdentity(config)
@@ -25,6 +27,7 @@ namespace Infrastructure
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
         {
             return app
+                .UseBackgroundJobs()
                 .UseExceptionMiddleware()
                 .UseAuth()
                 .UseLocalization();

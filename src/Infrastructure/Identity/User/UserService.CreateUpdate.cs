@@ -40,8 +40,8 @@ namespace Infrastructure.Identity
                     new List<string> { user.Email },
                     _localizer["Confirm Registration"],
                     _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
-                await _mailService.SendAsync(mailRequest);
 
+                _jobService.Enqueue(() => _mailService.SendAsync(mailRequest));
             }
 
             return user.Id;

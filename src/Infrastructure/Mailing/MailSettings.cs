@@ -32,11 +32,11 @@ public class MailSettings
 
     private static void GetSettingsFromEnv(MailSettings mailSettings)
     {
-        var userName = Environment.GetEnvironmentVariable("mailUsername");
+        var userName = Environment.GetEnvironmentVariable("mailUsername", EnvironmentVariableTarget.User);
         if (userName != null)
             mailSettings.UserName = userName;
 
-        var password = Environment.GetEnvironmentVariable("mailPass");
+        var password = Environment.GetEnvironmentVariable("mailPass", EnvironmentVariableTarget.User);
         if (password != null)
             mailSettings.Password = password;
     }
