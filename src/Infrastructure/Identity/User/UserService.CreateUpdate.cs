@@ -1,6 +1,7 @@
 ﻿using Application.Common.Mailing;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.UpdateUser;
+using Infrastructure.Identity.User;
 using Shared.Authorization;
 
 namespace Infrastructure.Identity
@@ -40,7 +41,7 @@ namespace Infrastructure.Identity
                     _localizer["Confirm Registration"],
                     _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
                 await _mailService.SendAsync(mailRequest);
-                
+
             }
 
             return user.Id;
@@ -81,6 +82,6 @@ namespace Infrastructure.Identity
             user.UserName = updateRequest.UserName ?? default;
             user.PhoneNumber = updateRequest.PhoneNumber ?? default;
         }
-        
+
     }
 }

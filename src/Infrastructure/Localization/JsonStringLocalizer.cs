@@ -20,7 +20,7 @@ internal class JsonStringLocalizer : IStringLocalizer
         {
             // Get the value from the localization JSON file
             string? value = GetLocalizedString(name);
-            
+
             // return that localized string
             return new LocalizedString(name, value ?? name, value == null);
         }

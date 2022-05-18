@@ -2,12 +2,7 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Localization;
 
@@ -29,7 +24,7 @@ internal static class Startup
         app.UseRequestLocalization(options);
         app.UseStaticFiles();
         app.UseMiddleware<LocalizerMiddleware>();
-        
+
         return app;
     }
 }

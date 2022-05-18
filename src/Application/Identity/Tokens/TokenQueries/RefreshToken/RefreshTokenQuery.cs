@@ -1,4 +1,4 @@
-namespace Application.Identity.Tokens.TokenQueries;
+namespace Application.Identity.Tokens.TokenQueries.RefreshToken;
 
 public record RefreshTokenQuery(string Token, string RefreshToken) : IQuery<TokenResponse>;
 
@@ -18,7 +18,7 @@ public class RefreshTokenRequestHandler : IQueryHandler<RefreshTokenQuery, Token
     }
 }
 
-public class RefreshTokenQueryValidator: AbstractValidator<RefreshTokenQuery>
+public class RefreshTokenQueryValidator : AbstractValidator<RefreshTokenQuery>
 {
     public RefreshTokenQueryValidator()
     {

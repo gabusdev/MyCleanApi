@@ -40,6 +40,6 @@ internal static class Startup
         app
             .UseAuthentication()
             .UseAuthorization();
-            
+
 }
 

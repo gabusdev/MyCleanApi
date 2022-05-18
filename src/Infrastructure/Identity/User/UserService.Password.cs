@@ -12,7 +12,7 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
-            
+
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded)
                 throw new ConflictException(_localizer["generic.error"]);
@@ -32,7 +32,7 @@ namespace Infrastructure.Identity
                 _localizer["Reset Password"],
                 _localizer[$"Your Password Reset Token is '{token}'. You can reset your password using the {passwordResetUrl} Endpoint."]);
             await _mailService.SendAsync(mailRequest);
-            
+
             return "Password Reset Mail Sent";
         }
         public async Task ResetPasswordAsync(ResetPasswordCommand request)

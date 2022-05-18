@@ -33,7 +33,7 @@ internal class ExceptionMiddleware : IMiddleware
             var userId = _currentUser.GetUserId();
             if (userId != string.Empty) LogContext.PushProperty("UserId", userId);
             LogContext.PushProperty("UserEmail", email);
-            
+
             string errorId = Guid.NewGuid().ToString();
             LogContext.PushProperty("ErrorId", errorId);
             LogContext.PushProperty("StackTrace", exception.StackTrace);

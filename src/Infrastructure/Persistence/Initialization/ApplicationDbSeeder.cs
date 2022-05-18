@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity;
+﻿using Infrastructure.Identity.Role;
+using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

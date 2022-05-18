@@ -23,7 +23,7 @@ public class UserController : BaseApiController
     {
         _userService = userService;
     }
-    
+
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]

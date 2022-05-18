@@ -26,7 +26,7 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
 
         Log.Information("Api Request: {Name} {@UserId} {@UserName}",
             requestName, userId, userName);
-        
+
         return Task.CompletedTask;
     }
 }

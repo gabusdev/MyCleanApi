@@ -1,9 +1,9 @@
-﻿namespace Application.Identity.Users.UserQueries
+﻿namespace Application.Identity.Users.UserQueries.GetUserPermissions
 {
     public class GetUserPermissionsQuery : IQuery<List<string>>
     {
         public string? UserId { get; set; }
-        
+
         public class GetUserPermissionsQueryHandler : IdentityQueryHandler<GetUserPermissionsQuery, List<string>>
         {
             public GetUserPermissionsQueryHandler(IUserService userService, IHttpContextService httpContextService) : base(userService, httpContextService)

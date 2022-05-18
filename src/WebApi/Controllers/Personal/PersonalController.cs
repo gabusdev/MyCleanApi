@@ -2,6 +2,7 @@
 using Application.Identity.Users.UserCommands.UpdateUser;
 using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetById;
+using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

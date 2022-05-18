@@ -30,7 +30,7 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
                 .ToList();
 
             if (failures.Any())
-                throw new FluentValidationException(_localizer["validation.errors"] ,failures);
+                throw new FluentValidationException(_localizer["validation.errors"], failures);
         }
         return await next();
     }

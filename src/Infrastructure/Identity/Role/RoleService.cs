@@ -3,13 +3,14 @@ using Application.Identity.Roles;
 using Application.Identity.Roles.Commands.CreateUpdateCommand;
 using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 using Application.Identity.Users.UserQueries;
+using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Shared.Authorization;
 
-namespace Infrastructure.Identity;
+namespace Infrastructure.Identity.Role;
 
 internal class RoleService : IRoleService
 {

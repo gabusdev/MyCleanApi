@@ -33,7 +33,7 @@ namespace WebApi
             app.UseInfraestructure();
 
             app.UseHttpsRedirection();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

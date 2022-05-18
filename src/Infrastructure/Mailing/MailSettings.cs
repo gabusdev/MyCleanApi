@@ -21,7 +21,7 @@ public class MailSettings
         var mailSettings = config.GetSection(nameof(MailSettings)).Get<MailSettings>();
 
         GetSettingsFromEnv(mailSettings);
-        
+
         if (mailSettings.UserName == null || mailSettings.Password == null)
         {
             throw new InvalidOperationException("There are not username or password provided for mailing");

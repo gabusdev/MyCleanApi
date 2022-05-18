@@ -7,7 +7,7 @@ namespace Application.Identity.Roles;
 public interface IRoleService
 {
     Task<bool> ExistsAsync(string roleName, string? excludeId);
-    
+
     Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken);
     Task<RoleDto> GetByIdAsync(string id);
     Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken);
@@ -20,5 +20,5 @@ public interface IRoleService
 
     List<string> GetAllPermissions();
     Task UpdatePermissionsAsync(UpdateRolePermissionsCommand request, CancellationToken cancellationToken);
-    
+
 }

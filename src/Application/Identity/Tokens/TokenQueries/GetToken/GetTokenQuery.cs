@@ -1,6 +1,4 @@
-using Microsoft.Extensions.Localization;
-
-namespace Application.Identity.Tokens.TokenQueries;
+namespace Application.Identity.Tokens.TokenQueries.GetToken;
 
 public record GetTokenQuery(string Email, string Password) : IQuery<TokenResponse>;
 

@@ -1,4 +1,6 @@
 ﻿using Application.Identity.Tokens.TokenQueries;
+using Application.Identity.Tokens.TokenQueries.GetToken;
+using Application.Identity.Tokens.TokenQueries.RefreshToken;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

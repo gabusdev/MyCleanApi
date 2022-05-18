@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Identity;
+﻿namespace Infrastructure.Identity.User;
 
 public class RegisterUserEmailModel
 {

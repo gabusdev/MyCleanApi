@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Application.Identity.Users;
-using Microsoft.Extensions.Logging;
-using Serilog;
+﻿using Serilog;
+using System.Diagnostics;
 
 namespace Application.Common.Behaviors;
 

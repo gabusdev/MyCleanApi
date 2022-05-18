@@ -4,7 +4,7 @@ using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 using Application.Identity.Roles.Queries.GetAllRolesQuery;
 using Application.Identity.Roles.Queries.GetPermissionsQuery;
 using Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery;
-using Application.Identity.Roles.Queries.GetUsersByRole;
+using Application.Identity.Roles.Queries.GetUsersByRoleQuery;
 using Application.Identity.Users.UserQueries;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
 namespace WebApi.Controllers.Tests
@@ -13,9 +12,9 @@ namespace WebApi.Controllers.Tests
         {
             _localizer = localizer;
         }
-        
+
         [HttpGet]
-        [SwaggerOperation("Localization Test","Se utiliza un Header para la localizacion")]
+        [SwaggerOperation("Localization Test", "Se utiliza un Header para la localizacion")]
         public string Test1()
         {
             return _localizer["auth.faisled"].ToString();

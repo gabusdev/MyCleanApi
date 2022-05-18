@@ -1,7 +1,10 @@
 using Application.Identity.Tokens;
 using Application.Identity.Tokens.TokenQueries;
+using Application.Identity.Tokens.TokenQueries.GetToken;
+using Application.Identity.Tokens.TokenQueries.RefreshToken;
 using Infrastructure.Auth;
 using Infrastructure.Auth.Jwt;
+using Infrastructure.Identity.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
@@ -13,7 +16,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Infrastructure.Identity;
+namespace Infrastructure.Identity.Token;
 
 internal class TokenService : ITokenService
 {
@@ -48,12 +51,12 @@ internal class TokenService : ITokenService
         {
             throw new UnauthorizedException(_localizer["identity.usernotactive"]);
         }
-        
+
         if (_securitySettings.RequireConfirmedAccount && !user.EmailConfirmed)
         {
             throw new UnauthorizedException(_localizer["identity.emailnotconfirmed"]);
         }
-        
+
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
         {
             throw new UnauthorizedException(_localizer["identity.invalidcredentials"]);

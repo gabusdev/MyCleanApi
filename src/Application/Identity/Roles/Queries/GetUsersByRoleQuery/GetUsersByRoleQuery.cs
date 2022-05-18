@@ -1,13 +1,8 @@
 ﻿using Application.Identity.Users.UserQueries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Identity.Roles.Queries.GetUsersByRole
+namespace Application.Identity.Roles.Queries.GetUsersByRoleQuery
 {
-    public class GetUsersByRoleQuery: IQuery<List<UserDetailsDto>>
+    public class GetUsersByRoleQuery : IQuery<List<UserDetailsDto>>
     {
         public string RoleId { get; set; } = null!;
 
