@@ -19,17 +19,11 @@ namespace WebApi
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c =>
-                c.EnableAnnotations()
-            );
-
+            
             return services;
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
             app.UseRouting();
             app.UseInfraestructure();
 

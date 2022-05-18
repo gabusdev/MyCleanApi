@@ -4,8 +4,9 @@ using Microsoft.Extensions.Localization;
 
 namespace WebApi.Controllers.Tests
 {
-    [Route("api/[controller]")]
+    [Route("api/test")]
     [ApiController]
+    [ApiVersion("1", Deprecated = true)]
     public class TestController : BaseApiController
     {
         private readonly IStringLocalizer<TestController> _localizer;
@@ -43,5 +44,12 @@ namespace WebApi.Controllers.Tests
             var x = Environment.GetEnvironmentVariable("asd", EnvironmentVariableTarget.User);
             return x ?? "none";
         }
+        
+        [HttpGet("versions")]
+        public string SayVersion()
+        {
+            return "Hello from Version 1";
+        }
+
     }
 }

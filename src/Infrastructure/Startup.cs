@@ -4,6 +4,7 @@ using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
 using Infrastructure.Middlewares;
+using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,8 @@ namespace Infrastructure
                 .AddIdentity(config)
                 .AddAuth(config)
                 .AddExceptionMiddleware()
-                .AddJsonLocalization();
+                .AddJsonLocalization()
+                .ConfigureOpenApi();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
         {
@@ -30,7 +32,8 @@ namespace Infrastructure
                 .UseBackgroundJobs()
                 .UseExceptionMiddleware()
                 .UseAuth()
-                .UseLocalization();
+                .UseLocalization()
+                .UseOpenApi();
         }
     }
 }
