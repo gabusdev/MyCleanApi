@@ -26,10 +26,10 @@ namespace Infrastructure
                 .AddJsonLocalization()
                 .ConfigureOpenApi();
         }
-        public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app)
+        public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config)
         {
             return app
-                .UseBackgroundJobs()
+                .UseBackgroundJobs(config)
                 .UseExceptionMiddleware()
                 .UseAuth()
                 .UseLocalization()

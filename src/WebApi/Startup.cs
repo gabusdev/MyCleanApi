@@ -25,7 +25,7 @@ namespace WebApi
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
         {
             app.UseRouting();
-            app.UseInfraestructure();
+            app.UseInfraestructure(config);
 
             app.UseHttpsRedirection();
 

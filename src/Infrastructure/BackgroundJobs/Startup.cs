@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Hangfire;
 using Hangfire.SqlServer;
+using HangfireBasicAuthenticationFilter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,12 +17,14 @@ internal static class Startup
 {
     internal static IServiceCollection AddBackgroundJobs (this IServiceCollection services, IConfiguration config)
     {
+        var settings = HangfireSettings.GetHangfireSettings(config);
+        
         services.AddTransient<IJobService, HangfireService>();
         services.AddHangfire(configuration => configuration
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(config.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+            .UseSqlServerStorage(settings.Constring, new SqlServerStorageOptions
             {
                 CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                 SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
@@ -34,7 +37,23 @@ internal static class Startup
 
         return services;
     }
-    internal static IApplicationBuilder UseBackgroundJobs (this IApplicationBuilder app) =>
-        app.UseHangfireDashboard();
+    internal static IApplicationBuilder UseBackgroundJobs(this IApplicationBuilder app, IConfiguration configuration)
+    {
+        var settings = HangfireSettings.GetHangfireSettings(configuration);
 
+        DashboardOptions dashboardOptions = new() 
+        {
+            DashboardTitle = "Jobs",
+            StatsPollingInterval = 2000,
+            Authorization = new[]
+            {
+                new HangfireCustomBasicAuthenticationFilter
+                {
+                    User = settings.User,
+                    Pass = settings.Password
+                }
+            }
+        };
+        return app.UseHangfireDashboard("/jobs", dashboardOptions);
+    }
 }
