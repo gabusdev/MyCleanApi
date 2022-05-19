@@ -19,7 +19,6 @@ public class SmtpMailService : IMailService
     {
         try
         {
-            Console.WriteLine(_settings.UserName);
             var email = new MimeMessage();
 
             // From
