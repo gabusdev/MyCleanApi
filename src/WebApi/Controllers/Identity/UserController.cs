@@ -10,6 +10,7 @@ using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetById;
 using Application.Identity.Users.UserQueries.GetUserRoles;
 using Mapster;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;

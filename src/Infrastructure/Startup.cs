@@ -1,4 +1,5 @@
-﻿using Infrastructure.Auth;
+﻿using Climapi.Api.AppServices.Caching;
+using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
@@ -24,7 +25,8 @@ namespace Infrastructure
                 .AddAuth(config)
                 .AddExceptionMiddleware()
                 .AddJsonLocalization()
-                .ConfigureOpenApi();
+                .ConfigureOpenApi()
+                .AddCaching();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config)
         {
@@ -33,7 +35,8 @@ namespace Infrastructure
                 .UseExceptionMiddleware()
                 .UseAuth()
                 .UseLocalization()
-                .UseOpenApi();
+                .UseOpenApi()
+                .UseCaching();
         }
     }
 }
