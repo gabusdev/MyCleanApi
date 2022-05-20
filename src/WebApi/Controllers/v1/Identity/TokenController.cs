@@ -13,7 +13,7 @@ namespace WebApi.Controllers.v1.Identity
     {
         [HttpPost]
         [AllowAnonymous]
-        [HttpCacheIgnore]
+        //[HttpCacheIgnore]
         [SwaggerOperation("Login", "Get Auth Token.")]
         public Task<TokenResponse> GetTokenAsync(GetTokenQuery query, CancellationToken cancellationToken)
         {

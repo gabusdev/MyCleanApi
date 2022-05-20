@@ -11,7 +11,7 @@ builder.Services.AddConfigurations(builder.Configuration);
 
 var app = builder.Build();
 // Use services in the container.
-app.UseConfigurations(builder.Configuration);
+app.UseConfigurations(builder.Configuration, app.Environment.IsDevelopment());
 // Create and Seed Database
 await app.InitializeAndSeedDatabaseAsync();
 

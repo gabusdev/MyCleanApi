@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
-namespace Infrastructure.OpenApi
+namespace Infrastructure.ApiVersioning
 {
-    public static class ApiVersioningExtension
+    public static class Startup
     {
-        public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services, bool headerCheck = false)
+        public static IServiceCollection AddMyApiVersioning(this IServiceCollection services, bool headerCheck = false)
         {
             services.AddApiVersioning(opt =>
             {
@@ -18,7 +18,7 @@ namespace Infrastructure.OpenApi
             });
             services.AddVersionedApiExplorer(o =>
             {
-                o.GroupNameFormat = "'v' VVV";
+                o.GroupNameFormat = "'v'VVV";
             });
 
             return services;

@@ -2,23 +2,24 @@
 {
     public static class Startup
     {
-        public static IServiceCollection ConfigureOpenApi(this IServiceCollection services)
+        public static IServiceCollection AddOpenApi(this IServiceCollection services)
         {
             services
-                .ConfigureApiVersioning()
                 .AddSwaggerGen(c =>
                     c.EnableAnnotations()
                 )
                 .ConfigureOptions<ConfigureSwaggerOptions>()
-                .ConfigureOptions<ConfigureSwaggerUIOptions>();
+                .ConfigureOptions<ConfigureSwaggerUiOptions>();
 
             return services;
         }
 
-        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app)
+        public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, bool development)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            if (development)
+                app
+                    .UseSwagger()
+                    .UseSwaggerUI();
 
             return app;
         }

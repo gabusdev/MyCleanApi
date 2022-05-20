@@ -4,11 +4,11 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace Infrastructure.OpenApi
 {
-    public class ConfigureSwaggerUIOptions : IConfigureNamedOptions<SwaggerUIOptions>
+    public class ConfigureSwaggerUiOptions : IConfigureNamedOptions<SwaggerUIOptions>
     {
         private readonly IApiVersionDescriptionProvider _provider;
 
-        public ConfigureSwaggerUIOptions(
+        public ConfigureSwaggerUiOptions(
             IApiVersionDescriptionProvider provider)
         {
             _provider = provider;

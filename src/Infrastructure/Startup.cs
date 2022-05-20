@@ -1,4 +1,5 @@
-﻿using Infrastructure.Auth;
+﻿using Infrastructure.ApiVersioning;
+using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
 using Infrastructure.Identity;
@@ -23,18 +24,19 @@ namespace Infrastructure
                 .AddAuth(config)
                 .AddExceptionMiddleware()
                 .AddJsonLocalization()
-                .ConfigureOpenApi()
+                .AddOpenApi()
+                .AddMyApiVersioning()
                 .AddCaching()
                 .AddRateLimit();
         }
-        public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config)
+        public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
             return app
                 .UseBackgroundJobs(config)
                 .UseExceptionMiddleware()
                 .UseAuth()
                 .UseLocalization()
-                .UseOpenApi()
+                .UseOpenApi(development)
                 .UseCaching()
                 .UseRateLimit();
         }

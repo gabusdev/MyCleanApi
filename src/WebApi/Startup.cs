@@ -22,11 +22,11 @@ namespace WebApi
 
             return services;
         }
-        public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
+        public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config, bool development)
         {
             app.UseRouting();
             app.UseHttpsRedirection();
-            app.UseInfraestructure(config);
+            app.UseInfraestructure(config, development);
 
             app.UseEndpoints(endpoints =>
             {
