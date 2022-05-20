@@ -1,6 +1,4 @@
 ﻿using Application.Common.Mailing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Mailing;
 

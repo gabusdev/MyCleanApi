@@ -2,23 +2,15 @@
 using Hangfire;
 using Hangfire.SqlServer;
 using HangfireBasicAuthenticationFilter;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.BackgroundJobs;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddBackgroundJobs (this IServiceCollection services, IConfiguration config)
+    internal static IServiceCollection AddBackgroundJobs(this IServiceCollection services, IConfiguration config)
     {
         var settings = HangfireSettings.GetHangfireSettings(config);
-        
+
         services.AddTransient<IJobService, HangfireService>();
         services.AddHangfire(configuration => configuration
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
@@ -41,7 +33,7 @@ internal static class Startup
     {
         var settings = HangfireSettings.GetHangfireSettings(configuration);
 
-        DashboardOptions dashboardOptions = new() 
+        DashboardOptions dashboardOptions = new()
         {
             DashboardTitle = "Jobs",
             StatsPollingInterval = 2000,

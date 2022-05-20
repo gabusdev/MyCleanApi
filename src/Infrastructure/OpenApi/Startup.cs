@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Infrastructure.OpenApi
+﻿namespace Infrastructure.OpenApi
 {
     public static class Startup
     {
@@ -14,7 +11,7 @@ namespace Infrastructure.OpenApi
                 )
                 .ConfigureOptions<ConfigureSwaggerOptions>()
                 .ConfigureOptions<ConfigureSwaggerUIOptions>();
-            
+
             return services;
         }
 
@@ -22,7 +19,7 @@ namespace Infrastructure.OpenApi
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-            
+
             return app;
         }
     }

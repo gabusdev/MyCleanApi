@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -96,7 +94,7 @@ namespace Infrastructure.OpenApi
                 Version = _config["OpenApi:Version"] ?? "v1",
                 Contact_Name = _config["OpenApi:Contact_Name"] ?? "Default Name",
                 Contact_Url = _config["OpenApi:Contact_Url"] ?? "https://github.com/gabusdev",
-                Auth = Convert.ToBoolean(_config["OpenApi:Auth"]) 
+                Auth = Convert.ToBoolean(_config["OpenApi:Auth"])
             };
         }
     }

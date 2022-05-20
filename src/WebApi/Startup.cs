@@ -19,7 +19,7 @@ namespace WebApi
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            
+
             return services;
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)

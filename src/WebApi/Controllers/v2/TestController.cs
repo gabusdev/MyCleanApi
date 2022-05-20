@@ -1,6 +1,4 @@
-﻿using Marvin.Cache.Headers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v2
 {

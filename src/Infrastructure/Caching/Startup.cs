@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Infrastructure.Caching
+﻿namespace Infrastructure.Caching
 {
     public static class Startup
     {

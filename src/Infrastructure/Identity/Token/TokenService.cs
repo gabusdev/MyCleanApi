@@ -6,7 +6,6 @@ using Infrastructure.Auth;
 using Infrastructure.Auth.Jwt;
 using Infrastructure.Identity.User;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

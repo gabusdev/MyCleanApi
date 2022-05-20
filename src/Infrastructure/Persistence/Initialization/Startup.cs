@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Infrastructure.Persistence.Initialization
+﻿namespace Infrastructure.Persistence.Initialization
 {
     public static class Startup
     {

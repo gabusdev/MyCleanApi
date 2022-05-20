@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Infrastructure.Auth.Jwt
+﻿namespace Infrastructure.Auth.Jwt
 {
     internal class JwtSettings
     {

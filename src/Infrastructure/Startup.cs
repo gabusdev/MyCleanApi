@@ -8,9 +8,6 @@ using Infrastructure.Middlewares;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Infrastructure.RateLimit;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure
 {

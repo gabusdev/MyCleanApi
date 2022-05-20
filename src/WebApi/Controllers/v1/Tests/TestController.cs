@@ -1,5 +1,4 @@
 ﻿using Application.Common.Interfaces;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 

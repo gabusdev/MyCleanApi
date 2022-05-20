@@ -1,11 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Infrastructure.BackgroundJobs;
+﻿namespace Infrastructure.BackgroundJobs;
 
 internal class HangfireSettings
 {
@@ -26,5 +19,5 @@ internal class HangfireSettings
     }
 }
 
-    
+
 

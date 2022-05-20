@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-
 namespace Infrastructure.Persistence;
 
 public class DatabaseSettings

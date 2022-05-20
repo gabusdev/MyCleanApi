@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Infrastructure.Middlewares;
+﻿namespace Infrastructure.Middlewares;
 
 internal static class Startup
 {
