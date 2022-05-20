@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;
 
-namespace WebApi.Controllers.Identity;
+namespace WebApi.Controllers.v1.Identity;
 [Route("api/[controller]")]
 public class UserController : BaseApiController
 {

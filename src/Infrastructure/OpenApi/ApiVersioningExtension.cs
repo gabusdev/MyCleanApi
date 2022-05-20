@@ -6,7 +6,7 @@ namespace Infrastructure.OpenApi
 {
     public static class ApiVersioningExtension
     {
-        public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services, bool headerCheck = true)
+        public static IServiceCollection ConfigureApiVersioning(this IServiceCollection services, bool headerCheck = false)
         {
             services.AddApiVersioning(opt =>
             {
@@ -15,6 +15,7 @@ namespace Infrastructure.OpenApi
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 if (headerCheck)
                     opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                opt.ApiVersionReader = new UrlSegmentApiVersionReader();
             });
             services.AddVersionedApiExplorer(o =>
             {

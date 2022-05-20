@@ -1,13 +1,12 @@
 ﻿using Application.Common.Interfaces;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
-namespace WebApi.Controllers.Tests
+namespace WebApi.Controllers.v1.Tests
 {
-    [Route("api/test")]
-    [ApiController]
     [ApiVersion("1", Deprecated = true)]
-    public class TestController : BaseApiController
+    public class TestController : VersionedApiController
     {
         private readonly IStringLocalizer<TestController> _localizer;
         private readonly IJobService _jobService;
@@ -28,13 +27,15 @@ namespace WebApi.Controllers.Tests
         [SwaggerOperation("Localization Test", "Se utiliza un Header para la localizacion")]
         public string Test2()
         {
-            
+
             return _jobService.Enqueue(() => SayHi());
         }
         [HttpGet("ignore")]
-        public string SayHi() {
+        [MapToApiVersion("2")]
+        public string SayHi()
+        {
             var x = "Hola";
-            Task.Delay(5000).ContinueWith((t) => {});
+            Task.Delay(5000).ContinueWith((t) => { });
             return x;
         }
 
@@ -44,7 +45,7 @@ namespace WebApi.Controllers.Tests
             var x = Environment.GetEnvironmentVariable("asd", EnvironmentVariableTarget.User);
             return x ?? "none";
         }
-        
+
         [HttpGet("versions")]
         public string SayVersion()
         {

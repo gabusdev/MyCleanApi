@@ -8,7 +8,7 @@ using Application.Identity.Roles.Queries.GetUsersByRoleQuery;
 using Application.Identity.Users.UserQueries;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.Identity
+namespace WebApi.Controllers.v1.Identity
 {
     [Route("api/[controller]")]
     [ApiController]

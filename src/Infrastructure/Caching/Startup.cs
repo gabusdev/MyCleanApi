@@ -7,7 +7,11 @@ namespace Climapi.Api.AppServices.Caching
     {
         public static IServiceCollection AddCaching(this IServiceCollection services)
         {
-            services.AddResponseCaching();
+            services.AddResponseCaching(o =>
+            {
+                o.MaximumBodySize = 2048;
+                o.SizeLimit = 150_000;
+            });
             services.AddHttpCacheHeaders(expirationOption =>
             {
                 expirationOption.MaxAge = 120;

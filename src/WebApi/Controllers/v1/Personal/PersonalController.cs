@@ -7,7 +7,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.Personal
+namespace WebApi.Controllers.v1.Personal
 {
     [Route("api/profile")]
     [Authorize]

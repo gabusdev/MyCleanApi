@@ -5,7 +5,7 @@ using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.Identity
+namespace WebApi.Controllers.v1.Identity
 {
     [Route("api/[controller]")]
     [ApiController]
