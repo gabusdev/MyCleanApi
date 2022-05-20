@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Climapi.Api.AppServices.Caching
+namespace Infrastructure.Caching
 {
     public static class Startup
     {

@@ -1,12 +1,13 @@
-﻿using Climapi.Api.AppServices.Caching;
-using Infrastructure.Auth;
+﻿using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
+using Infrastructure.Caching;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
 using Infrastructure.Middlewares;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
+using Infrastructure.RateLimit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,8 @@ namespace Infrastructure
                 .AddExceptionMiddleware()
                 .AddJsonLocalization()
                 .ConfigureOpenApi()
-                .AddCaching();
+                .AddCaching()
+                .AddRateLimit();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config)
         {
@@ -36,7 +38,8 @@ namespace Infrastructure
                 .UseAuth()
                 .UseLocalization()
                 .UseOpenApi()
-                .UseCaching();
+                .UseCaching()
+                .UseRateLimit();
         }
     }
 }
