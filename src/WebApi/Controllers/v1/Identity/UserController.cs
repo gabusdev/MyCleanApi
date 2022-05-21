@@ -1,3 +1,4 @@
+using Application.Common.Pagination;
 using Application.Identity.Users;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
@@ -7,6 +8,7 @@ using Application.Identity.Users.UserCommands.SetRoles;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
+using Application.Identity.Users.UserQueries.GetAllPaged;
 using Application.Identity.Users.UserQueries.GetById;
 using Application.Identity.Users.UserQueries.GetUserRoles;
 using Mapster;
@@ -27,9 +29,9 @@ public class UserController : BaseApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
-    public async Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
+    public async Task<List<UserDetailsDto>> GetListAsync([FromQuery] PaginationParams pparams ,CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new GetAllUsersQuery(), cancellationToken);
+        return await Mediator.Send(new GetAllUsersPagedQuery(pparams), cancellationToken);
     }
 
     [HttpGet("{id}")]

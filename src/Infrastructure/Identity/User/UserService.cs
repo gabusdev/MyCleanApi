@@ -1,10 +1,12 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Mailing;
+using Application.Common.Pagination;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Infrastructure.Auth;
 using Infrastructure.Identity.Role;
 using Infrastructure.Identity.User;
+using Infrastructure.Pagination;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -76,6 +78,13 @@ namespace Infrastructure.Identity
         {
             var users = await _userManager.Users.AsNoTracking().ToListAsync(cancellationToken);
             return users.Adapt<List<UserDetailsDto>>();
+        }
+
+        public async Task<PagedList<UserDetailsDto>> GetPagedListAsync(PaginationParams paginationParams, CancellationToken cancellationToken)
+        {
+            return await _userManager.Users.AsNoTracking()
+                .ToPagedListAsync<ApplicationUser, UserDetailsDto>
+                    (paginationParams.PageNumber, paginationParams.PageSize);
         }
 
         public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)

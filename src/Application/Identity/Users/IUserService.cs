@@ -1,3 +1,4 @@
+using Application.Common.Pagination;
 using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
@@ -18,6 +19,7 @@ public interface IUserService
 
     Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
     Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken);
+    Task<PagedList<UserDetailsDto>> GetPagedListAsync(PaginationParams paginationParams, CancellationToken cancellationToken);
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 
     Task<List<string>> GetPermissionsAsync(string userId, CancellationToken cancellationToken);
