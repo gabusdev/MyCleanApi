@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebApi.Controllers.v1.Personal
 {
     [Route("api/profile")]
-    [Authorize]
-    [ApiController]
-    public class PersonalController : BaseApiController
+    public class PersonalController : VersionNeutralApiController
     {
         [HttpGet]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]

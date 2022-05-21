@@ -7,11 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1.Identity
 {
-    [Route("api/[controller]")]
-    [ApiController]
     [AllowAnonymous]
     [HttpCacheIgnore]
-    public class TokenController : BaseApiController
+    public class TokenController : VersionNeutralApiController
     {
         [HttpPost]
         [SwaggerOperation("Login", "Get Auth Token.")]

@@ -16,8 +16,8 @@ using Microsoft.AspNetCore.Mvc;
 using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;
 
 namespace WebApi.Controllers.v1.Identity;
-[Route("api/[controller]")]
-public class UserController : BaseApiController
+
+public class UserController : VersionNeutralApiController
 {
     private readonly IUserService _userService;
     public UserController(IUserService userService)

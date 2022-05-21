@@ -10,9 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v1.Identity
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RoleController : BaseApiController
+    public class RoleController : VersionNeutralApiController
     {
         [HttpGet]
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
