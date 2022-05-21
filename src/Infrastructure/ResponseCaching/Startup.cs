@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Caching
+﻿namespace Infrastructure.ResponseCaching
 {
     public static class Startup
     {

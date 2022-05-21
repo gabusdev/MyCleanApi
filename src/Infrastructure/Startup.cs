@@ -1,7 +1,6 @@
 ﻿using Infrastructure.ApiVersioning;
 using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
-using Infrastructure.Caching;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -9,6 +8,7 @@ using Infrastructure.Middlewares;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Infrastructure.RateLimit;
+using Infrastructure.ResponseCaching;
 
 namespace Infrastructure
 {
