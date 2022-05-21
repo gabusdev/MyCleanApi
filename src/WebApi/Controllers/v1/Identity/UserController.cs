@@ -7,7 +7,6 @@ using Application.Identity.Users.UserCommands.DeleteUser;
 using Application.Identity.Users.UserCommands.SetRoles;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
-using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetAllPaged;
 using Application.Identity.Users.UserQueries.GetById;
 using Application.Identity.Users.UserQueries.GetUserRoles;
@@ -29,7 +28,7 @@ public class UserController : BaseApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
-    public async Task<List<UserDetailsDto>> GetListAsync([FromQuery] PaginationParams pparams ,CancellationToken cancellationToken)
+    public async Task<List<UserDetailsDto>> GetListAsync([FromQuery] PaginationParams pparams, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetAllUsersPagedQuery(pparams), cancellationToken);
     }

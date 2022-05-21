@@ -1,4 +1,6 @@
-﻿namespace Infrastructure.Middlewares;
+﻿using Infrastructure.Middlewares.ExceptionHandler;
+
+namespace Infrastructure.Middlewares;
 
 internal static class Startup
 {

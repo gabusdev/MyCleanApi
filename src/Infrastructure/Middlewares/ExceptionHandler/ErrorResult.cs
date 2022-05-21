@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Middlewares;
+﻿namespace Infrastructure.Middlewares.ExceptionHandler;
 
 public class ErrorResult
 {

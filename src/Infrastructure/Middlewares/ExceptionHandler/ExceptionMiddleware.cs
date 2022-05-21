@@ -6,7 +6,7 @@ using Newtonsoft.Json.Serialization;
 using Serilog.Context;
 using System.Net;
 
-namespace Infrastructure.Middlewares;
+namespace Infrastructure.Middlewares.ExceptionHandler;
 
 internal class ExceptionMiddleware : IMiddleware
 {
