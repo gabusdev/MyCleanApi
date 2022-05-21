@@ -1,8 +1,7 @@
-using System.Text;
 using Application.Common.Caching;
 using Application.Common.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace Infrastructure.Caching;
 

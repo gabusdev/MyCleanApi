@@ -12,7 +12,7 @@ namespace WebApi.Controllers.v2
         {
             _cache = cache;
         }
-        
+
         [HttpGet("versions")]
         public string SayVersion()
         {

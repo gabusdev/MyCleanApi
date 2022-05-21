@@ -1,7 +1,5 @@
 ﻿using Application.Common.Caching;
 using Infrastructure.RateLimit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Caching;
 
@@ -37,9 +35,9 @@ internal static class Startup
             services.AddMemoryCache();
             services.AddTransient<ICacheService, LocalCacheService>();
         }
-        
+
         services.AddRateLimit(settings.UseDistributedCache);
-        
+
         return services;
     }
 }

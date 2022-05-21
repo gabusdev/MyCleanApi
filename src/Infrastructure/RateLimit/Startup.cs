@@ -33,13 +33,13 @@ internal static class Startup
         {
             services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
-        } 
+        }
         else
         {
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
         }
-            
+
         services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
         return services;
