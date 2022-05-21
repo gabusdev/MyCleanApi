@@ -2,7 +2,7 @@
 {
     public static class Startup
     {
-        public static IServiceCollection AddCaching(this IServiceCollection services)
+        public static IServiceCollection AddMyResponseCaching(this IServiceCollection services)
         {
             services.AddResponseCaching(o =>
             {
@@ -22,7 +22,7 @@
 
             return services;
         }
-        public static IApplicationBuilder UseCaching(this IApplicationBuilder app)
+        public static IApplicationBuilder UseMyResponseCaching(this IApplicationBuilder app)
         {
             app.UseResponseCaching();
             app.UseHttpCacheHeaders();

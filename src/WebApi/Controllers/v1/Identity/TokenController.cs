@@ -9,11 +9,11 @@ namespace WebApi.Controllers.v1.Identity
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
+    [HttpCacheIgnore]
     public class TokenController : BaseApiController
     {
         [HttpPost]
-        [AllowAnonymous]
-        //[HttpCacheIgnore]
         [SwaggerOperation("Login", "Get Auth Token.")]
         public Task<TokenResponse> GetTokenAsync(GetTokenQuery query, CancellationToken cancellationToken)
         {
@@ -21,8 +21,6 @@ namespace WebApi.Controllers.v1.Identity
         }
 
         [HttpPost("refresh-token")]
-        [AllowAnonymous]
-        [HttpCacheIgnore]
         [SwaggerOperation("Refresh Token", "Get New Auth Token from Refresh Token.")]
         public Task<TokenResponse> RefreshTokenAsync(RefreshTokenQuery query, CancellationToken cancellationToken)
         {

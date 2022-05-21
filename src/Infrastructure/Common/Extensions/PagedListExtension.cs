@@ -1,7 +1,7 @@
 ﻿using Application.Common.Pagination;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Common.Pagination;
+namespace Infrastructure.Common.Extensions;
 
 public static class PagedListExtension
 {

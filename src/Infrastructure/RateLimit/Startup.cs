@@ -5,10 +5,8 @@ namespace Infrastructure.RateLimit;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddRateLimit(this IServiceCollection services)
+    internal static IServiceCollection AddRateLimit(this IServiceCollection services, bool useDistributedCache)
     {
-        services.AddMemoryCache();
-
         var rules = new List<RateLimitRule>
         {
             new RateLimitRule
@@ -30,11 +28,19 @@ internal static class Startup
         });
 
         services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
-        services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-        services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
-        services.AddHttpContextAccessor();
+        if (useDistributedCache)
+        {
+            services.AddSingleton<IRateLimitCounterStore, DistributedCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, DistributedCacheIpPolicyStore>();
+        } 
+        else
+        {
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+        }
+            
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
         return services;
     }

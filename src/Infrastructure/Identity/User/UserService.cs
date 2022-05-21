@@ -4,7 +4,7 @@ using Application.Common.Pagination;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
 using Application.Identity.Users.UserQueries;
 using Infrastructure.Auth;
-using Infrastructure.Common.Pagination;
+using Infrastructure.Common.Extensions;
 using Infrastructure.Identity.Role;
 using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;

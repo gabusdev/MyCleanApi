@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Application.Common.Caching;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
 
@@ -6,12 +7,12 @@ namespace Infrastructure.Localization;
 
 internal class JsonStringLocalizer : IStringLocalizer
 {
-    private readonly IDistributedCache _distributedCache;
+    private readonly ICacheService _cache;
     private readonly JsonSerializer _jsonSerializer = new();
 
-    public JsonStringLocalizer(IDistributedCache distributedCache)
+    public JsonStringLocalizer(ICacheService cache)
     {
-        _distributedCache = distributedCache;
+        _cache = cache;
     }
 
     public LocalizedString this[string name]
@@ -111,7 +112,7 @@ internal class JsonStringLocalizer : IStringLocalizer
         {
             // Declare cache key and the cache value to the distributed cache
             string cacheKey = $"locale_{Thread.CurrentThread.CurrentCulture.Name}_{key}";
-            string cacheValue = _distributedCache.GetString(cacheKey);
+            string? cacheValue = _cache.Get<string>(cacheKey);
 
             // If the string is not null/empty then return the already cached value
             if (!string.IsNullOrEmpty(cacheValue)) return cacheValue;
@@ -120,7 +121,7 @@ internal class JsonStringLocalizer : IStringLocalizer
             string? result = GetJsonValue(key, filePath: Path.GetFullPath(relativeFilePath));
 
             // If we find the property inside the JSON file we update the cache with that result
-            if (!string.IsNullOrEmpty(result)) _distributedCache.SetString(cacheKey, result);
+            if (!string.IsNullOrEmpty(result)) _cache.GetOrSet(cacheKey, () => result);
 
             // Return the found string
             return result;

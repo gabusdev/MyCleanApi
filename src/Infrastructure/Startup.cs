@@ -1,6 +1,9 @@
-﻿using Infrastructure.ApiVersioning;
+﻿using Application.Common.Interfaces;
+using Infrastructure.ApiVersioning;
 using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
+using Infrastructure.Caching;
+using Infrastructure.Common.Services;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -17,6 +20,9 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             return services
+                .AddTransient<ISerializerService, NewtonSoftService>()
+                .AddCaching(config)
+                .AddMyResponseCaching()
                 .AddBackgroundJobs(config)
                 .AddPersistence(config)
                 .AddMailing(config)
@@ -25,9 +31,7 @@ namespace Infrastructure
                 .AddExceptionMiddleware()
                 .AddJsonLocalization()
                 .AddOpenApi()
-                .AddMyApiVersioning()
-                .AddCaching()
-                .AddRateLimit();
+                .AddMyApiVersioning();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
@@ -37,7 +41,7 @@ namespace Infrastructure
                 .UseAuth()
                 .UseLocalization()
                 .UseOpenApi(development)
-                .UseCaching()
+                .UseMyResponseCaching()
                 .UseRateLimit();
         }
     }
