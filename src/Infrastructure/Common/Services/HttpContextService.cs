@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
 
-namespace WebApi.Services
+namespace Infrastructure.Common.Services
 {
     public class HttpContextService : IHttpContextService
     {

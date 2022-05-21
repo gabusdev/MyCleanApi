@@ -1,9 +1,8 @@
-﻿using Application.Common.Interfaces;
-using Infrastructure.ApiVersioning;
+﻿using Infrastructure.ApiVersioning;
 using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
-using Infrastructure.Common.Services;
+using Infrastructure.Common;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -20,7 +19,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             return services
-                .AddTransient<ISerializerService, NewtonSoftService>()
+                .AddCommon(config)
                 .AddCaching(config)
                 .AddMyResponseCaching()
                 .AddBackgroundJobs(config)

@@ -1,7 +1,9 @@
 using Application.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Shared.Authorization;
 using System.Security.Claims;
 
-namespace WebApi.Services;
+namespace Infrastructure.Common.Services;
 
 public class CurrentUserService : ICurrentUserService
 {

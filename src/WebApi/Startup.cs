@@ -1,8 +1,6 @@
 ﻿using Application;
-using Application.Common.Interfaces;
 using Hangfire;
 using Infrastructure;
-using WebApi.Services;
 
 namespace WebApi
 {
@@ -11,8 +9,6 @@ namespace WebApi
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration config)
         {
             services.AddHttpContextAccessor();
-            services.AddTransient<ICurrentUserService, CurrentUserService>();
-            services.AddTransient<IHttpContextService, HttpContextService>();
 
             services.AddApplication();
             services.AddInfrastructure(config);
