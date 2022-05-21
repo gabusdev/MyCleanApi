@@ -31,11 +31,11 @@
 
         private static void GetSettingsFromEnv(JwtSettings jwtSettings)
         {
-            var jwtKey = Environment.GetEnvironmentVariable("jwtKey");
+            var jwtKey = Environment.GetEnvironmentVariable("jwtKey", EnvironmentVariableTarget.User);
             if (jwtKey != null)
                 jwtSettings.Key = jwtKey;
 
-            var jwtSecret = Environment.GetEnvironmentVariable("jwtSecret");
+            var jwtSecret = Environment.GetEnvironmentVariable("jwtSecret", EnvironmentVariableTarget.User);
             if (jwtSecret != null)
                 jwtSettings.Secret = jwtSecret;
         }

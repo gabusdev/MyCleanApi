@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
-namespace WebApi.Controllers.v1.Tests
+namespace WebApi.Controllers.v1
 {
     [ApiVersion("1", Deprecated = true)]
     public class TestController : VersionedApiController

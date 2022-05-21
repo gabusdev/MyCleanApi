@@ -11,7 +11,7 @@ namespace Infrastructure.ApiVersioning
             {
                 opt.ReportApiVersions = true;
                 opt.AssumeDefaultVersionWhenUnspecified = true;
-                opt.DefaultApiVersion = new ApiVersion(1, 0);
+                opt.DefaultApiVersion = new ApiVersion(2, 0);
                 if (headerCheck)
                     opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
                 opt.ApiVersionReader = new UrlSegmentApiVersionReader();

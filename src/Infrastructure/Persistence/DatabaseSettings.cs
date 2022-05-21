@@ -26,11 +26,11 @@ public class DatabaseSettings
     }
     private static void GetSettingsFromEnv(DatabaseSettings dBSettings)
     {
-        var dbProvider = Environment.GetEnvironmentVariable("dbProvider");
+        var dbProvider = Environment.GetEnvironmentVariable("dbProvider", EnvironmentVariableTarget.User);
         if (dbProvider != null)
             dBSettings.DBProvider = dbProvider;
 
-        var connString = Environment.GetEnvironmentVariable("connString");
+        var connString = Environment.GetEnvironmentVariable("connString", EnvironmentVariableTarget.User);
         if (connString != null)
             dBSettings.ConnectionString = connString;
     }

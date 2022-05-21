@@ -7,10 +7,10 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.v1.Personal
+namespace WebApi.Controllers.vNeutral.Personal
 {
-    [Route("api/profile")]
-    public class PersonalController : VersionNeutralApiController
+    [Authorize]
+    public class ProfileController : VersionNeutralApiController
     {
         [HttpGet]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]

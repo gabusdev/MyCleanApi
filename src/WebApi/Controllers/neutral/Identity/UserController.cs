@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;
 
-namespace WebApi.Controllers.v1.Identity;
+namespace WebApi.Controllers.neutral.Identity;
 
 public class UserController : VersionNeutralApiController
 {
