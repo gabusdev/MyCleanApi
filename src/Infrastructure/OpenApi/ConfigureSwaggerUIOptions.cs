@@ -20,7 +20,7 @@ namespace Infrastructure.OpenApi
 
         public void Configure(SwaggerUIOptions options)
         {
-            foreach (var description in _provider.ApiVersionDescriptions)
+            foreach (var description in _provider.ApiVersionDescriptions.Reverse())
             {
                 options.SwaggerEndpoint(
                     $"/swagger/{description.GroupName}/swagger.json",
