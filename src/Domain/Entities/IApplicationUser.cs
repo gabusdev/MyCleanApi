@@ -2,7 +2,7 @@
 
 namespace Domain.Entities
 {
-    public interface IApplicationUser: IHasDomainEvent
+    public interface IApplicationUser: IHasDomainEvent, IAuditableEntity
     {
         public string Id { get; set; }
         public string UserName { get; set; }

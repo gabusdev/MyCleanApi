@@ -34,6 +34,8 @@ namespace Infrastructure.Persistence.Context
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            HandleAuditableEntity();
+
             var events = ChangeTracker.Entries<IHasDomainEvent>()
                     .Select(x => x.Entity.DomainEvents)
                     .SelectMany(x => x)
@@ -45,6 +47,36 @@ namespace Infrastructure.Persistence.Context
             await DispatchEvents(events);
 
             return result;
+        }
+
+        private void HandleAuditableEntity()
+        {
+            var currentId = _currentUserService.GetUserId();
+
+            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedBy = currentId;
+                        entry.Entity.CreatedOn = _dateTime.Now;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.LastModifiedBy = currentId;
+                        entry.Entity.LastModifiedOn = _dateTime.Now;
+                        break;
+
+                    case EntityState.Deleted:
+                        if (entry.Entity is ISoftDelete softDelete)
+                        {
+                            softDelete.DeletedBy = currentId;
+                            softDelete.DeletedOn = DateTime.UtcNow;
+                            entry.State = EntityState.Modified;
+                        }
+                        break;
+                }
+            }
         }
 
         private async Task DispatchEvents(DomainEvent[] events)
