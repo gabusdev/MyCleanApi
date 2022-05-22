@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Common.Persistence
+namespace Application.Common.Persistence;
+
+public interface IUnitOfWork : IDisposable
 {
-    internal interface IUnitOfWork
-    {
-    }
+    // IGenericRepository<Entitie> Entities { get; }
+
+    Task<int> CommitAsync();
 }
+

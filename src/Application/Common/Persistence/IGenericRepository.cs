@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Common.Persistence;
 
-public interface IGenericRepository<T> where T : IEntity
+public interface IGenericRepository<T> where T : class
 {
     Task<IEnumerable<T>> GetAsync(
             Expression<Func<T, bool>>? filter = null,

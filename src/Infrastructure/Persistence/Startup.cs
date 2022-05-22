@@ -1,5 +1,7 @@
-﻿using Infrastructure.Persistence.Context;
+﻿using Application.Common.Persistence;
+using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Initialization;
+using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -20,6 +22,8 @@ namespace Infrastructure.Persistence
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
 
             Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
         }
