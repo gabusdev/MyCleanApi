@@ -53,6 +53,13 @@ namespace Infrastructure.Persistence.Context
             {
                 @event.IsPublished = true;
                 await _domainEventService.Publish(@event);
+                
+                var eventType = @event.GetType().Name;
+                var currentId = _currentUserService.GetUserId();
+                var currentName = !string.IsNullOrEmpty(currentId)
+                    ? _currentUserService.Name
+                    : "Anonymous";
+                Log.Information("App Event: {0}, Published by {1} {2}", eventType, currentId, currentName);
             }
         }
     }

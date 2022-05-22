@@ -17,7 +17,7 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
     {
         var requestName = typeof(TRequest).Name;
         var userId = _currentUserService.GetUserId();
-        string userName = string.Empty;
+        string userName = "Anonymous";
 
         if (!string.IsNullOrEmpty(userId))
         {
