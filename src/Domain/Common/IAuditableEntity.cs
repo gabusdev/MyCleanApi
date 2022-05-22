@@ -2,7 +2,7 @@ namespace Domain.Common;
 
 public interface IAuditableEntity: IAuditableEntity<string> { }
 
-public interface IAuditableEntity<T>
+public interface IAuditableEntity<T>: IEntity
 {
     public T? CreatedBy { get; set; }
     public DateTime CreatedOn { get; set; }
