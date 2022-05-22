@@ -5,6 +5,8 @@ using WebApi;
 
 Log.Logger = LoggingExtension.ConfigureLogger();
 
+Log.Information("Application is Starting...");
+
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddConfigurations(builder.Configuration);
@@ -17,7 +19,7 @@ await app.InitializeAndSeedDatabaseAsync();
 
 try
 {
-    Log.Information("Application is Starting...");
+    Log.Information("Application is Running...");
     app.Run();
 }
 catch (Exception ex)

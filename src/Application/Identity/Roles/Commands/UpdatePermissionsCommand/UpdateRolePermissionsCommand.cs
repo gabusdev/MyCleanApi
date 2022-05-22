@@ -1,3 +1,5 @@
+using Application.Common.CQRS;
+
 namespace Application.Identity.Roles.Commands.UpdatePermissionsCommand;
 
 public class UpdateRolePermissionsCommand : ICommand

@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Users.UserQueries.GetById
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Users.UserQueries.GetById
 {
     public class GetUserByIdQuery : IQuery<UserDetailsDto>
     {

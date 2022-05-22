@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Roles.Queries.GetPermissionsQuery
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Roles.Queries.GetPermissionsQuery
 {
     public class GetAllPermissionsQuery : IQuery<List<string>>
     {

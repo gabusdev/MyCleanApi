@@ -1,3 +1,5 @@
+using Application.Common.CQRS;
+
 namespace Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
 
 public class ForgotPasswordQuery : IQuery<string>

@@ -1,3 +1,4 @@
+using Application.Common.CQRS;
 using Application.Identity.Users.UserQueries;
 using Shared.Authorization;
 

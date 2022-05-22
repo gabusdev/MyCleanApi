@@ -7,7 +7,7 @@ using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebApi.Controllers.vNeutral.Personal
+namespace WebApi.Controllers.neutral.Personal
 {
     [Authorize]
     public class ProfileController : VersionNeutralApiController

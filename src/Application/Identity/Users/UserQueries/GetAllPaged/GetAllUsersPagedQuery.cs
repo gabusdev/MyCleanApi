@@ -1,4 +1,5 @@
-﻿using Application.Common.Pagination;
+﻿using Application.Common.CQRS;
+using Application.Common.Pagination;
 
 namespace Application.Identity.Users.UserQueries.GetAllPaged
 {

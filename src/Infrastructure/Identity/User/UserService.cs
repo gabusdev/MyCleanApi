@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Events;
+using Application.Common.Interfaces;
 using Application.Common.Mailing;
 using Application.Common.Pagination;
 using Application.Identity.Users.UserCommands.ToggleUserStatus;
@@ -26,6 +27,7 @@ namespace Infrastructure.Identity
         private readonly IMailService _mailService;
         private readonly SecuritySettings _securitySettings;
         private readonly IJobService _jobService;
+        private readonly IDomainEventService _eventService;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -34,7 +36,8 @@ namespace Infrastructure.Identity
             IEmailTemplateService templateService,
             IMailService mailService,
             IOptions<SecuritySettings> securitySettings,
-            IJobService jobService)
+            IJobService jobService,
+            IDomainEventService eventService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,6 +47,7 @@ namespace Infrastructure.Identity
             _mailService = mailService;
             _securitySettings = securitySettings.Value;
             _jobService = jobService;
+            _eventService = eventService;
         }
 
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)

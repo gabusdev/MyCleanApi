@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Users.UserQueries.GetAll
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Users.UserQueries.GetAll
 {
     public class GetAllUsersQuery : IQuery<List<UserDetailsDto>>
     {

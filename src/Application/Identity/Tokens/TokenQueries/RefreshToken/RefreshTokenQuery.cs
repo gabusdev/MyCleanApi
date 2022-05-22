@@ -1,3 +1,5 @@
+using Application.Common.CQRS;
+
 namespace Application.Identity.Tokens.TokenQueries.RefreshToken;
 
 public record RefreshTokenQuery(string Token, string RefreshToken) : IQuery<TokenResponse>;

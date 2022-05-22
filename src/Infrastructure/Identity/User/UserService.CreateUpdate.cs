@@ -1,6 +1,7 @@
 ﻿using Application.Common.Mailing;
 using Application.Identity.Users.UserCommands.CreateUser;
 using Application.Identity.Users.UserCommands.UpdateUser;
+using Domain.Events;
 using Infrastructure.Identity.User;
 using Shared.Authorization;
 
@@ -13,6 +14,7 @@ namespace Infrastructure.Identity
             var user = request.Adapt<ApplicationUser>();
 
             user.IsActive = true;
+            user.DomainEvents.Add(new UserCreatedEvent(user));
 
             var result = await _userManager.CreateAsync(user, request.Password);
 

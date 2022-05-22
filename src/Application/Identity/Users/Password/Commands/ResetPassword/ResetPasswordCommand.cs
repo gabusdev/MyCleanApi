@@ -1,3 +1,5 @@
+using Application.Common.CQRS;
+
 namespace Application.Identity.Users.Password.Commands.ResetPassword;
 
 public class ResetPasswordCommand : ICommand

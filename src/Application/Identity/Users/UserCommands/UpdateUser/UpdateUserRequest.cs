@@ -1,3 +1,5 @@
+using Application.Common.CQRS;
+
 namespace Application.Identity.Users.UserCommands.UpdateUser;
 
 public class UpdateUserRequest

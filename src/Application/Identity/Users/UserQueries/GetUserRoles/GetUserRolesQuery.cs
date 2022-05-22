@@ -1,4 +1,5 @@
-﻿using Shared.Authorization;
+﻿using Application.Common.CQRS;
+using Shared.Authorization;
 
 namespace Application.Identity.Users.UserQueries.GetUserRoles
 {

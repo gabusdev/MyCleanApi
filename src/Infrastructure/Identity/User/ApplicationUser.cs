@@ -1,3 +1,4 @@
+using Domain.Common;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,7 +12,5 @@ public class ApplicationUser : IdentityUser, IApplicationUser
     public bool IsActive { get; set; }
     public string? RefreshToken { get; set; }
     public DateTime RefreshTokenExpiryTime { get; set; }
-
-    public string? ObjectId { get; set; }
-
+    public List<DomainEvent> DomainEvents { get; set; } = new();
 }

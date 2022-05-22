@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Users.UserQueries.GetUserPermissions
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Users.UserQueries.GetUserPermissions
 {
     public class GetUserPermissionsQuery : IQuery<List<string>>
     {

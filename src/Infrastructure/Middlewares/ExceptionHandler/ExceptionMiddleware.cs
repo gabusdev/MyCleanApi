@@ -75,7 +75,9 @@ internal class ExceptionMiddleware : IMiddleware
                     break;
             }
 
-            Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
+            if (exception is not ValidationException)
+                Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
+            
             var json = JsonConvert.SerializeObject(errorResult, new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()

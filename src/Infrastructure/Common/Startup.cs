@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿using Application.Common.Events;
+using Application.Common.Interfaces;
 using Infrastructure.Common.Services;
 
 namespace Infrastructure.Common;
@@ -10,7 +11,9 @@ internal static class Startup
         return services
                 .AddTransient<ICurrentUserService, CurrentUserService>()
                 .AddTransient<IHttpContextService, HttpContextService>()
-                .AddTransient<ISerializerService, NewtonSoftService>();
+                .AddTransient<ISerializerService, NewtonSoftService>()
+                .AddTransient<IDateTimeService, DateTimeService>()
+                .AddScoped<IDomainEventService, DomainEventService>();
     }
 }
 

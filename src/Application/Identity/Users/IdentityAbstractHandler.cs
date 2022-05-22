@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Users
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Users
 {
     public abstract class IdentityCommandHandler<TCommand>
         : IdentityCommandHandler<TCommand, Unit>

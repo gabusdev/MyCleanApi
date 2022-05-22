@@ -1,4 +1,6 @@
-﻿namespace Application.Identity.Users.UserCommands.DeleteUser;
+﻿using Application.Common.CQRS;
+
+namespace Application.Identity.Users.UserCommands.DeleteUser;
 
 public class DeleteUserCommand : ICommand
 {
