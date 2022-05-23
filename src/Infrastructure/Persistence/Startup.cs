@@ -23,7 +23,9 @@ namespace Infrastructure.Persistence
 
             Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
 
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services
+                .AddSingleton<DapperContext>()
+                .AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

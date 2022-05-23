@@ -7,7 +7,30 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repository
 {
-    internal class EFGenericRepository<T> : IGenericRepository<T> where T : class
+    internal class EFGenericRepository<T> : EFGenericRepository<T, T> where T : class{
+        public EFGenericRepository(ApplicationDbContext context) : base(context)
+        {
+        }
+        public override async Task<PagedList<T>> GetPagedAsync(PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        {
+            IQueryable<T> query = _db;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            query = AddIncludes(query, includeProperties);
+
+            if (orderBy != null)
+                if (desc)
+                    query = query.OrderByDescending(orderBy);
+                else
+                    query = query.OrderBy(orderBy);
+
+            return await query.ToPagedListAsync(pParams);
+        }
+    }
+
+    internal class EFGenericRepository<T, TDto> : IGenericRepository<T, TDto> where T : class where TDto : class
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _db;
@@ -29,7 +52,7 @@ namespace Infrastructure.Persistence.Repository
                    
         }
 
-        public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        public virtual async Task<IEnumerable<TDto>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
         {
             IQueryable<T> query = _db;
             
@@ -44,15 +67,15 @@ namespace Infrastructure.Persistence.Repository
                 else
                     query = query.OrderBy(orderBy);
 
-            return await query.ToListAsync();
+            return (await query.ToListAsync()).Adapt<List<TDto>>();
         }
 
-        public virtual async Task<T?> GetByIdAsync(object id, string includeProperties = "")
+        public virtual async Task<TDto?> GetByIdAsync(object id, string includeProperties = "")
         {
-            return await _db.FindAsync(id);
+            return (await _db.FindAsync(id)) is T t ? t.Adapt<TDto>(): default;
         }
 
-        public virtual async Task<PagedList<T>> GetPagedAsync(PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        public virtual async Task<PagedList<TDto>> GetPagedAsync(PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
         {
             IQueryable<T> query = _db;
 
@@ -67,31 +90,39 @@ namespace Infrastructure.Persistence.Repository
                 else
                     query = query.OrderBy(orderBy);
 
-            return await query.ToPagedListAsync<T, T>(pParams.PageNumber, pParams.PageSize);
+            return await query.ToPagedListAsync<T, TDto>(pParams);
         }
 
-        public virtual Task InsertAsync(T t)
+        public virtual async Task<bool> InsertAsync(T t)
         {
-            throw new NotImplementedException();
+            var result = await _db.AddAsync(t);
+            return result.State == EntityState.Added;
         }
 
-        public virtual Task InsertRangeAsync(List<T> t)
+        public virtual void InsertRangeAsync(List<T> t)
         {
-            throw new NotImplementedException();
+             _db.AddRangeAsync(t);
         }
 
-        public virtual Task<bool> Update(T t)
+        public virtual void Update(T t)
         {
-            throw new NotImplementedException();
+            _db.Attach(t);
+            _context.Entry(t).State = EntityState.Modified;
         }
-        public virtual Task<bool> Delete(object id)
+        public virtual async Task Delete(object id)
         {
-            throw new NotImplementedException();
+            var entity = await _db.FindAsync(id);
+            Delete(entity);
+        }
+        public virtual void Delete(T? t)
+        {
+            if (t != null)
+                _db.Remove(t);
         }
 
-        public virtual Task<bool> DeleteRange(IEnumerable<T> entities)
+        public virtual void DeleteRange(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _db.RemoveRange(entities);
         }
 
         protected IQueryable<T> AddIncludes(IQueryable<T> query, string includeProperties)
@@ -103,5 +134,7 @@ namespace Infrastructure.Persistence.Repository
             }
             return query;
         }
+
+        
     }
 }
