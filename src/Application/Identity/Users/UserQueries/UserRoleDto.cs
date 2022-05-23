@@ -1,6 +1,6 @@
 namespace Application.Identity.Users.UserQueries;
 
-public class UserRoleDto
+public class UserRoleDto: IDto
 {
     public string? RoleId { get; set; }
     public string? RoleName { get; set; }

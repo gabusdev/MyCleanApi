@@ -1,6 +1,6 @@
 namespace Application.Identity.Users.UserQueries;
 
-public class UserDetailsDto
+public class UserDetailsDto: IDto
 {
     public string? Id { get; set; }
 
