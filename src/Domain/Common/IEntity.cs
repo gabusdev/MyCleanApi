@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Common
 {
-    public interface IEntity
+    public interface IEntity : IEntity<string> { }
+    public interface IEntity<T>
     {
+        public T Id { get; set; }
     }
 }

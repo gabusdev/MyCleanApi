@@ -1,5 +1,7 @@
-﻿using Application.Common.Pagination;
+﻿using Application.Common.Interfaces;
+using Application.Common.Pagination;
 using Application.Common.Persistence;
+using Domain.Common;
 using Infrastructure.Common.Extensions;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
@@ -7,30 +9,7 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repository
 {
-    internal class EFGenericRepository<T> : EFGenericRepository<T, T> where T : class{
-        public EFGenericRepository(ApplicationDbContext context) : base(context)
-        {
-        }
-        public override async Task<PagedList<T>> GetPagedAsync(PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
-        {
-            IQueryable<T> query = _db;
-
-            if (filter != null)
-                query = query.Where(filter);
-
-            query = AddIncludes(query, includeProperties);
-
-            if (orderBy != null)
-                if (desc)
-                    query = query.OrderByDescending(orderBy);
-                else
-                    query = query.OrderBy(orderBy);
-
-            return await query.ToPagedListAsync(pParams);
-        }
-    }
-
-    internal class EFGenericRepository<T, TDto> : IGenericRepository<T, TDto> where T : class where TDto : class
+    internal class EFGenericRepository<T> : IGenericRepository<T> where T : class, IEntity
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _db;
@@ -52,7 +31,7 @@ namespace Infrastructure.Persistence.Repository
                    
         }
 
-        public virtual async Task<IEnumerable<TDto>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
         {
             IQueryable<T> query = _db;
             
@@ -67,15 +46,20 @@ namespace Infrastructure.Persistence.Repository
                 else
                     query = query.OrderBy(orderBy);
 
-            return (await query.ToListAsync()).Adapt<List<TDto>>();
+            return await query.ToListAsync();
         }
 
-        public virtual async Task<TDto?> GetByIdAsync(object id, string includeProperties = "")
+        public virtual async Task<T?> GetByIdAsync(object id, string includeProperties = "")
         {
-            return (await _db.FindAsync(id)) is T t ? t.Adapt<TDto>(): default;
+            IQueryable<T> query = _db;
+
+            query = AddIncludes(query, includeProperties);
+
+            return (await query.FirstOrDefaultAsync(i => i.Id == Convert.ToString(id))) ?? default;
         }
 
-        public virtual async Task<PagedList<TDto>> GetPagedAsync(PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        public virtual async Task<PagedList<T>> GetPagedAsync
+            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
         {
             IQueryable<T> query = _db;
 
@@ -90,7 +74,15 @@ namespace Infrastructure.Persistence.Repository
                 else
                     query = query.OrderBy(orderBy);
 
-            return await query.ToPagedListAsync<T, TDto>(pParams);
+            return await query.ToPagedListAsync(pParams);
+        }
+        public virtual async Task<PagedList<TDto>> GetPagedAsync<TDto>
+            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+            where TDto : IDto
+        {
+            var source = await GetPagedAsync(pParams, filter, orderBy, desc);
+            var result = source.AdaptPagedList<T, TDto>();
+            return result;
         }
 
         public virtual async Task<bool> InsertAsync(T t)
