@@ -12,13 +12,13 @@ namespace Application.Common.Persistence;
 public interface IGenericRepository<T> where T : class
 {
     Task<IEnumerable<T>> GetAsync(
-            Expression<Func<T, bool>>? filter = null,
-            Expression<Func<T, bool>>? orderBy = null, bool desc = false,
+            Expression<Func<T, bool>>? filter,
+            Expression<Func<T, bool>>? orderBy, bool desc = false,
             string includeProperties = "");
     Task<PagedList<T>> GetPagedAsync(
             PaginationParams pParams,
-            Expression<Func<T, bool>>? filter = null,
-            Expression<Func<T, bool>>? orderBy = null, bool desc = false,
+            Expression<Func<T, bool>>? filter,
+            Expression<Func<T, bool>>? orderBy, bool desc = false,
             string includeProperties = "");
     Task<T?> GetByIdAsync(object id, string includeProperties = "");
     Task<bool> Exists(Expression<Func<T, bool>> match);
