@@ -15,4 +15,8 @@
 - [ ] Adding Search Filters
 - [ ] Add a Home Page to the API
 - [ ] Make All Rest Responses the Same
+- [ ] Configure Cors
+- [ ] Add Exports
+  - To Excel
+  - To Pdf
 - [ ] Dockerize The App
