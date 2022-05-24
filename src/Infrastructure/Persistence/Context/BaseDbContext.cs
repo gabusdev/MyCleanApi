@@ -18,7 +18,7 @@ namespace Infrastructure.Persistence.Context
         protected BaseDbContext(DbContextOptions options,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTimeService dateTime): base(options)
+            IDateTimeService dateTime) : base(options)
         {
             _currentUserService = currentUserService;
             _domainEventService = domainEventService;
@@ -92,7 +92,7 @@ namespace Infrastructure.Persistence.Context
             {
                 @event.IsPublished = true;
                 await _domainEventService.Publish(@event);
-                
+
                 var eventType = @event.GetType().Name;
                 var currentId = _currentUserService.GetUserId();
                 var currentName = !string.IsNullOrEmpty(currentId)

@@ -1,8 +1,6 @@
-﻿using Domain.Common;
-
-namespace Domain.Entities
+﻿namespace Domain.Entities
 {
-    public interface IApplicationUser: IHasDomainEvent, IAuditableEntity, IEntity
+    public interface IApplicationUser : IHasDomainEvent, IAuditableEntity, IEntity
     {
         public string UserName { get; set; }
         public string? FirstName { get; set; }

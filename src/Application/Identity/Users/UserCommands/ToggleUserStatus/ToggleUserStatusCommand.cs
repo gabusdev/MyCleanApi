@@ -1,5 +1,3 @@
-using Application.Common.CQRS;
-
 namespace Application.Identity.Users.UserCommands.ToggleUserStatus;
 
 public class ToggleUserStatusRequest

@@ -1,6 +1,6 @@
 namespace Domain.Common;
 
-public interface IAuditableEntity: IAuditableEntity<string> { }
+public interface IAuditableEntity : IAuditableEntity<string> { }
 
 public interface IAuditableEntity<T>
 {

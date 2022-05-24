@@ -1,10 +1,5 @@
 ﻿using Application.Common.Persistence;
 using Infrastructure.Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository;
 
@@ -40,7 +35,7 @@ internal class UnitOfWork : IUnitOfWork
             this.disposed = true;
         }
     }
-    
+
     private readonly ApplicationDbContext _context;
     private bool disposed = false;
 }

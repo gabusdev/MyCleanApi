@@ -1,6 +1,4 @@
-﻿using Application.Common.CQRS;
-
-namespace Application.Identity.Roles.Queries.GetAllRolesQuery
+﻿namespace Application.Identity.Roles.Queries.GetAllRolesQuery
 {
     public class GetAllRolesQuery : IQuery<List<RoleDto>>
     {

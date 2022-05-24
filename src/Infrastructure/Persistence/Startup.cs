@@ -25,7 +25,7 @@ namespace Infrastructure.Persistence
 
             services
                 .AddSingleton<DapperContext>()
-                .AddScoped<IDapperService,DapperService>()
+                .AddScoped<IDapperService, DapperService>()
                 .AddTransient<IUnitOfWork, UnitOfWork>();
 
             return services;

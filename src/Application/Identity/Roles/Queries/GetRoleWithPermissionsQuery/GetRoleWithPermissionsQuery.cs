@@ -1,6 +1,4 @@
-﻿using Application.Common.CQRS;
-
-namespace Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery
+﻿namespace Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery
 {
     public class GetRoleWithPermissionsQuery : IQuery<RoleDto>
     {

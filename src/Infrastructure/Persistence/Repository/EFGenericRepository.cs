@@ -21,20 +21,20 @@ namespace Infrastructure.Persistence.Repository
         }
         public virtual async Task<int> Count(Expression<Func<T, bool>>? match = null)
         {
-            return match is null 
+            return match is null
                     ? await _db.CountAsync()
                     : await _db.CountAsync(match);
         }
         public virtual async Task<bool> Exists(Expression<Func<T, bool>> match)
         {
             return await _db.FirstOrDefaultAsync(match) is not null;
-                   
+
         }
 
         public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
         {
             IQueryable<T> query = _db;
-            
+
             if (filter != null)
                 query = query.Where(filter);
 
@@ -93,7 +93,7 @@ namespace Infrastructure.Persistence.Repository
 
         public virtual void InsertRangeAsync(List<T> t)
         {
-             _db.AddRangeAsync(t);
+            _db.AddRangeAsync(t);
         }
 
         public virtual void Update(T t)
@@ -127,6 +127,6 @@ namespace Infrastructure.Persistence.Repository
             return query;
         }
 
-        
+
     }
 }

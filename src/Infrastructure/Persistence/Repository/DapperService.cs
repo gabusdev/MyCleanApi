@@ -1,11 +1,6 @@
 ﻿using Application.Common.Persistence;
 using Dapper;
 using Infrastructure.Persistence.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository;
 
@@ -16,7 +11,7 @@ internal class DapperService : IDapperService
     {
         _context = context;
     }
-        
+
     async Task<IReadOnlyList<T>> IDapperService.QueryAsync<T>(string sql, object? @params)
     {
         using (var connection = _context.CreateConnection())

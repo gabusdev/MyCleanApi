@@ -1,5 +1,3 @@
-using Application.Common.CQRS;
-
 namespace Application.Identity.Users.UserCommands.CreateUser;
 
 public class CreateUserCommand : ICommand<string>

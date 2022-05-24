@@ -1,5 +1,3 @@
-using Application.Common.CQRS;
-
 namespace Application.Identity.Tokens.TokenQueries.GetToken;
 
 public record GetTokenQuery(string Email, string Password) : IQuery<TokenResponse>;

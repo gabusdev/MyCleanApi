@@ -9,7 +9,7 @@ namespace Infrastructure.Persistence.Context
         public ApplicationDbContext(DbContextOptions options,
             ICurrentUserService currentUserService,
             IDomainEventService domainEventService,
-            IDateTimeService dateTime) 
+            IDateTimeService dateTime)
             : base(options, currentUserService, domainEventService, dateTime) { }
     }
 }

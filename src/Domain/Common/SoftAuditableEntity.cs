@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Common;
 
-namespace Domain.Common;
-
-public class SoftAuditableEntity: SoftAuditableEntity<string> { }
+public class SoftAuditableEntity : SoftAuditableEntity<string> { }
 
 public class SoftAuditableEntity<T> : IHasDomainEvent, IAuditableEntity<T>, ISoftDelete<T>
 {
@@ -14,10 +8,10 @@ public class SoftAuditableEntity<T> : IHasDomainEvent, IAuditableEntity<T>, ISof
     public DateTime CreatedOn { get; set; }
     public T? LastModifiedBy { get; set; }
     public DateTime? LastModifiedOn { get; set; }
-        
+
     public DateTime? DeletedOn { get; set; }
     public T? DeletedBy { get; set; }
-        
+
     public List<DomainEvent> DomainEvents { get; set; } = new();
 
     protected SoftAuditableEntity()

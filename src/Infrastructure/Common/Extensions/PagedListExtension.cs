@@ -8,7 +8,7 @@ public static class PagedListExtension
     public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> source, PaginationParams pp)
     where T : class =>
         await source.ToPagedListAsync(pp.PageNumber, pp.PageSize);
-    
+
 
 
     public static async Task<PagedList<T>> ToPagedListAsync<T>(this IQueryable<T> source, int pageNumber, int pageSize)
@@ -20,7 +20,7 @@ public static class PagedListExtension
     }
 
     public static async Task<PagedList<TResponse>> ToPagedListAsync<T, TResponse>(this IQueryable<T> source, PaginationParams pp)
-    where T: class
+    where T : class
     where TResponse : class =>
         await source.ToPagedListAsync<T, TResponse>(pp.PageNumber, pp.PageSize);
 
