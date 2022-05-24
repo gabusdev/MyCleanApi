@@ -1,3 +1,4 @@
+using Application.Common.Caching;
 using Application.Common.Interfaces;
 using Application.Identity.Roles;
 using Application.Identity.Roles.Commands.CreateUpdateCommand;
@@ -19,24 +20,29 @@ internal class RoleService : IRoleService
     private readonly ApplicationDbContext _db;
     private readonly ICurrentUserService _currentUser;
     private readonly IStringLocalizer<RoleService> _localizer;
+    private readonly ICacheService _cache;
 
     public RoleService(
         RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager,
         ApplicationDbContext db,
         ICurrentUserService currentUser,
-        IStringLocalizer<RoleService> stringLocalizer)
+        IStringLocalizer<RoleService> stringLocalizer,
+        ICacheService cache)
     {
         _roleManager = roleManager;
         _userManager = userManager;
         _db = db;
         _currentUser = currentUser;
         _localizer = stringLocalizer;
+        _cache = cache;
     }
 
     public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken) =>
-        (await _roleManager.Roles.ToListAsync(cancellationToken))
-            .Adapt<List<RoleDto>>();
+        (await _cache.GetOrSetAsync("rolesList",
+            () => _roleManager.Roles.ToListAsync(cancellationToken),
+            TimeSpan.FromMinutes(5)))!
+        .Adapt<List<RoleDto>>();
 
     public async Task<int> GetCountAsync(CancellationToken cancellationToken) =>
         await _roleManager.Roles.CountAsync(cancellationToken);
@@ -168,7 +174,7 @@ internal class RoleService : IRoleService
     public List<string> GetAllPermissions()
     {
         var apiPermissions = ApiPermissions.All.Select(ap => ap.Name);
-        return apiPermissions.ToList();
+        return _cache.GetOrSet("permissions", () => apiPermissions.ToList())!;
     }
 
     public async Task<IEnumerable<UserDetailsDto>> GetUsersByIdAsync(string roleId)
