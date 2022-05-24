@@ -22,9 +22,15 @@ internal static class Startup
                 Period = "1m"
             }
         };
+
+        List<string> endpointWhiteList = new()
+        {
+            "*:/graphql/*"
+        };
         services.Configure<IpRateLimitOptions>(o =>
         {
             o.GeneralRules = rules;
+            o.EndpointWhitelist = endpointWhiteList;
         });
 
         services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();

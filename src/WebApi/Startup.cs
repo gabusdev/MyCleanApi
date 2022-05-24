@@ -1,4 +1,5 @@
 ﻿using Application;
+using GraphQL;
 using Hangfire;
 using Infrastructure;
 
@@ -12,6 +13,7 @@ namespace WebApi
 
             services.AddApplication();
             services.AddInfrastructure(config);
+            services.AddMyGraphQL();
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
@@ -23,7 +25,7 @@ namespace WebApi
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseInfraestructure(config, development);
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
