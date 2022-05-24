@@ -36,6 +36,13 @@ namespace Infrastructure.Persistence.Context
         {
             HandleAuditableEntity();
 
+            var result = await HandleDomainEvents(cancellationToken);
+
+            return result;
+        }
+
+        private async Task<int> HandleDomainEvents(CancellationToken cancellationToken)
+        {
             var events = ChangeTracker.Entries<IHasDomainEvent>()
                     .Select(x => x.Entity.DomainEvents)
                     .SelectMany(x => x)
