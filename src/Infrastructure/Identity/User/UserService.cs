@@ -86,11 +86,9 @@ namespace Infrastructure.Identity
 
         public async Task<PagedList<UserDetailsDto>> GetPagedListAsync(PaginationParams paginationParams, CancellationToken cancellationToken)
         {
-            var x = await _userManager.Users.AsNoTracking()
-                .ToPagedListAsync
+            return await _userManager.Users.AsNoTracking()
+                .ToPagedListAsync<ApplicationUser, UserDetailsDto>
                     (paginationParams);
-            var y = x.AdaptPagedList<ApplicationUser, UserDetailsDto>();
-            return y;
         }
 
         public async Task ToggleStatusAsync(ToggleUserStatusRequest request, CancellationToken cancellationToken)
