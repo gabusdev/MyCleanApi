@@ -1,4 +1,6 @@
 ﻿using GraphQL.Queries;
+using Infrastructure.Persistence.Context;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GraphQL
@@ -9,7 +11,10 @@ namespace GraphQL
         {
             services.AddGraphQLServer()
                 .AddAuthorization()
-                .AddQueryType<Query2>();
+                .RegisterService<IMediator>(ServiceKind.Synchronized)
+                .AddQueryType<QueryType>()
+                .AddTypeExtension<ProductExtensions>()
+                .AddTypeExtension<UserExtension>();
             
             return services;
         }

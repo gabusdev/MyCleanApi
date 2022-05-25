@@ -30,6 +30,7 @@ namespace WebApi
             {
                 endpoints.MapControllers();
                 endpoints.MapHangfireDashboard();
+                //endpoints.MapGraphQL().RequireAuthorization();
             });
 
             return app;
