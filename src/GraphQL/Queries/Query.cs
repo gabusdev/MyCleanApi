@@ -17,4 +17,5 @@ namespace GraphQL.Queries
             return await mediator.Send(new GetAllUsersQuery(), ct);
         }
     }
+
 }

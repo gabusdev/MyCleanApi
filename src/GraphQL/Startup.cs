@@ -7,7 +7,9 @@ namespace GraphQL
     {
         public static IServiceCollection AddMyGraphQL(this IServiceCollection services)
         {
-            services.AddGraphQLServer().AddQueryType<Query>();
+            services.AddGraphQLServer()
+                .AddAuthorization()
+                .AddQueryType<Query2>();
             
             return services;
         }
