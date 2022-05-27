@@ -11,10 +11,14 @@ namespace GraphQL
         {
             services.AddGraphQLServer()
                 .AddAuthorization()
+                //.AddMutationConventions(applyToAllMutations: true)
                 .RegisterService<IMediator>(ServiceKind.Synchronized)
-                .AddQueryType<QueryType>()
-                .AddTypeExtension<ProductExtensions>()
-                .AddTypeExtension<UserExtension>();
+                .AddQueryType()
+                .AddMutationType()
+                .AddTypeExtension<UserQueries>()
+                .AddTypeExtension<UserExtension>()
+                .AddTypeExtension<UserMutations>()
+                ;
             
             return services;
         }

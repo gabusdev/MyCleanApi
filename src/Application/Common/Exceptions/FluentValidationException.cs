@@ -2,7 +2,7 @@
 
 namespace Application.Common.Exceptions
 {
-    internal class FluentValidationException : ValidationException
+    public class FluentValidationException : ValidationException
     {
         public FluentValidationException(string message, List<string> errors)
             : base(message, errors) { }
