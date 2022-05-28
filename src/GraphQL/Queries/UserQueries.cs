@@ -19,6 +19,7 @@ namespace GraphQL.Queries
     [ExtendObjectType(OperationTypeNames.Query)]
     public class UserQueries
     {
+        [GraphQLDescription("Represents The Users of The Api")]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
         CancellationToken ct)
         {

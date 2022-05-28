@@ -25,15 +25,24 @@ namespace GraphQL.Queries
         }
     }
     public class CreateUserErrorFactory
-    : IPayloadErrorFactory<FluentValidationException, CustomGQLError>
+    
     {
-        public CustomGQLError CreateErrorFrom(FluentValidationException exception)
+        public CustomGQLError CreateErrorFrom(FluentValidationException ex)
         {
             return new CustomGQLError()
             {
-                Message = exception.Message,
-                Errors = exception.ErrorMessages,
-                StatusCode = (int)exception.StatusCode
+                Message = ex.Message,
+                Errors = ex.ErrorMessages,
+                StatusCode = (int)ex.StatusCode
+            };
+        }
+        public CustomGQLError CreateErrorFrom(Exception ex)
+        {
+            return new CustomGQLError()
+            {
+                Message = "An Unesperated Error Occured",
+                Errors = new() { ex.Message },
+                StatusCode = 500
             };
         }
     }
