@@ -15,21 +15,33 @@ namespace GraphQL.Queries
     [ExtendObjectType(OperationTypeNames.Mutation)]
     public class UserMutations
     {
-        [Error(typeof(FluentValidationException))]
-        public async Task<string> InsertUser([Service] IMediator mediator,
-        CreateUserCommand input,
-        CancellationToken ct)
+        [UseMutationConvention]
+        [Error(typeof(CreateUserErrorFactory))]
+        public async Task<string> InsertUser(CreateUserCommand input,
+            [Service] IMediator mediator,
+            CancellationToken ct)
         {
             return await mediator.Send(input, ct);
         }
     }
-    /*public class CreateUserErrorFactory
-    : IPayloadErrorFactory<MyCustomErrorA, FluentValidationException>
+    public class CreateUserErrorFactory
+    : IPayloadErrorFactory<FluentValidationException, CustomGQLError>
     {
-        public MyCustomErrorA CreateErrorFrom(FluentValidationException ex)
+        public CustomGQLError CreateErrorFrom(FluentValidationException exception)
         {
-            return new MyCustomError();
+            return new CustomGQLError()
+            {
+                Message = exception.Message,
+                Errors = exception.ErrorMessages,
+                StatusCode = (int)exception.StatusCode
+            };
         }
-    }*/
+    }
+    public class CustomGQLError
+    {
+        public string? Message { get; set; }
+        public List<string>? Errors { get; set; }
+        public int StatusCode { get; set; }
 
+    }
 }

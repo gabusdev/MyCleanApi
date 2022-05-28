@@ -1,6 +1,8 @@
 ﻿using GraphQL.Queries;
+using GraphQL.Server.Ui.Voyager;
 using Infrastructure.Persistence.Context;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GraphQL
@@ -12,6 +14,7 @@ namespace GraphQL
             services.AddGraphQLServer()
                 .AddAuthorization()
                 //.AddMutationConventions(applyToAllMutations: true)
+                .AddMutationConventions()
                 .RegisterService<IMediator>(ServiceKind.Synchronized)
                 .AddQueryType()
                 .AddMutationType()
@@ -21,6 +24,14 @@ namespace GraphQL
                 ;
             
             return services;
+        }
+
+        public static IApplicationBuilder UseMyGraphQL(this IApplicationBuilder app)
+        {
+            return app.UseGraphQLVoyager(new VoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql"
+            }, "/graphql-voyager");
         }
     }
 }
