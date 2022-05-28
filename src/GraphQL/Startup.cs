@@ -21,6 +21,8 @@ namespace GraphQL
                 .AddAuthorization()
                 .AddInMemorySubscriptions()
                 .AddMutationConventions()
+                .AddFiltering()
+                .AddSorting()
 
                 .RegisterService<IMediator>(ServiceKind.Synchronized)
 

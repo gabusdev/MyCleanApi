@@ -9,7 +9,7 @@
   - Mysql
   - Postgres
   - ~~NoSql~~
-- [ ] Abstracting Serilog to Logger
+- [ ] ~~Abstracting Serilog to Logger~~
 - [ ] Document the Project
 - [ ] Add Grafana & Prometeus
 - [ ] Adding Search Filters

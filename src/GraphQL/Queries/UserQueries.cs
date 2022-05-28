@@ -11,6 +11,9 @@ namespace GraphQL.Queries
     public class UserQueries
     {
         [GraphQLDescription("Represents The Users of The Api")]
+        [UsePaging]
+        [UseFiltering]
+        [UseSorting]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
         CancellationToken ct, [Service] ILogger<UserQueries> _log)
         {
@@ -38,15 +41,3 @@ namespace GraphQL.Queries
         }
     }
 }
-/*[Authorize]
-        public async Task<List<UserRoleDto>> GetRoleById([Service] IMediator mediator,
-            string id,
-            CancellationToken ct)
-        {
-            return await mediator.Send(new GetUserRolesQuery() { UserId = id}, ct);
-        }*/
-/*public async Task<List<RoleDto>> GetRole([Service] IMediator mediator,
-    CancellationToken ct)
-{
-    return await mediator.Send(new GetAllRolesQuery(), ct);
-}*/
