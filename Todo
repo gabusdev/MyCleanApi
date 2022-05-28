@@ -1,21 +1,21 @@
 - [ ] Implement GrapQL
 - [ ] Implement File Upload
   - Store Images
-- [ ] Adding More Support for Entity Framework Database
+- [x] Adding More Support for Entity Framework Database
   - Oracle
-  - MongoDB
-  - InMemory _( fix )_
-- [ ] Adding more support for Hangfire Database
+  - ~~MongoDB~~
+  - ~~InMemory _( fix )_~~
+- [x] Adding more support for Hangfire Database
   - Mysql
   - Postgres
-  - NoSql
+  - ~~NoSql~~
 - [ ] Abstracting Serilog to Logger
 - [ ] Document the Project
 - [ ] Add Grafana & Prometeus
 - [ ] Adding Search Filters
 - [ ] Add a Home Page to the API
 - [ ] Make All Rest Responses the Same
-- [ ] Configure Cors
+- [x] Configure Cors
 - [ ] Add Exports
   - To Excel
   - To Pdf

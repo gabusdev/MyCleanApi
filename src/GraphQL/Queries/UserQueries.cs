@@ -5,8 +5,8 @@ using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
 using HotChocolate.AspNetCore.Authorization;
-using Infrastructure.Auth.Permissions;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Shared.Authorization;
 using System;
 using System.Collections.Generic;
@@ -21,8 +21,9 @@ namespace GraphQL.Queries
     {
         [GraphQLDescription("Represents The Users of The Api")]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
-        CancellationToken ct)
+        CancellationToken ct, [Service]ILogger<UserQueries> _log)
         {
+            _log.LogInformation("Testing Logging");
             return await mediator.Send(new GetAllUsersQuery(), ct);
         }
         
