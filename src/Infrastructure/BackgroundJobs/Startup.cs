@@ -1,7 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Hangfire;
+using Hangfire.MySql;
+using Hangfire.PostgreSql;
 using Hangfire.SqlServer;
 using HangfireBasicAuthenticationFilter;
+using Infrastructure.Persistence;
 
 namespace Infrastructure.BackgroundJobs;
 
@@ -16,14 +19,7 @@ internal static class Startup
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
-            .UseSqlServerStorage(settings.Constring, new SqlServerStorageOptions
-            {
-                CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-                SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-                QueuePollInterval = TimeSpan.Zero,
-                UseRecommendedIsolationLevel = true,
-                DisableGlobalLocks = true
-            }));
+            .UseDatabase(settings.Provider, settings.Constring));
 
         services.AddHangfireServer();
 
@@ -48,4 +44,48 @@ internal static class Startup
         };
         return app.UseHangfireDashboard("/jobs", dashboardOptions);
     }
+    private static IGlobalConfiguration UseDatabase(this IGlobalConfiguration hangfireConfig, string? dbProvider, string? connectionString)
+    {
+        if (dbProvider is null || connectionString is null)
+            throw new ArgumentNullException("Either Provider or Connection String for HangFire are null.");
+        
+        var sqlOptions = new SqlServerStorageOptions
+        {
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            QueuePollInterval = TimeSpan.Zero,
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        };
+
+        var pgsqlOptions = new PostgreSqlStorageOptions
+        {
+            QueuePollInterval = TimeSpan.FromSeconds(10),
+            JobExpirationCheckInterval = TimeSpan.FromHours(1),
+            PrepareSchemaIfNecessary = true
+        };
+
+        var myqslOptions = new MySqlStorageOptions
+        {
+            QueuePollInterval = TimeSpan.FromSeconds(10),
+            JobExpirationCheckInterval = TimeSpan.FromHours(1),
+            CountersAggregateInterval = TimeSpan.FromMinutes(5),
+            PrepareSchemaIfNecessary = true,
+            DashboardJobListLimit = 25000,
+            TransactionTimeout = TimeSpan.FromMinutes(1),
+            TablesPrefix = "Hangfire",
+        };
+
+        return dbProvider.ToLowerInvariant() switch
+        {
+            DbProviderKeys.Npgsql =>
+                hangfireConfig.UsePostgreSqlStorage(connectionString, pgsqlOptions),
+            DbProviderKeys.SqlServer =>
+                hangfireConfig.UseSqlServerStorage(connectionString, sqlOptions),
+            DbProviderKeys.MySql =>
+                hangfireConfig.UseStorage(new MySqlStorage(connectionString, myqslOptions)),
+            _ => throw new Exception($"Hangfire Storage Provider {dbProvider} is not supported.")
+        };
+    }
+        
 }
