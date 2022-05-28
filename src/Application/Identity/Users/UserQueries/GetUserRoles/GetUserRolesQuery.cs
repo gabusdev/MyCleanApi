@@ -1,6 +1,4 @@
-﻿using Shared.Authorization;
-
-namespace Application.Identity.Users.UserQueries.GetUserRoles
+﻿namespace Application.Identity.Users.UserQueries.GetUserRoles
 {
     public class GetUserRolesQuery : IQuery<List<UserRoleDto>>
     {
@@ -21,7 +19,7 @@ namespace Application.Identity.Users.UserQueries.GetUserRoles
 
                 var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
                 */
-                
+
                 var roles = await _userService.GetRolesAsync(request.UserId, cancellationToken);
 
                 /*

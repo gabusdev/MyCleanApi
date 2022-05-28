@@ -26,7 +26,7 @@ namespace WebApi
             app.UseHttpsRedirection();
             app.UseInfraestructure(config, development);
             app.UseMyGraphQL();
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -1,7 +1,6 @@
 ﻿using Application.Common.Events;
 using Domain.Common;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Common.Services;
 

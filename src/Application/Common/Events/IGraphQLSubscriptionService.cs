@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Common.Events
+﻿namespace Application.Common.Events
 {
     public interface IGraphQLSubscriptionService
     {
+        // Summary:
+        //      Sends a Notification to the sub/pub service of GrapqhQL Subscriptions
         Task SendAsync<TTopic, TMessage>(TTopic topic, TMessage message) where TTopic : notnull;
     }
 }

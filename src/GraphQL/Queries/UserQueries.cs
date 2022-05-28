@@ -1,18 +1,9 @@
-﻿using Application.Identity.Roles;
-using Application.Identity.Roles.Queries.GetAllRolesQuery;
-using Application.Identity.Users.UserQueries;
+﻿using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
-using HotChocolate.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Shared.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphQL.Queries
 {
@@ -21,14 +12,14 @@ namespace GraphQL.Queries
     {
         [GraphQLDescription("Represents The Users of The Api")]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
-        CancellationToken ct, [Service]ILogger<UserQueries> _log)
+        CancellationToken ct, [Service] ILogger<UserQueries> _log)
         {
             _log.LogInformation("Testing Logging");
             return await mediator.Send(new GetAllUsersQuery(), ct);
         }
-        
+
     }
-    
+
     [ExtendObjectType(typeof(UserDetailsDto))]
     public class UserExtension
     {

@@ -1,15 +1,6 @@
 ﻿using Application.Common.Exceptions;
 using Application.Identity.Users.UserCommands.CreateUser;
-using Application.Identity.Users.UserQueries;
-using Application.Identity.Users.UserQueries.GetAll;
-using HotChocolate.Subscriptions;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphQL.Queries
 {
@@ -26,7 +17,7 @@ namespace GraphQL.Queries
         }
     }
     public class CreateUserErrorFactory
-    
+
     {
         public CustomGQLError CreateErrorFrom(FluentValidationException ex)
         {
