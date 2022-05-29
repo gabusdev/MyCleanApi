@@ -2,7 +2,7 @@
 using Application.Identity.Users.UserCommands.CreateUser;
 using MediatR;
 
-namespace GraphQL.Queries
+namespace GraphQL.Mutations
 {
     [ExtendObjectType(OperationTypeNames.Mutation)]
     public class UserMutations

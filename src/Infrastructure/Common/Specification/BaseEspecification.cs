@@ -1,7 +1,7 @@
 ﻿using Application.Common.Specification;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Specification;
+namespace Infrastructure.Common.Specification;
 
 internal class BaseSpecifications<T> : IBaseSpecifications<T>
 {
@@ -11,7 +11,7 @@ internal class BaseSpecifications<T> : IBaseSpecifications<T>
 
     public BaseSpecifications(Expression<Func<T, bool>> filterCondition)
     {
-        this.FilterCondition = filterCondition;
+        FilterCondition = filterCondition;
     }
 
     public Expression<Func<T, bool>>? FilterCondition { get; private set; }

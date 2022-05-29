@@ -1,4 +1,5 @@
 ﻿using Application.Common.Events;
+using GraphQL.Mutations;
 using GraphQL.Queries;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL.Services;

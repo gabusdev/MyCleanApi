@@ -8,6 +8,6 @@ public class ApplicationUserConfiuration : IEntityTypeConfiguration<ApplicationU
 {
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
-        builder.Ignore(e => e.DomainEvents);
+        //builder.Ignore(e => e.DomainEvents);
     }
 }

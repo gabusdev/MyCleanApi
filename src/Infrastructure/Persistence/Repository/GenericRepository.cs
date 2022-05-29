@@ -4,8 +4,8 @@ using Application.Common.Persistence;
 using Application.Common.Specification;
 using Domain.Common;
 using Infrastructure.Common.Extensions;
+using Infrastructure.Common.Specification;
 using Infrastructure.Persistence.Context;
-using Infrastructure.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repository;
@@ -44,7 +44,7 @@ internal class GenericRepository<T> : IGenericReposotory2<T> where T : class, IE
 
     public virtual async Task<IEnumerable<T>> GetAsync(IBaseSpecifications<T>? baseSpecifications = null)
     {
-        return await SpecificationEvaluator<T>.GetQuery(_db, baseSpecifications).ToListAsync();
+        return await SpecificationEvaluator<T>.GetQuery(_db.AsNoTracking(), baseSpecifications).ToListAsync();
     }
 
     public virtual async Task<T?> GetByIdAsync(object id)
@@ -54,7 +54,7 @@ internal class GenericRepository<T> : IGenericReposotory2<T> where T : class, IE
 
     public virtual async Task<PagedList<T>> GetPagedAsync(PaginationParams pParams, IBaseSpecifications<T>? baseSpecifications = null)
     {
-        return await SpecificationEvaluator<T>.GetQuery(_db, baseSpecifications).ToPagedListAsync(pParams);
+        return await SpecificationEvaluator<T>.GetQuery(_db.AsNoTracking(), baseSpecifications).ToPagedListAsync(pParams);
     }
 
     public virtual async Task<PagedList<TDto>> GetPagedAsync<TDto>(PaginationParams pParams, IBaseSpecifications<T>? baseSpecifications = null) where TDto : IDto

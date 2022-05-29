@@ -2,7 +2,7 @@
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Specification;
+namespace Infrastructure.Common.Specification;
 public class SpecificationEvaluator<TEntity> where TEntity : class, IEntity
 {
     public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> query, IBaseSpecifications<TEntity>? specifications)
@@ -22,7 +22,7 @@ public class SpecificationEvaluator<TEntity> where TEntity : class, IEntity
 
         // Includes
         query = specifications.Includes
-                    .Aggregate(query, (current, include) => current.Include(include)).AsNoTracking();
+                    .Aggregate(query, (current, include) => current.Include(include).AsSplitQuery());
 
         // Apply ordering
         if (specifications.OrderBy != null)

@@ -1,4 +1,3 @@
-using Domain.Common;
 using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,6 +16,4 @@ public class ApplicationUser : IdentityUser, IApplicationUser
     public DateTime CreatedOn { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedOn { get; set; }
-
-    public List<DomainEvent> DomainEvents { get; set; } = new();
 }
