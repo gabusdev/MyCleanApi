@@ -2,7 +2,6 @@
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
-using HotChocolate.Data;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
