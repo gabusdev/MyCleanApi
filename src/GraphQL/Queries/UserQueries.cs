@@ -2,6 +2,7 @@
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
+using HotChocolate.Data;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -12,6 +13,7 @@ namespace GraphQL.Queries
     {
         [GraphQLDescription("Represents The Users of The Api")]
         [UsePaging]
+        [UseProjection]
         [UseFiltering]
         [UseSorting]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
@@ -32,6 +34,13 @@ namespace GraphQL.Queries
         {
             var id = user.Id!;
             return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());
+        }
+        public async Task<List<UserRoleDto>> GetRoles2(
+            [Parent] UserDetailsDto user, IMediator mediator)
+        {
+            /*var id = user.Id!;
+            return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());*/
+            return new List<UserRoleDto>();
         }
         public async Task<List<string>> GetPermissions(
             [Parent] UserDetailsDto user, IMediator mediator)

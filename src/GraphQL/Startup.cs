@@ -23,6 +23,7 @@ namespace GraphQL
                 .AddMutationConventions()
                 .AddFiltering()
                 .AddSorting()
+                .AddProjections()
 
                 .RegisterService<IMediator>(ServiceKind.Synchronized)
 
