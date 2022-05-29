@@ -2,8 +2,10 @@
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
+using GraphQL.Permissions;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Shared.Authorization;
 
 namespace GraphQL.Queries
 {
@@ -12,7 +14,7 @@ namespace GraphQL.Queries
     {
         [GraphQLDescription("Represents The Users of The Api")]
         [UsePaging]
-        [UseProjection]
+        //[UseProjection]
         [UseFiltering]
         [UseSorting]
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
@@ -34,6 +36,8 @@ namespace GraphQL.Queries
             var id = user.Id!;
             return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());
         }
+
+        [GQLMustHavePermission(ApiAction.View, ApiResource.Users)]
         public async Task<List<UserRoleDto>> GetRoles2(
             [Parent] UserDetailsDto user, IMediator mediator)
         {
@@ -41,6 +45,7 @@ namespace GraphQL.Queries
             return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());*/
             return new List<UserRoleDto>();
         }
+        [UseFiltering]
         public async Task<List<string>> GetPermissions(
             [Parent] UserDetailsDto user, IMediator mediator)
         {
