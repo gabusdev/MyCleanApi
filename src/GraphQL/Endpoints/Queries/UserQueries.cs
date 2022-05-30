@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared.Authorization;
 
-namespace GraphQL.Queries
+namespace GraphQL.Endpoints.Queries
 {
     [ExtendObjectType(OperationTypeNames.Query)]
     public class UserQueries

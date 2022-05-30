@@ -1,9 +1,9 @@
 ﻿using Application.Common.Events;
-using GraphQL.Mutations;
-using GraphQL.Queries;
+using GraphQL.Endpoints.Mutations;
+using GraphQL.Endpoints.Queries;
+using GraphQL.Endpoints.Subscriptions;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL.Services;
-using GraphQL.Subscriptions;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;

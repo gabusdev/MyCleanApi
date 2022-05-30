@@ -1,7 +1,7 @@
 ﻿using Application.Identity.Users.UserQueries;
 using Domain.Events;
 
-namespace GraphQL.Subscriptions
+namespace GraphQL.Endpoints.Subscriptions
 {
     [ExtendObjectType(OperationTypeNames.Subscription)]
     public class UserSubscriptions
