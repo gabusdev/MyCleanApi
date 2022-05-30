@@ -1,8 +1,10 @@
-﻿using Application.Identity.Users.UserQueries;
+﻿using Application.Common.Exceptions;
+using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
 using GraphQL.Permissions;
+using HotChocolate.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared.Authorization;
@@ -20,8 +22,13 @@ namespace GraphQL.Endpoints.Queries
         public async Task<List<UserDetailsDto>> GetUsers(IMediator mediator,
         CancellationToken ct, [Service] ILogger<UserQueries> _log)
         {
+            throw new ForbiddenException("Forbidden papu");
             _log.LogInformation("Testing Logging");
             return await mediator.Send(new GetAllUsersQuery(), ct);
+        }
+        public string Test()
+        {
+            return "Hi";
         }
 
     }
@@ -30,6 +37,7 @@ namespace GraphQL.Endpoints.Queries
     public class UserExtension
     {
         //[Authorize]
+        [UseFiltering]
         public async Task<List<UserRoleDto>> GetRoles(
             [Parent] UserDetailsDto user, IMediator mediator)
         {
@@ -45,7 +53,7 @@ namespace GraphQL.Endpoints.Queries
             return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());*/
             return new List<UserRoleDto>();
         }
-        [UseFiltering]
+        
         public async Task<List<string>> GetPermissions(
             [Parent] UserDetailsDto user, IMediator mediator)
         {

@@ -2,6 +2,8 @@
 using GraphQL.Endpoints.Mutations;
 using GraphQL.Endpoints.Queries;
 using GraphQL.Endpoints.Subscriptions;
+using GraphQL.ErrorFilters;
+using GraphQL.Interceptors;
 using GraphQL.Server.Ui.Voyager;
 using GraphQL.Services;
 using MediatR;
@@ -25,8 +27,12 @@ namespace GraphQL
                 .AddFiltering()
                 .AddSorting()
                 .AddProjections()
+                .AddErrorFilter<GQLErrorFilter>()
 
                 .RegisterService<IMediator>(ServiceKind.Synchronized)
+
+                .AddSocketSessionInterceptor<SocketSubscriptionInterceptor>()
+                .AddHttpRequestInterceptor<QueryLoggerInterceptor>()
 
                 .AddTypeExtension<UserQueries>()
                 .AddTypeExtension<UserExtension>()
