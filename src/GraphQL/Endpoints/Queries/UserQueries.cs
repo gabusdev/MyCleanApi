@@ -4,7 +4,6 @@ using Application.Identity.Users.UserQueries.GetAll;
 using Application.Identity.Users.UserQueries.GetUserPermissions;
 using Application.Identity.Users.UserQueries.GetUserRoles;
 using GraphQL.Permissions;
-using HotChocolate.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Shared.Authorization;
@@ -53,7 +52,7 @@ namespace GraphQL.Endpoints.Queries
             return await mediator.Send(new GetUserRolesQuery() { UserId = id }, new CancellationToken());*/
             return new List<UserRoleDto>();
         }
-        
+
         public async Task<List<string>> GetPermissions(
             [Parent] UserDetailsDto user, IMediator mediator)
         {

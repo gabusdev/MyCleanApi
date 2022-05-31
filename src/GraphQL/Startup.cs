@@ -1,4 +1,5 @@
-﻿using Application.Common.Events;
+﻿#region Includes
+using Application.Common.Events;
 using GraphQL.Endpoints.Mutations;
 using GraphQL.Endpoints.Queries;
 using GraphQL.Endpoints.Subscriptions;
@@ -9,6 +10,7 @@ using GraphQL.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+#endregion
 
 namespace GraphQL
 {
@@ -51,8 +53,8 @@ namespace GraphQL
 
             return app.UseGraphQLVoyager(new VoyagerOptions()
             {
-                GraphQLEndPoint = "/graphql"
-            }, "/graphql-voyager");
+                GraphQLEndPoint = "/api/graphql"
+            }, "/api/graphql-voyager");
         }
     }
 }
