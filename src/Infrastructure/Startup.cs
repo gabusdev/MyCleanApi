@@ -3,6 +3,7 @@ using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
 using Infrastructure.Common;
+using Infrastructure.Cors;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -30,7 +31,8 @@ namespace Infrastructure
                 .AddExceptionMiddleware()
                 .AddJsonLocalization()
                 .AddOpenApi()
-                .AddMyApiVersioning();
+                .AddMyApiVersioning()
+                .AddCorsPolicy(config);
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
@@ -41,7 +43,8 @@ namespace Infrastructure
                 .UseLocalization()
                 .UseOpenApi(development)
                 .UseMyResponseCaching()
-                .UseRateLimit();
+                .UseRateLimit()
+                .UseCorsPolicy();
         }
     }
 }
