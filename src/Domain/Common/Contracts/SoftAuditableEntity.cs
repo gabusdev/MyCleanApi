@@ -1,4 +1,4 @@
-﻿namespace Domain.Common;
+﻿namespace Domain.Common.Contracts;
 
 public class SoftAuditableEntity : SoftAuditableEntity<string> { }
 

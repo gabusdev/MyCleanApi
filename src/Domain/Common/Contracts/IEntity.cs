@@ -1,4 +1,4 @@
-﻿namespace Domain.Common
+﻿namespace Domain.Common.Contracts
 {
     public interface IEntity : IEntity<string> { }
     public interface IEntity<T>

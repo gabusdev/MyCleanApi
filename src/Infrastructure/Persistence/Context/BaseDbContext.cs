@@ -1,6 +1,6 @@
 ﻿using Application.Common.Events;
 using Application.Common.Interfaces;
-using Domain.Common;
+using Domain.Common.Contracts;
 using Infrastructure.Identity.Role;
 using Infrastructure.Identity.User;
 using Microsoft.AspNetCore.Identity;

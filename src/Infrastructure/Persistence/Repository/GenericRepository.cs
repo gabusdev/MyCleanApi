@@ -2,7 +2,7 @@
 using Application.Common.Pagination;
 using Application.Common.Persistence;
 using Application.Common.Specification;
-using Domain.Common;
+using Domain.Common.Contracts;
 using Infrastructure.Common.Extensions;
 using Infrastructure.Common.Specification;
 using Infrastructure.Persistence.Context;

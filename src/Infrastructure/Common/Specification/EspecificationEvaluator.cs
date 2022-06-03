@@ -1,5 +1,5 @@
 ﻿using Application.Common.Specification;
-using Domain.Common;
+using Domain.Common.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Common.Specification;

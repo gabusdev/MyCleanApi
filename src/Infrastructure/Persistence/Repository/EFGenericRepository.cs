@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Pagination;
 using Application.Common.Persistence;
-using Domain.Common;
+using Domain.Common.Contracts;
 using Infrastructure.Common.Extensions;
 using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;

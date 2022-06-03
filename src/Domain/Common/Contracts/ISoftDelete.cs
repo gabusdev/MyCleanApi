@@ -1,4 +1,4 @@
-namespace Domain.Common;
+namespace Domain.Common.Contracts;
 
 public interface ISoftDelete : ISoftDelete<string> { }
 public interface ISoftDelete<T>

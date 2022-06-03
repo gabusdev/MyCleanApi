@@ -12,7 +12,7 @@
 - [ ] ~~Abstracting Serilog to Logger~~
 - [ ] Document the Project
 - [ ] Add Grafana & Prometeus
-- [ ] Adding Search Filters
+- [x] Adding Search Filters
 - [ ] Add a Home Page to the API
 - [ ] Make All Rest Responses the Same
 - [x] Configure Cors

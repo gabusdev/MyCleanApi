@@ -1,4 +1,6 @@
-﻿namespace Domain.Events;
+﻿using Domain.Common.Contracts;
+
+namespace Domain.Events;
 
 public class UserCreatedEvent : DomainEvent
 {

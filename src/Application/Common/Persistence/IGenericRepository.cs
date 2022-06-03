@@ -1,5 +1,5 @@
 ﻿using Application.Common.Pagination;
-using Domain.Common;
+using Domain.Common.Contracts;
 using System.Linq.Expressions;
 
 namespace Application.Common.Persistence;

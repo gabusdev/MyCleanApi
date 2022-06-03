@@ -1,5 +1,5 @@
 ﻿using Application.Common.Events;
-using Domain.Common;
+using Domain.Common.Contracts;
 using MediatR;
 
 namespace Infrastructure.Common.Services;

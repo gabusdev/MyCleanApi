@@ -1,6 +1,6 @@
 ﻿using Application.Common.Pagination;
 using Application.Common.Specification;
-using Domain.Common;
+using Domain.Common.Contracts;
 
 namespace Application.Common.Persistence;
 public interface IGenericReposotory2<T> where T : IEntity

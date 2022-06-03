@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities
+﻿using Domain.Common.Contracts;
+
+namespace Domain.Entities
 {
     public interface IApplicationUser : IAuditableEntity, IEntity
     {
