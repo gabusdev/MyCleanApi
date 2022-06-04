@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 
@@ -46,6 +47,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpGet("versions")]
+        [HttpCacheIgnore]
         public string SayVersion()
         {
             return "Hello from Version 1";

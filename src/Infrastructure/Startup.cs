@@ -29,7 +29,7 @@ namespace Infrastructure
                 .AddMailing(config)
                 .AddIdentity(config)
                 .AddAuth(config)
-                .AddExceptionMiddleware()
+                .AddCustomMiddlewares()
                 .AddJsonLocalization()
                 .AddOpenApi()
                 .AddMyApiVersioning()
@@ -39,15 +39,15 @@ namespace Infrastructure
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
             return app
-                .UseBackgroundJobs(config)
-                .UseExceptionMiddleware()
-                .UseAuth()
-                .UseLocalization()
-                .UseOpenApi(development)
-                .UseMyResponseCaching()
+                .UseCustomMiddlewares()
                 .UseRateLimit()
+                .UseLocalization()
+                .UseBackgroundJobs(config)
                 .UseCorsPolicy()
-                .UseFileStorage();
+                .UseMyResponseCaching()
+                .UseFileStorage()
+                .UseAuth()
+                .UseOpenApi(development);
         }
     }
 }

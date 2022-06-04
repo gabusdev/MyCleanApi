@@ -22,8 +22,8 @@ namespace WebApi
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config, bool development)
         {
-            app.UseRouting();
             app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseInfraestructure(config, development);
             app.UseMyGraphQL();
 
