@@ -16,7 +16,7 @@
 - [ ] Add a Home Page to the API
 - [ ] Make All Rest Responses the Same
 - [x] Configure Cors
-- [ ] Add Exports
+- [x] Add Exports
   - To Excel
-  - To Pdf
+  - ~~To Pdf~~
 - [ ] Dockerize The App
