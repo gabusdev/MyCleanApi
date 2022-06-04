@@ -6,6 +6,8 @@ public enum FileType
 {
     [Description(".jpg,.png,.jpeg")]
     Image,
-    [Description(".txt,.doc,.docx,.pdf")]
-    Document
+    [Description(".pdf")]
+    Application,
+    [Description(".txt,.plain")]
+    Text
 }

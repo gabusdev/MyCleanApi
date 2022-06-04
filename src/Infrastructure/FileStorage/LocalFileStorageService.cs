@@ -25,11 +25,18 @@ public class LocalFileStorageService : IFileStorageService
         if (request.Name is null)
             throw new InvalidOperationException("Name is required.");
 
-        // Check if Base64 String Extension == File Extension provided
-        if (!CheckExtension(request.Data, request.Extension))
-            throw new InvalidOperationException("The File Extensions provided do not match.");
+        var fileData = Regex.Match(request.Data, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)");
+        string type = fileData.Groups["type"].Value;
+        string extension = fileData.Groups["extension"].Value;
+        string base64Data = fileData.Groups["data"].Value;
 
-        string base64Data = Regex.Match(request.Data, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)").Groups["data"].Value;
+        // Check if Base64 String Type is supported
+        if (!CheckType(type))
+            throw new InvalidOperationException("The File Type provided is not supported.");
+
+        // Check if Base64 String Extension == File Extension provided
+        if (!CheckExtension(extension, request.Extension))
+            throw new InvalidOperationException("The File Extensions provided do not match.");
 
         var streamData = new MemoryStream(Convert.FromBase64String(base64Data));
 
@@ -139,15 +146,18 @@ public class LocalFileStorageService : IFileStorageService
         return string.Format(pattern, max);
     }
 
-    private static bool IsBase64String(string base64)
+    private bool CheckType(string base64Type)
     {
-        Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
-        return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+        foreach (var item in Enum.GetNames(typeof(FileType)))
+        {
+            if (item.ToLower() == base64Type.ToLower())
+                return true;
+        }
+        return false;
     }
 
-    private bool CheckExtension(string base64, string extension)
+    private bool CheckExtension(string base64Extension, string extension)
     {
-        var baseExtension = Regex.Match(base64, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)").Groups["extension"].Value;
-        return baseExtension == extension[1..];
+        return base64Extension.ToLower() == extension[1..].ToLower();
     }
 }
