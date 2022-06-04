@@ -1,4 +1,5 @@
 ﻿using Application.Common.Caching;
+using Application.Common.Exporters;
 using Application.Common.FileStorage;
 using Application.Common.Persistence;
 using Domain.Common;
@@ -14,11 +15,14 @@ namespace WebApi.Controllers.v2
         private readonly ICacheService _cache;
         private readonly IDapperService _dapper;
         private readonly IFileStorageService _fService;
-        public TestController(ICacheService cache, IDapperService dapper, IFileStorageService fService)
+        private readonly IExcelWriter _excelWriter;
+        public TestController(ICacheService cache, IDapperService dapper, IFileStorageService fService,
+            IExcelWriter excelWriter)
         {
             _cache = cache;
             _dapper = dapper;
             _fService = fService;
+            _excelWriter = excelWriter;
         }
 
         [HttpGet("versions")]
@@ -45,6 +49,14 @@ namespace WebApi.Controllers.v2
         {
             var result = await _fService.UploadAsync<string>(req, FileType.Image);
             return result;
+        }
+
+        [HttpGet("test-excel")]
+        public async Task<FileResult> Excel()
+        {
+            var x = await _dapper.QueryAsync<ApplicationUser>("select * from AspNetUsers");
+            var result = _excelWriter.WriteToStream(x.ToList());
+            return File(result, "application/octet-stream", "ProductExports.xlsx");
         }
     }
 }
