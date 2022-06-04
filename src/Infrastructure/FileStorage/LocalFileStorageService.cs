@@ -11,6 +11,10 @@ public class LocalFileStorageService : IFileStorageService
     public async Task<string> UploadAsync<T>(FileUploadRequest? request, FileType supportedFileType, CancellationToken cancellationToken = default)
     where T : class
     {
+        // Max Size in bytes
+        int maxZise = 5_000_000;
+
+
         if (request == null || request.Data == null)
         {
             return string.Empty;
@@ -24,6 +28,12 @@ public class LocalFileStorageService : IFileStorageService
         string base64Data = Regex.Match(request.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
 
         var streamData = new MemoryStream(Convert.FromBase64String(base64Data));
+
+        // Check for max File Size
+        if (streamData.Length > maxZise)
+            throw new InvalidOperationException("File Size is too large");
+
+
         if (streamData.Length > 0)
         {
             string folder = typeof(T).Name;
