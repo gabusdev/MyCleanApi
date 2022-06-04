@@ -4,6 +4,7 @@ using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
 using Infrastructure.Common;
 using Infrastructure.Cors;
+using Infrastructure.FileStorage;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -32,7 +33,8 @@ namespace Infrastructure
                 .AddJsonLocalization()
                 .AddOpenApi()
                 .AddMyApiVersioning()
-                .AddCorsPolicy(config);
+                .AddCorsPolicy(config)
+                .AddFileStorageService();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
@@ -44,7 +46,8 @@ namespace Infrastructure
                 .UseOpenApi(development)
                 .UseMyResponseCaching()
                 .UseRateLimit()
-                .UseCorsPolicy();
+                .UseCorsPolicy()
+                .UseFileStorage();
         }
     }
 }

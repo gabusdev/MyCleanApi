@@ -1,5 +1,7 @@
 ﻿using Application.Common.Caching;
+using Application.Common.FileStorage;
 using Application.Common.Persistence;
+using Domain.Common;
 using Infrastructure.Identity.User;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +13,12 @@ namespace WebApi.Controllers.v2
     {
         private readonly ICacheService _cache;
         private readonly IDapperService _dapper;
-        public TestController(ICacheService cache, IDapperService dapper)
+        private readonly IFileStorageService _fService;
+        public TestController(ICacheService cache, IDapperService dapper, IFileStorageService fService)
         {
             _cache = cache;
             _dapper = dapper;
+            _fService = fService;
         }
 
         [HttpGet("versions")]
@@ -35,6 +39,12 @@ namespace WebApi.Controllers.v2
             var param = new { mail = "admin@mail.com" };
             var result = await _dapper.QueryFirstOrDefaultAsync<ApplicationUser>(query, param);
             return Ok(result);
+        }
+        [HttpPost("upload-image")]
+        public async Task<string> Upload(FileUploadRequest req)
+        {
+            var result = await _fService.UploadAsync<string>(req, FileType.Image);
+            return result;
         }
     }
 }
