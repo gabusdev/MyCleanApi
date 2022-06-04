@@ -2,8 +2,10 @@
 using Application.Common.Exporters;
 using Application.Common.FileStorage;
 using Application.Common.Persistence;
+using Application.Identity.Users.UserQueries;
 using Domain.Common;
 using Infrastructure.Identity.User;
+using Mapster;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -55,8 +57,8 @@ namespace WebApi.Controllers.v2
         public async Task<FileResult> Excel()
         {
             var x = await _dapper.QueryAsync<ApplicationUser>("select * from AspNetUsers");
-            var result = _excelWriter.WriteToStream(x.ToList());
-            return File(result, "application/octet-stream", "ProductExports.xlsx");
+            var result = _excelWriter.WriteToStream(x.Adapt<List<UserDetailsDto>>());
+            return File(result, "application/octet-stream", "UsersData.xlsx");
         }
     }
 }
