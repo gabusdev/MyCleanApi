@@ -25,7 +25,11 @@ public class LocalFileStorageService : IFileStorageService
         if (request.Name is null)
             throw new InvalidOperationException("Name is required.");
 
-        string base64Data = Regex.Match(request.Data, "data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+        // Check if Base64 String Extension == File Extension provided
+        if (!CheckExtension(request.Data, request.Extension))
+            throw new InvalidOperationException("The File Extensions provided do not match.");
+
+        string base64Data = Regex.Match(request.Data, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)").Groups["data"].Value;
 
         var streamData = new MemoryStream(Convert.FromBase64String(base64Data));
 
@@ -133,5 +137,17 @@ public class LocalFileStorageService : IFileStorageService
         }
 
         return string.Format(pattern, max);
+    }
+
+    private static bool IsBase64String(string base64)
+    {
+        Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+        return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+    }
+
+    private bool CheckExtension(string base64, string extension)
+    {
+        var baseExtension = Regex.Match(base64, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)").Groups["extension"].Value;
+        return baseExtension == extension[1..];
     }
 }

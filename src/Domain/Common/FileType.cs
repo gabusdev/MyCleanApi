@@ -5,5 +5,7 @@ namespace Domain.Common;
 public enum FileType
 {
     [Description(".jpg,.png,.jpeg")]
-    Image
+    Image,
+    [Description(".txt,.doc,.docx,.pdf")]
+    Document
 }
