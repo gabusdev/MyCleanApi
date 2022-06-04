@@ -1,5 +1,5 @@
 - [ ] Implement GrapQL
-- [ ] Implement File Upload
+- [x] Implement File Upload
   - Store Images
 - [x] Adding More Support for Entity Framework Database
   - Oracle
