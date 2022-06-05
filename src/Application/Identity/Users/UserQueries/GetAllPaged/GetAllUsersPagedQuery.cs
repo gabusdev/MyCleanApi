@@ -18,7 +18,9 @@ namespace Application.Identity.Users.UserQueries.GetAllPaged
 
             public override async Task<PagedList<UserDetailsDto>> Handle(GetAllUsersPagedQuery request, CancellationToken cancellationToken)
             {
-                return await _userService.GetPagedListAsync(request._paginationParams, cancellationToken);
+                var result = await _userService.GetPagedListAsync(request._paginationParams, cancellationToken);
+                result.AddPaginationHeaders(_httpContextService);
+                return result;
             }
         }
     }
