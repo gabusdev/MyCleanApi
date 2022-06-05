@@ -22,6 +22,11 @@ public class PagedList<T> : List<T>
 
     public void AddPaginationHeaders(IHttpContextService contextService)
     {
+        /* TODO
+         *  Make the nav links with domain included
+         *  Maybe Add a Header for each
+        */
+
         var path = contextService.GetPath();
         var links = new Dictionary<string, string>();
 
