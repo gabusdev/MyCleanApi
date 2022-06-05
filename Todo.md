@@ -14,7 +14,7 @@
 - [ ] Add Grafana & Prometeus
 - [x] Adding Search Filters
 - [ ] Add a Home Page to the API
-- [ ] Make All Rest Responses the Same
+- [ ] ~~Make All Rest Responses the Same~~
 - [x] Configure Cors
 - [x] Add Exports
   - To Excel
