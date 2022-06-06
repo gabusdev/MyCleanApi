@@ -16,8 +16,6 @@ var app = builder.Build();
 app.UseConfigurations(builder.Configuration, app.Environment.IsDevelopment());
 // Create and Seed Database
 await app.InitializeAndSeedDatabaseAsync();
-// Add GraphQL Interface
-app.MapGraphQL();
 
 try
 {

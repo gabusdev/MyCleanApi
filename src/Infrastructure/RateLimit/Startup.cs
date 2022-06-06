@@ -25,7 +25,9 @@ internal static class Startup
 
         List<string> endpointWhiteList = new()
         {
-            "*:/graphql/*"
+            "*:/api/graphql/*",
+            "*:/hangfire/*",
+            "*:/api/graphql-voyager/*"
         };
         services.Configure<IpRateLimitOptions>(o =>
         {

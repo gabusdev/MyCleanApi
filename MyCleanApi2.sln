@@ -17,7 +17,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Shared\Shared.csproj", "{4C826B5A-76C5-4FE3-8B00-3586793861A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphQL", "src\GraphQL\GraphQL.csproj", "{BCE3501C-E45F-4B43-AE5A-0B64964EC781}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL", "src\GraphQL\GraphQL.csproj", "{BCE3501C-E45F-4B43-AE5A-0B64964EC781}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B33D9805-FA1A-4C0B-9E54-DAB85253C6B3}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		Todo.md = Todo.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E4762BB2-B387-48C5-B501-4B66A75EFDCD}"
+	ProjectSection(SolutionItems) = preProject
+		docker\docker-compose.yml = docker\docker-compose.yml
+		docker\volumes\prom\prometheus.yml = docker\volumes\prom\prometheus.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +76,7 @@ Global
 		{E5A60FF5-86DB-48F1-9A40-D84A21BF9C7D} = {76458ECB-9691-4A44-8AB6-F7BA06F415DB}
 		{4C826B5A-76C5-4FE3-8B00-3586793861A7} = {76458ECB-9691-4A44-8AB6-F7BA06F415DB}
 		{BCE3501C-E45F-4B43-AE5A-0B64964EC781} = {1FD6940F-AA40-4318-8D7B-5A1B611CA607}
+		{E4762BB2-B387-48C5-B501-4B66A75EFDCD} = {B33D9805-FA1A-4C0B-9E54-DAB85253C6B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D178AEE4-5776-4BF1-9390-F69A8C136E6F}

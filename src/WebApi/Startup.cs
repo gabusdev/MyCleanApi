@@ -2,6 +2,7 @@
 using GraphQL;
 using Hangfire;
 using Infrastructure;
+using Prometheus;
 
 namespace WebApi
 {
@@ -22,8 +23,9 @@ namespace WebApi
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config, bool development)
         {
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseHttpMetrics();
             app.UseInfraestructure(config, development);
             app.UseMyGraphQL();
 
@@ -31,7 +33,8 @@ namespace WebApi
             {
                 endpoints.MapControllers();
                 endpoints.MapHangfireDashboard();
-                //endpoints.MapGraphQL().RequireAuthorization();
+                endpoints.MapGraphQL("/api/graphql")/*.RequireAuthorization()*/;
+                endpoints.MapMetrics();
             });
 
             return app;
