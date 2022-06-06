@@ -5,6 +5,7 @@
 
 # My specific files
 src/WebApi/Files/*
+docker/volumes/grafana-data/*
 
 # User-specific files
 *.rsuser
