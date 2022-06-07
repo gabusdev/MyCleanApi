@@ -5,35 +5,9 @@ namespace Infrastructure.RateLimit;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddRateLimit(this IServiceCollection services, bool useDistributedCache)
+    internal static IServiceCollection AddRateLimit(this IServiceCollection services, IConfiguration conf, bool useDistributedCache = false)
     {
-        var rules = new List<RateLimitRule>
-        {
-            new RateLimitRule
-            {
-                Endpoint = "*",
-                Limit = 5,
-                Period = "10s"
-            },
-            new RateLimitRule
-            {
-                Endpoint = "*",
-                Limit = 20,
-                Period = "1m"
-            }
-        };
-
-        List<string> endpointWhiteList = new()
-        {
-            "*:/api/graphql/*",
-            "*:/hangfire/*",
-            "*:/api/graphql-voyager/*"
-        };
-        services.Configure<IpRateLimitOptions>(o =>
-        {
-            o.GeneralRules = rules;
-            o.EndpointWhitelist = endpointWhiteList;
-        });
+        services.Configure<IpRateLimitOptions>(conf.GetSection("IpRateLimiting"));
 
         services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 

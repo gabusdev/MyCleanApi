@@ -36,7 +36,7 @@ internal static class Startup
             services.AddTransient<ICacheService, LocalCacheService>();
         }
 
-        services.AddRateLimit(settings.UseDistributedCache);
+        services.AddRateLimit(config ,settings.UseDistributedCache);
 
         return services;
     }
