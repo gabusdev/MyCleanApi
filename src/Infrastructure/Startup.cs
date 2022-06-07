@@ -23,7 +23,7 @@ namespace Infrastructure
             return services
                 .AddCommon(config)
                 .AddCaching(config)
-                .AddMyResponseCaching()
+                .AddMyResponseCaching(config)
                 .AddBackgroundJobs(config)
                 .AddPersistence(config)
                 .AddMailing(config)

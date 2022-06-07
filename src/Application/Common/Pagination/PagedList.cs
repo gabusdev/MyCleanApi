@@ -33,7 +33,7 @@ public class PagedList<T> : List<T>
         int previous = HasPrevious ? CurrentPage - 1 : CurrentPage;
         int next = HasNext ? CurrentPage + 1 : CurrentPage;
 
-        links.Add("First",$"{path}?pagesize={PageSize}&pagenumber=1");
+        links.Add("First", $"{path}?pagesize={PageSize}&pagenumber=1");
         links.Add("Last", $"{path}?pagesize={PageSize}&pagenumber={TotalPages}");
         links.Add("Previous", $"{path}?pagesize={PageSize}&pagenumber={previous}");
         links.Add("Next", $"{path}?pagesize={PageSize}&pagenumber={next}");

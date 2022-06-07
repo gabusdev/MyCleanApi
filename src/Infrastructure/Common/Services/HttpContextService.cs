@@ -45,10 +45,10 @@ namespace Infrastructure.Common.Services
 
         public void AddHeaderValue(string headerName, object value)
         {
-            var context = _requestAccesor.HttpContext?? throw new Exception("No Http Context");
-            var valueString = 
-                value.GetType() == typeof(string) 
-                ? value.ToString() 
+            var context = _requestAccesor.HttpContext ?? throw new Exception("No Http Context");
+            var valueString =
+                value.GetType() == typeof(string)
+                ? value.ToString()
                 : JsonConvert.SerializeObject(value);
 
             context.Response.Headers.Add(headerName, valueString);

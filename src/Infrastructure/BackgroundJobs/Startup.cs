@@ -48,7 +48,7 @@ internal static class Startup
     {
         if (dbProvider is null || connectionString is null)
             throw new ArgumentNullException("Either Provider or Connection String for HangFire are null.");
-        
+
         var sqlOptions = new SqlServerStorageOptions
         {
             CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
@@ -87,5 +87,5 @@ internal static class Startup
             _ => throw new Exception($"Hangfire Storage Provider {dbProvider} is not supported.")
         };
     }
-        
+
 }
