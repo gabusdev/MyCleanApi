@@ -11,7 +11,7 @@
   - ~~NoSql~~
 - [ ] ~~Abstracting Serilog to Logger~~
 - [ ] Document the Project
-- [ ] Add Grafana & Prometeus
+- [x] Add Grafana & Prometeus
 - [x] Adding Search Filters
 - [ ] Add a Home Page to the API
 - [ ] ~~Make All Rest Responses the Same~~
