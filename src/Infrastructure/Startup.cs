@@ -40,11 +40,11 @@ namespace Infrastructure
         {
             return app
                 .UseCustomMiddlewares()
+                .UseCorsPolicy()
+                .UseMyResponseCaching()
                 .UseRateLimit()
                 .UseLocalization()
                 .UseBackgroundJobs(config)
-                .UseCorsPolicy()
-                .UseMyResponseCaching()
                 .UseFileStorage()
                 .UseAuth()
                 .UseOpenApi(development);

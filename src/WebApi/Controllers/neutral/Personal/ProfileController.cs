@@ -13,6 +13,7 @@ namespace WebApi.Controllers.neutral.Personal
     public class ProfileController : VersionNeutralApiController
     {
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]
         public async Task<UserDetailsDto> GetProfileAsync(CancellationToken cancellationToken)
         {

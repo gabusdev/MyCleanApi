@@ -8,6 +8,7 @@ using Infrastructure.Identity.User;
 using Mapster;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace WebApi.Controllers.v2
 {
@@ -39,11 +40,14 @@ namespace WebApi.Controllers.v2
             return await _cache.GetOrSetAsync("testeo", async () => await Task.Delay(5000).ContinueWith((t) => "Hola"));
         }
         [HttpGet("dapper")]
+        //[ResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
+        //[HttpCacheExpiration(CacheLocation = CacheLocation.Private, MaxAge = 15)]
         public async Task<ActionResult> TestDapper()
         {
             var query = "select*from AspNetUsers u where u.Email = @mail";
             var param = new { mail = "admin@mail.com" };
             var result = await _dapper.QueryFirstOrDefaultAsync<ApplicationUser>(query, param);
+            Log.Information(">>>>>>> Using Dapper");
             return Ok(result);
         }
         [HttpPost("upload-image")]

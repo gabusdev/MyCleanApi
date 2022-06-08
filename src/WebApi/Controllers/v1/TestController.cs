@@ -40,6 +40,7 @@ namespace WebApi.Controllers.v1
         }
 
         [HttpGet("enviroment")]
+        //[ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public string GetEnviroment()
         {
             var x = Environment.GetEnvironmentVariable("asd", EnvironmentVariableTarget.User);
@@ -51,6 +52,15 @@ namespace WebApi.Controllers.v1
         public string SayVersion()
         {
             return "Hello from Version 1";
+        }
+
+        [HttpGet("response-cache-test")]
+        //[ResponseCache(Duration = 15, Location = ResponseCacheLocation.Any)]
+        
+        [HttpCacheValidation(MustRevalidate = true)]
+        public string ResponseCache()
+        {
+            return DateTime.Now.ToString();
         }
 
     }
