@@ -35,21 +35,38 @@ public class LocalCacheService : ICacheService
         return Task.CompletedTask;
     }
 
-    public void Set<T>(string key, T value, TimeSpan? slidingExpiration = null)
+    public void Set<T>(string key, T value, TimeSpan? slidingExpiration = null, TimeSpan? absoluteExpiration = null)
     {
-        if (slidingExpiration is null)
-        {
-            // TODO: add to appsettings?
-            slidingExpiration = TimeSpan.FromMinutes(10); // Default expiration time of 10 minutes.
-        }
-
-        _cache.Set(key, value, new MemoryCacheEntryOptions { SlidingExpiration = slidingExpiration });
+        _cache.Set(key, value, GetOptions(slidingExpiration, absoluteExpiration));
         Log.Debug($"Added to Cache : {key}", key);
     }
 
-    public Task SetAsync<T>(string key, T value, TimeSpan? slidingExpiration = null, CancellationToken token = default)
+    public Task SetAsync<T>(string key, T value, TimeSpan? slidingExpiration = null, TimeSpan? absoluteExpiration = null, CancellationToken token = default)
     {
-        Set(key, value, slidingExpiration);
+        Set(key, value, slidingExpiration, absoluteExpiration);
         return Task.CompletedTask;
+    }
+
+    private static MemoryCacheEntryOptions GetOptions(TimeSpan? slidingExpiration, TimeSpan? absoluteExpiration)
+    {
+        var options = new MemoryCacheEntryOptions();
+        if (absoluteExpiration.HasValue)
+        {
+            options.SetAbsoluteExpiration(absoluteExpiration.Value);
+        }
+        else
+        {
+            if (slidingExpiration.HasValue)
+            {
+                options.SetSlidingExpiration(slidingExpiration.Value);
+            }
+            else
+            {
+                // TODO: add to appsettings?
+                options.SetSlidingExpiration(TimeSpan.FromMinutes(10)); // Default expiration time of 10 minutes.
+            }
+        }
+
+        return options;
     }
 }

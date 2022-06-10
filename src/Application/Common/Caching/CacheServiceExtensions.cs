@@ -2,7 +2,7 @@ namespace Application.Common.Caching;
 
 public static class CacheServiceExtensions
 {
-    public static T? GetOrSet<T>(this ICacheService cache, string key, Func<T?> getItemCallback, TimeSpan? slidingExpiration = null)
+    public static T? GetOrSet<T>(this ICacheService cache, string key, Func<T?> getItemCallback, TimeSpan? slidingExpiration = null, TimeSpan? absoluteExpiration = null)
     {
         T? value = cache.Get<T>(key);
 
@@ -15,13 +15,13 @@ public static class CacheServiceExtensions
 
         if (value is not null)
         {
-            cache.Set(key, value, slidingExpiration);
+            cache.Set(key, value, slidingExpiration, absoluteExpiration);
         }
 
         return value;
     }
 
-    public static async Task<T?> GetOrSetAsync<T>(this ICacheService cache, string key, Func<Task<T>> getItemCallback, TimeSpan? slidingExpiration = null, CancellationToken cancellationToken = default)
+    public static async Task<T?> GetOrSetAsync<T>(this ICacheService cache, string key, Func<Task<T>> getItemCallback, TimeSpan? slidingExpiration = null, TimeSpan? absoluteExpiration = null, CancellationToken cancellationToken = default)
     {
         T? value = await cache.GetAsync<T>(key, cancellationToken);
 
@@ -34,7 +34,7 @@ public static class CacheServiceExtensions
 
         if (value is not null)
         {
-            await cache.SetAsync(key, value, slidingExpiration, cancellationToken);
+            await cache.SetAsync(key, value, slidingExpiration, absoluteExpiration, cancellationToken);
         }
 
         return value;

@@ -10,6 +10,7 @@ using Application.Identity.Users.UserQueries;
 using Application.Identity.Users.UserQueries.GetAllPaged;
 using Application.Identity.Users.UserQueries.GetById;
 using Application.Identity.Users.UserQueries.GetUserRoles;
+using Infrastructure.ResponseCaching;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,8 @@ public class UserController : VersionNeutralApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
-    public async Task<PagedList<UserDetailsDto>> GetListAsync([FromQuery] PaginationParams pparams, CancellationToken cancellationToken)
+    [ApiResponseCache(Duration = 15, Location = ResponseCacheLocation.Any)]
+    public async Task<ActionResult<PagedList<UserDetailsDto>>> GetListAsync([FromQuery] PaginationParams pparams, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetAllUsersPagedQuery(pparams), cancellationToken);
     }
