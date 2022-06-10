@@ -20,3 +20,5 @@
   - To Excel
   - ~~To Pdf~~
 - [ ] Dockerize The App
+- [ ] Agregar Mensajeria
+- [ ] Arreglar todos los mensajes con Localizacion

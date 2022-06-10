@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Infrastructure.ResponseCaching;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -56,9 +57,11 @@ namespace WebApi.Controllers.v1
 
         [HttpGet("response-cache-test")]
         //[ResponseCache(Duration = 15, Location = ResponseCacheLocation.Any)]
-        
-        [HttpCacheValidation(MustRevalidate = true)]
-        public string ResponseCache()
+        //[ApiResponseCache(Duration = 10, Location = ResponseCacheLocation.Any)]
+        [ApiResponseCache(Duration = 30, Location = ResponseCacheLocation.Any)]
+        //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 10)]
+        //[HttpCacheValidation(MustRevalidate = true)]
+        public ActionResult<string> ResponseCache()
         {
             return DateTime.Now.ToString();
         }
