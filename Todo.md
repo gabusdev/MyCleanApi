@@ -13,12 +13,12 @@
 - [ ] Document the Project
 - [x] Add Grafana & Prometeus
 - [x] Adding Search Filters
-- [ ] Add a Home Page to the API
+- [ ] ~~Add a Home Page to the API~~
 - [ ] ~~Make All Rest Responses the Same~~
 - [x] Configure Cors
 - [x] Add Exports
   - To Excel
   - ~~To Pdf~~
-- [ ] Dockerize The App
+- [x] Dockerize The App
 - [ ] Agregar Mensajeria
 - [ ] Arreglar todos los mensajes con Localizacion

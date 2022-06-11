@@ -29,8 +29,7 @@ public class UserController : VersionNeutralApiController
     [HttpGet]
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [SwaggerOperation("Get Users", "Returns a Lis with All Users")]
-    [ApiResponseCache(Duration = 20, Location = ResponseCacheLocation.Client)]
-    //[ResponseCache(Duration = 15, Location = ResponseCacheLocation.Any)]
+    [ApiResponseCache(Duration = 30, Location = ResponseCacheLocation.Client)]
     public async Task<ActionResult<PagedList<UserDetailsDto>>> GetListAsync([FromQuery] PaginationParams pparams, CancellationToken cancellationToken)
     {
         return await Mediator.Send(new GetAllUsersPagedQuery(pparams), cancellationToken);
