@@ -1,7 +1,4 @@
-﻿using Marvin.Cache.Headers;
-using Microsoft.AspNetCore.Http;
-
-namespace Infrastructure.ResponseCaching
+﻿namespace Infrastructure.ResponseCaching
 {
     public static class Startup
     {

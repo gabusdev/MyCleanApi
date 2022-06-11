@@ -5,7 +5,6 @@ using Application.Common.Persistence;
 using Application.Identity.Users.UserQueries;
 using Domain.Common;
 using Infrastructure.Identity.User;
-using Infrastructure.ResponseCaching;
 using Mapster;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;

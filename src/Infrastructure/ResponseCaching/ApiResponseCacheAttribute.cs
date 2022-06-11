@@ -1,19 +1,13 @@
-﻿using Application.Common.Caching;
-using Application.Common.Interfaces;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.ResponseCaching
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ApiResponseCacheAttribute: Attribute, IAsyncActionFilter
+    public class ApiResponseCacheAttribute : Attribute, IAsyncActionFilter
     {
         public int Duration { get; set; } = 60;
         public ResponseCacheLocation Location { get; set; } = ResponseCacheLocation.Any;
@@ -27,10 +21,10 @@ namespace Infrastructure.ResponseCaching
                 await next();
                 return;
             }
-            
+
             // Get the caching service
-            var cacheService  = context.HttpContext.RequestServices.GetService<IMemoryCache>();
-            
+            var cacheService = context.HttpContext.RequestServices.GetService<IMemoryCache>();
+
             if (cacheService == null)
                 throw new InvalidOperationException("There is No Memory Cache Service Available");
 
@@ -49,13 +43,13 @@ namespace Infrastructure.ResponseCaching
                     return;
                 }
 
-                var cacheResponse = cacheService.Get<ResponseCacheObject>(cacheKey);
+                var cacheResponse = cacheService.Get<ApiResponseCacheObject>(cacheKey);
 
                 if (cacheResponse is not null)
                 {
                     context.Result = cacheResponse.Result;
                     RestoreResponseHeaders(context.HttpContext, cacheResponse.Headers);
-                    
+
                     return;
                 }
             }
@@ -67,7 +61,7 @@ namespace Infrastructure.ResponseCaching
             {
                 GenerateCacheHeaders(context.HttpContext, out etagValue);
 
-                var responseCahce = new ResponseCacheObject
+                var responseCahce = new ApiResponseCacheObject
                 {
                     Result = objectResult,
                     Headers = context.HttpContext.Response.Headers.ToDictionary(
@@ -97,7 +91,7 @@ namespace Infrastructure.ResponseCaching
         {
             var responseHeaders = httpContext.Response.Headers;
 
-            foreach(var header in headers)
+            foreach (var header in headers)
             {
                 responseHeaders.Add(header.Key, header.Value);
             }
@@ -109,7 +103,7 @@ namespace Infrastructure.ResponseCaching
 
             keyBuilder.Append(request.Path.ToString());
 
-            foreach(var (query, value) in request.Query)
+            foreach (var (query, value) in request.Query)
             {
                 keyBuilder.Append($"|{query}-{value}");
             }
@@ -161,9 +155,5 @@ namespace Infrastructure.ResponseCaching
             return $"\"{tag.ToUpper()}\"";
         }
     }
-    public class ResponseCacheObject
-    {
-        public ObjectResult Result { get; set; } = null!;
-        public Dictionary<string, string> Headers { get; set; } = new();
-    }
+
 }
