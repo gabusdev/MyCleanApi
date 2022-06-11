@@ -32,6 +32,7 @@ namespace Infrastructure.ResponseCaching
             }
             );*/
             //services.AddScoped<ApiResponseCacheAttribute>();
+            services.AddMemoryCache();
             return services;
         }
         public static IApplicationBuilder UseMyResponseCaching(this IApplicationBuilder app)

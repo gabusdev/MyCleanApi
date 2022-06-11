@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,55 +21,86 @@ namespace Infrastructure.ResponseCaching
         public ApiResponseCacheAttribute() { }
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            // Exclude caching if is not Get Request
             if (context.HttpContext.Request.Method != HttpMethod.Get.Method)
             {
                 await next();
                 return;
             }
-        
-            #region Services
-                var cacheService  = context.HttpContext.RequestServices.GetService<ICacheService>();
+            
+            // Get the caching service
+            var cacheService  = context.HttpContext.RequestServices.GetService<IMemoryCache>();
             
             if (cacheService == null)
-                throw new InvalidOperationException("There is No Cache Service Available");
+                throw new InvalidOperationException("There is No Memory Cache Service Available");
 
-            var jobService = context.HttpContext.RequestServices.GetService<IJobService>();
-
-            if (jobService == null)
-                throw new InvalidOperationException("There is No Jobs Service Available");
-            #endregion
-
+            // Generate keys based on request endpoint
             string cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
+            string etagKey = GenerateETagKeyFromRequest(context.HttpContext.Request);
+            string etagValue = context.HttpContext.Request.Headers.IfNoneMatch.ToString() ?? "";
 
+            // Search for cahed key if no-cache header is present in request
             if (!context.HttpContext.Request.Headers.CacheControl.Contains("no-cache"))
             {
-                var cacheResponse = await cacheService.GetAsync<string>(cacheKey);
-
-                if (!string.IsNullOrEmpty(cacheResponse))
+                // If there is an Etag for the current Request return 304
+                if (ExistsEtagValueWithKey(etagKey, etagValue, cacheService))
                 {
-                    var contentResult = new ContentResult
-                    {
-                        Content = cacheResponse,
-                        StatusCode = 200
-                    };
+                    context.HttpContext.Response.StatusCode = 304;
+                    return;
+                }
 
-                    context.Result = contentResult;
-                    GenerateCacheHeaders(context.HttpContext);
+                var cacheResponse = cacheService.Get<ResponseCacheObject>(cacheKey);
+
+                if (cacheResponse is not null)
+                {
+                    context.Result = cacheResponse.Result;
+                    RestoreResponseHeaders(context.HttpContext, cacheResponse.Headers);
+                    
                     return;
                 }
             }
 
+            // If not posible to retrieve cache continue and try to cache new response
             var result = await next();
 
             if (result.Result is ObjectResult objectResult && objectResult.StatusCode == 200)
             {
-                await cacheService.SetAsync(cacheKey, objectResult.Value);
-                
-                jobService.Schedule(() => 
-                    cacheService.RemoveAsync(cacheKey, new CancellationToken()),
-                    TimeSpan.FromSeconds(Duration));
+                GenerateCacheHeaders(context.HttpContext, out etagValue);
+
+                var responseCahce = new ResponseCacheObject
+                {
+                    Result = objectResult,
+                    Headers = context.HttpContext.Response.Headers.ToDictionary(
+                        hd => hd.Key, hd => hd.Value.ToString())
+                };
+
+                var cacheOptions = new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(Duration) };
+                cacheService.Set(cacheKey, responseCahce, cacheOptions);
+                cacheService.Set(etagKey, etagValue, cacheOptions);
             }
-            GenerateCacheHeaders(context.HttpContext);
+        }
+
+        private bool ExistsEtagValueWithKey(string etagKey, string etagValue, IMemoryCache cacheService)
+        {
+            if (string.IsNullOrEmpty(etagValue))
+                return false;
+
+            string cacheETagValue = cacheService.Get<string>(etagKey);
+            if (string.IsNullOrEmpty(cacheETagValue) ||
+                cacheETagValue != etagValue)
+                return false;
+
+            return true;
+        }
+
+        private void RestoreResponseHeaders(HttpContext httpContext, Dictionary<string, string> headers)
+        {
+            var responseHeaders = httpContext.Response.Headers;
+
+            foreach(var header in headers)
+            {
+                responseHeaders.Add(header.Key, header.Value);
+            }
         }
 
         private string GenerateCacheKeyFromRequest(HttpRequest request)
@@ -84,7 +116,20 @@ namespace Infrastructure.ResponseCaching
 
             return keyBuilder.ToString();
         }
-        private void GenerateCacheHeaders(HttpContext httpContext)
+        private string GenerateETagKeyFromRequest(HttpRequest request)
+        {
+            var keyBuilder = new StringBuilder("Etag-");
+
+            keyBuilder.Append(request.Path.ToString());
+
+            foreach (var (query, value) in request.Query)
+            {
+                keyBuilder.Append($"|{query}-{value}");
+            }
+
+            return keyBuilder.ToString();
+        }
+        private void GenerateCacheHeaders(HttpContext httpContext, out string eTag)
         {
             var responseHeaders = httpContext.Response.Headers;
 
@@ -106,10 +151,19 @@ namespace Infrastructure.ResponseCaching
             cacheControlBuilder.Append($"max-age={Duration}");
 
             responseHeaders.Add("Cache-Control", cacheControlBuilder.ToString());
+            eTag = GetEtagValue();
+            responseHeaders.Add("Etag", eTag);
         }
-        private void CreateResponse()
-        {
 
+        private string GetEtagValue()
+        {
+            var tag = Guid.NewGuid().ToString().Replace("-", "");
+            return $"\"{tag.ToUpper()}\"";
         }
+    }
+    public class ResponseCacheObject
+    {
+        public ObjectResult Result { get; set; } = null!;
+        public Dictionary<string, string> Headers { get; set; } = new();
     }
 }
