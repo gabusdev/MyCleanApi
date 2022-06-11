@@ -24,6 +24,7 @@ public static class ApiResource
     //public const string Products = nameof(Products);
     //public const string Brands = nameof(Brands);
 
+    public const string Notifications = nameof(Notifications);
     public const string Users = nameof(Users);
     public const string UserRoles = nameof(UserRoles);
     public const string Roles = nameof(Roles);
@@ -55,16 +56,28 @@ public static class ApiPermissions
         new("Update Users", ApiAction.Update, ApiResource.Users),
         new("Delete Users", ApiAction.Delete, ApiResource.Users, IsRoot: true),
         new("Export Users", ApiAction.Export, ApiResource.Users),
+
+        new("View Notifications", ApiAction.View, ApiResource.Users, IsBasic: true),
+        new("Search Notifications", ApiAction.Search, ApiResource.Users),
+        new("Create Notifications", ApiAction.Create, ApiResource.Users),
+        new("Update Notifications", ApiAction.Update, ApiResource.Users),
+        new("Delete Notifications", ApiAction.Delete, ApiResource.Users, IsRoot: true),
+        new("Export Notifications", ApiAction.Export, ApiResource.Users),
+
         new("View UserRoles", ApiAction.View, ApiResource.UserRoles),
         new("Update UserRoles", ApiAction.Update, ApiResource.UserRoles, IsRoot: true),
+
         new("View Roles", ApiAction.View, ApiResource.Roles),
         new("Search Roles", ApiAction.Search, ApiResource.Roles),
         new("Create Roles", ApiAction.Create, ApiResource.Roles, IsRoot: true),
         new("Update Roles", ApiAction.Update, ApiResource.Roles, IsRoot: true),
         new("Delete Roles", ApiAction.Delete, ApiResource.Roles, IsRoot: true),
+
         new("View RoleClaims", ApiAction.View, ApiResource.RoleClaims),
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
+
         new("View Permissions", ApiAction.View, ApiResource.Permisions),
+        
         new("Use Tests Stuff", ApiAction.View, ApiResource.Tests)
 
     };

@@ -9,7 +9,7 @@ using Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repository;
-internal class GenericRepository<T> : IGenericReposotory2<T> where T : class, IEntity
+internal class GenericRepository<T> : IGenericRepository2<T> where T : class, IEntity
 {
     protected readonly ApplicationDbContext _context;
     protected readonly DbSet<T> _db;

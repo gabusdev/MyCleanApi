@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Entities.JoinTables;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Identity.User;
@@ -16,4 +17,10 @@ public class ApplicationUser : IdentityUser, IApplicationUser
     public DateTime CreatedOn { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedOn { get; set; }
+    public virtual ICollection<UserNotification> UserNotifications { get ; set ; }
+
+    public ApplicationUser()
+    {
+        UserNotifications = new HashSet<UserNotification>();
+    }
 }

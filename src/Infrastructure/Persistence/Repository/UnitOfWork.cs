@@ -1,16 +1,20 @@
 ﻿using Application.Common.Persistence;
+using Domain.Entities;
+using Domain.Entities.JoinTables;
 using Infrastructure.Persistence.Context;
 
 namespace Infrastructure.Persistence.Repository;
 
 internal class UnitOfWork : IUnitOfWork
 {
-    // public IGenericRepository<Enitie> Entities { get; set; }
+    public IGenericRepository2<Notification> Notifications { get; set; }
+    public IGenericRepository2<UserNotification> UserNotifications { get; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
-        // Entities ??= new EFGenericRepository<QueryRecord>(_context);
+        Notifications ??= new GenericRepository<Notification>(_context);
+        UserNotifications ??= new GenericRepository<UserNotification>(_context);
     }
 
     public async Task<int> CommitAsync()

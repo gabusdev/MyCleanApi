@@ -3,7 +3,7 @@ using Application.Common.Specification;
 using Domain.Common.Contracts;
 
 namespace Application.Common.Persistence;
-public interface IGenericReposotory2<T> where T : IEntity
+public interface IGenericRepository2<T> where T : IEntity
 {
     Task<IEnumerable<T>> GetAsync(IBaseSpecifications<T>? baseSpecifications = null);
     Task<T?> GetByIdAsync(object id);
