@@ -17,7 +17,7 @@ public class ApplicationUser : IdentityUser, IApplicationUser
     public DateTime CreatedOn { get; set; }
     public string? LastModifiedBy { get; set; }
     public DateTime? LastModifiedOn { get; set; }
-    public virtual ICollection<UserNotification> UserNotifications { get ; set ; }
+    public virtual ICollection<UserNotification> UserNotifications { get; set; }
 
     public ApplicationUser()
     {

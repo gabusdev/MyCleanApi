@@ -7,14 +7,14 @@ namespace Infrastructure.Persistence.Repository;
 
 internal class UnitOfWork : IUnitOfWork
 {
-    public IGenericRepository2<Notification> Notifications { get; set; }
-    public IGenericRepository2<UserNotification> UserNotifications { get; }
+    public IGenericRepository<Notification> Notifications { get; set; }
+    public IGenericRepository<UserNotification> UserNotifications { get; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
-        Notifications ??= new GenericRepository<Notification>(_context);
-        UserNotifications ??= new GenericRepository<UserNotification>(_context);
+        Notifications ??= new EFGenericRepository<Notification>(_context);
+        UserNotifications ??= new EFGenericRepository<UserNotification>(_context);
     }
 
     public async Task<int> CommitAsync()

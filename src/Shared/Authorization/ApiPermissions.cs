@@ -77,7 +77,7 @@ public static class ApiPermissions
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
 
         new("View Permissions", ApiAction.View, ApiResource.Permisions),
-        
+
         new("Use Tests Stuff", ApiAction.View, ApiResource.Tests)
 
     };

@@ -127,6 +127,14 @@ namespace Infrastructure.Persistence.Repository
             return query;
         }
 
+        public IQueryable<T> GetQuery()
+        {
+            return _db.AsQueryable();
+        }
 
+        public async Task<IEnumerable<T>> GetFromQueryAsync(IQueryable<T> query)
+        {
+            return await query.ToListAsync();
+        }
     }
 }

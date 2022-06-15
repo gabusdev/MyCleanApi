@@ -1,13 +1,8 @@
 ﻿using Domain.Common.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities.JoinTables
 {
-    public class UserNotification: IEntity
+    public class UserNotification : IEntity
     {
         public string Id { get; set; } = null!;
         public string DestinationUserId { get; set; } = null!;

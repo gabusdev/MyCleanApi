@@ -1,10 +1,4 @@
 ﻿using Application.Common.Persistence;
-using Application.Common.Specification;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.UserNotifications.Queries.GetUnreadedNotifications;
 
@@ -20,7 +14,7 @@ public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto
         {
             _uow = uow;
         }
-        
+
         public async Task<List<NotificationDto>> Handle(GetUnreadedNotificationsByUserIdQuery request, CancellationToken cancellationToken)
         {
             throw new Exception();

@@ -5,8 +5,8 @@ namespace Application.Common.Persistence;
 
 public interface IUnitOfWork : IDisposable
 {
-    IGenericRepository2<Notification> Notifications { get; }
-    IGenericRepository2<UserNotification> UserNotifications { get; }
+    IGenericRepository<Notification> Notifications { get; }
+    IGenericRepository<UserNotification> UserNotifications { get; }
 
     Task<int> CommitAsync();
 }
