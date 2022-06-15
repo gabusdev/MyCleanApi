@@ -3,6 +3,7 @@ using Application.Common.Exporters;
 using Application.Common.FileStorage;
 using Application.Common.Persistence;
 using Application.Identity.Users.UserQueries;
+using Application.UserNotifications.Queries.GetUnreadedNotifications;
 using Domain.Common;
 using Infrastructure.Identity.User;
 using Mapster;
@@ -63,6 +64,13 @@ namespace WebApi.Controllers.v2
             var x = await _dapper.QueryAsync<ApplicationUser>("select * from AspNetUsers");
             var result = _excelWriter.WriteToStream(x.Adapt<List<UserDetailsDto>>());
             return File(result, "application/octet-stream", "UsersData.xlsx");
+        }
+
+        [HttpGet("notifications-test/{userId}")]
+        public async Task<ActionResult> NotificationsTest(string userId)
+        {
+            var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = userId });
+            return Ok(response);
         }
     }
 }

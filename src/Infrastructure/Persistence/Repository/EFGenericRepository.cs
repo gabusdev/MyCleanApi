@@ -31,7 +31,7 @@ namespace Infrastructure.Persistence.Repository
 
         }
 
-        public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+        public virtual async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>>? filter = null, string includeProperties = "")
         {
             IQueryable<T> query = _db;
 
@@ -39,12 +39,6 @@ namespace Infrastructure.Persistence.Repository
                 query = query.Where(filter);
 
             query = AddIncludes(query, includeProperties);
-
-            if (orderBy != null)
-                if (desc)
-                    query = query.OrderByDescending(orderBy);
-                else
-                    query = query.OrderBy(orderBy);
 
             return await query.ToListAsync();
         }
@@ -59,7 +53,7 @@ namespace Infrastructure.Persistence.Repository
         }
 
         public virtual async Task<PagedList<T>> GetPagedAsync
-            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, string includeProperties = "")
         {
             IQueryable<T> query = _db;
 
@@ -68,19 +62,13 @@ namespace Infrastructure.Persistence.Repository
 
             query = AddIncludes(query, includeProperties);
 
-            if (orderBy != null)
-                if (desc)
-                    query = query.OrderByDescending(orderBy);
-                else
-                    query = query.OrderBy(orderBy);
-
             return await query.ToPagedListAsync(pParams);
         }
         public virtual async Task<PagedList<TDto>> GetPagedAsync<TDto>
-            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, Expression<Func<T, bool>>? orderBy = null, bool desc = false, string includeProperties = "")
+            (PaginationParams pParams, Expression<Func<T, bool>>? filter = null, string includeProperties = "")
             where TDto : IDto
         {
-            var source = await GetPagedAsync(pParams, filter, orderBy, desc);
+            var source = await GetPagedAsync(pParams, filter, includeProperties);
             var result = source.AdaptPagedList<T, TDto>();
             return result;
         }
@@ -134,6 +122,25 @@ namespace Infrastructure.Persistence.Repository
 
         public async Task<IEnumerable<T>> GetFromQueryAsync(IQueryable<T> query)
         {
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetOrderedByAsync<TKey>(Expression<Func<T, bool>>? filter = null, Expression<Func<T, TKey>>? orderBy = null, bool desc = false, string includeProperties = "")
+        {
+            IQueryable<T> query = _db;
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            query = AddIncludes(query, includeProperties);
+
+            if(orderBy != null)
+            {
+                query = desc
+                    ? query.OrderByDescending(orderBy)
+                    : query.OrderBy(orderBy);
+            }
+
             return await query.ToListAsync();
         }
     }

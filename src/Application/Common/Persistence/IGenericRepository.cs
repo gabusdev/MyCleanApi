@@ -6,19 +6,18 @@ namespace Application.Common.Persistence;
 public interface IGenericRepository<T> where T : IEntity
 {
     Task<IEnumerable<T>> GetAsync(
-            Expression<Func<T, bool>>? filter = null,
-            Expression<Func<T, bool>>? orderBy = null, bool desc = false,
-            string includeProperties = "");
+            Expression<Func<T, bool>>? filter = null, string includeProperties = "");
     Task<PagedList<T>> GetPagedAsync(
             PaginationParams pParams,
-            Expression<Func<T, bool>>? filter = null,
-            Expression<Func<T, bool>>? orderBy = null, bool desc = false,
-            string includeProperties = "");
+            Expression<Func<T, bool>>? filter = null, string includeProperties = "");
     Task<PagedList<TDto>> GetPagedAsync<TDto>(
             PaginationParams pParams,
-            Expression<Func<T, bool>>? filter = null,
-            Expression<Func<T, bool>>? orderBy = null, bool desc = false,
-            string includeProperties = "") where TDto : IDto;
+            Expression<Func<T, bool>>? filter = null, string includeProperties = "") where TDto : IDto;
+    Task<IEnumerable<T>> GetOrderedByAsync<TKey>(
+        Expression<Func<T, bool>>? filter = null,
+        Expression<Func<T, TKey>>? orderBy = null, bool desc = false,
+        string includeProperties = "");
+
     Task<T?> GetByIdAsync(object id, string includeProperties = "");
     Task<bool> Exists(Expression<Func<T, bool>> match);
     Task<int> Count(Expression<Func<T, bool>> match);

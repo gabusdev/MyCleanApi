@@ -1,4 +1,5 @@
 ﻿using Application.Common.Persistence;
+using Mapster;
 
 namespace Application.UserNotifications.Queries.GetUnreadedNotifications;
 
@@ -17,10 +18,13 @@ public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto
 
         public async Task<List<NotificationDto>> Handle(GetUnreadedNotificationsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            throw new Exception();
-            /*var source = await _uow.UserNotifications.GetAsync();
-            source.First()
-            return*/
+            var userNotifications = await _uow.UserNotifications.GetOrderedByAsync(
+                un => un.DestinationUserId == request.UserId && un.Readed == false,
+                un => un.Notification.CreatedOn, true, "Notification");
+
+            var notifications = userNotifications.Select(un => un.Notification).ToList();
+
+            return notifications.Adapt<List<NotificationDto>>();
         }
     }
 }
