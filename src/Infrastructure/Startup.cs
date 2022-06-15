@@ -8,6 +8,7 @@ using Infrastructure.FileStorage;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
+using Infrastructure.Mappers;
 using Infrastructure.Middlewares;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
@@ -21,6 +22,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             return services
+                .AddCustomMappers()
                 .AddCommon(config)
                 .AddCaching(config)
                 .AddMyResponseCaching(config)

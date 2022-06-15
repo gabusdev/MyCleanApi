@@ -3,7 +3,7 @@ using Application.Common.Exporters;
 using Application.Common.FileStorage;
 using Application.Common.Persistence;
 using Application.Identity.Users.UserQueries;
-using Application.UserNotifications.Queries.GetUnreadedNotifications;
+using Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Domain.Common;
 using Infrastructure.Identity.User;
 using Mapster;

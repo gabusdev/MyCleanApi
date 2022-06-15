@@ -1,9 +1,6 @@
 ﻿using Application.Common.Persistence;
-using Domain.Entities;
-using Domain.Entities.JoinTables;
-using Mapster;
 
-namespace Application.UserNotifications.Queries.GetUnreadedNotifications;
+namespace Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
 
 public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto>>
 {
@@ -23,8 +20,6 @@ public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto
             var userNotifications = await _uow.UserNotifications.GetOrderedByAsync(
                 un => un.DestinationUserId == request.UserId && un.Readed == false,
                 un => un.Notification.CreatedOn, true, "Notification");
-
-            //var notifications = userNotifications.Select(un => un.Notification).ToList();
 
             return userNotifications.Adapt<List<NotificationDto>>();
         }

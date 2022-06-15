@@ -134,7 +134,7 @@ namespace Infrastructure.Persistence.Repository
 
             query = AddIncludes(query, includeProperties);
 
-            if(orderBy != null)
+            if (orderBy != null)
             {
                 query = desc
                     ? query.OrderByDescending(orderBy)

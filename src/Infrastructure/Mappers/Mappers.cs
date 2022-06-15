@@ -1,13 +1,7 @@
 ﻿using Application.UserNotifications.Queries;
 using Domain.Entities.JoinTables;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Common.Mappers
+namespace Infrastructure.Mappers
 {
     internal static class Mappers
     {
@@ -20,6 +14,6 @@ namespace Application.Common.Mappers
 
             return services;
         }
-        
+
     }
 }
