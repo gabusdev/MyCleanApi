@@ -47,7 +47,9 @@ internal static class Startup
     private static IGlobalConfiguration UseDatabase(this IGlobalConfiguration hangfireConfig, string? dbProvider, string? connectionString)
     {
         if (dbProvider is null || connectionString is null)
+        {
             throw new ArgumentNullException("Either Provider or Connection String for HangFire are null.");
+        }
 
         var sqlOptions = new SqlServerStorageOptions
         {

@@ -105,7 +105,10 @@ namespace Infrastructure.Persistence.Initialization
                 await _roleManager.CreateAsync(role);
             }
             else
+            {
                 role = existingRole;
+            }
+
             await AssignPermissionsToRoleAsync(dbContext, permissions, role);
         }
         private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<ApiPermission> permissions, ApplicationRole role)

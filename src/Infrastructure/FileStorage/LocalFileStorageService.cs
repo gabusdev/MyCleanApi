@@ -21,9 +21,14 @@ public class LocalFileStorageService : IFileStorageService
         }
 
         if (request.Extension is null || !supportedFileType.GetDescriptionList().Contains(request.Extension.ToLower()))
+        {
             throw new InvalidOperationException("File Format Not Supported.");
+        }
+
         if (request.Name is null)
+        {
             throw new InvalidOperationException("Name is required.");
+        }
 
         var fileData = Regex.Match(request.Data, "data:(?<type>.+?)/(?<extension>.+?);base64,(?<data>.+)");
         string type = fileData.Groups["type"].Value;
@@ -32,18 +37,23 @@ public class LocalFileStorageService : IFileStorageService
 
         // Check if Base64 String Type is supported
         if (!CheckType(type))
+        {
             throw new InvalidOperationException("The File Type provided is not supported.");
+        }
 
         // Check if Base64 String Extension == File Extension provided
         if (!CheckExtension(extension, request.Extension))
+        {
             throw new InvalidOperationException("The File Extensions provided do not match.");
+        }
 
         var streamData = new MemoryStream(Convert.FromBase64String(base64Data));
 
         // Check for max File Size
         if (streamData.Length > maxZise)
+        {
             throw new InvalidOperationException("File Size is too large");
-
+        }
 
         if (streamData.Length > 0)
         {
@@ -151,7 +161,9 @@ public class LocalFileStorageService : IFileStorageService
         foreach (var item in Enum.GetNames(typeof(FileType)))
         {
             if (item.ToLower() == base64Type.ToLower())
+            {
                 return true;
+            }
         }
         return false;
     }

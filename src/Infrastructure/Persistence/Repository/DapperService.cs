@@ -6,7 +6,7 @@ namespace Infrastructure.Persistence.Repository;
 
 internal class DapperService : IDapperService
 {
-    private DapperContext _context;
+    private readonly DapperContext _context;
     public DapperService(DapperContext context)
     {
         _context = context;

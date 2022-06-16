@@ -31,7 +31,11 @@ internal class ExceptionMiddleware : IMiddleware
         {
             string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
             var userId = _currentUser.GetUserId();
-            if (userId != string.Empty) LogContext.PushProperty("UserId", userId);
+            if (userId != string.Empty)
+            {
+                LogContext.PushProperty("UserId", userId);
+            }
+
             LogContext.PushProperty("UserEmail", email);
 
             string errorId = Guid.NewGuid().ToString();
@@ -76,7 +80,9 @@ internal class ExceptionMiddleware : IMiddleware
             }
 
             if (exception is not ValidationException)
+            {
                 Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
+            }
 
             var json = JsonConvert.SerializeObject(errorResult, new JsonSerializerSettings
             {

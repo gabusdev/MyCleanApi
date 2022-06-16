@@ -24,7 +24,9 @@ namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
             {
                 var currentUserId = _currentUserService.GetUserId();
                 if (currentUserId == null)
+                {
                     throw new ForbiddenException("Dont Have Permissions to do this action");
+                }
 
                 var newNotification = new Notification
                 {
@@ -34,7 +36,9 @@ namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
 
                 var result = await _uow.Notifications.InsertAsync(newNotification);
                 if (!result)
+                {
                     throw new InternalServerException("Could not create Notification");
+                }
 
                 var users = await _userService.GetListAsync(new CancellationToken());
 
@@ -51,7 +55,9 @@ namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
 
                     result = await _uow.UserNotifications.InsertAsync(userNotification);
                     if (!result)
+                    {
                         throw new InternalServerException("Could not create Notification");
+                    }
                 }
 
                 await _uow.CommitAsync();

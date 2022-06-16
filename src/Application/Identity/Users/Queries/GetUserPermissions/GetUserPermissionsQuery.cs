@@ -10,7 +10,7 @@
             {
             }
 
-            public async override Task<List<string>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
+            public override async Task<List<string>> Handle(GetUserPermissionsQuery request, CancellationToken cancellationToken)
             {
                 if (request.UserId is not null &&
                    await _userService.GetAsync(request.UserId, cancellationToken) is var user)

@@ -55,7 +55,9 @@ internal class JsonStringLocalizer : IStringLocalizer
             {
                 // Check if the token matches the property name
                 if (reader.TokenType != JsonToken.PropertyName)
+                {
                     continue;
+                }
 
                 // Read the key value as a string (might return null)
                 string key = reader.Value as string ?? string.Empty;
@@ -75,8 +77,15 @@ internal class JsonStringLocalizer : IStringLocalizer
     private string? GetJsonValue(string propertyName, string filePath)
     {
         // If the properte and filepath is null, return null
-        if (propertyName == null) return default;
-        if (filePath == null) return default;
+        if (propertyName == null)
+        {
+            return default;
+        }
+
+        if (filePath == null)
+        {
+            return default;
+        }
 
         // Let's read some text from the JSON file
         using (var str = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -114,13 +123,19 @@ internal class JsonStringLocalizer : IStringLocalizer
             string? cacheValue = _cache.Get<string>(cacheKey);
 
             // If the string is not null/empty then return the already cached value
-            if (!string.IsNullOrEmpty(cacheValue)) return cacheValue;
+            if (!string.IsNullOrEmpty(cacheValue))
+            {
+                return cacheValue;
+            }
 
             // If the string was null, then we look up the property in the JSON file
             string? result = GetJsonValue(key, filePath: Path.GetFullPath(relativeFilePath));
 
             // If we find the property inside the JSON file we update the cache with that result
-            if (!string.IsNullOrEmpty(result)) _cache.GetOrSet(cacheKey, () => result);
+            if (!string.IsNullOrEmpty(result))
+            {
+                _cache.GetOrSet(cacheKey, () => result);
+            }
 
             // Return the found string
             return result;

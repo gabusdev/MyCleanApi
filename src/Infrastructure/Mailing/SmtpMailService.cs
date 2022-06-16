@@ -25,31 +25,41 @@ public class SmtpMailService : IMailService
 
             // To
             foreach (string address in request.To)
+            {
                 email.To.Add(MailboxAddress.Parse(address));
+            }
 
             // Reply To
             if (!string.IsNullOrEmpty(request.ReplyTo))
+            {
                 email.ReplyTo.Add(new MailboxAddress(request.ReplyToName, request.ReplyTo));
+            }
 
             // Bcc
             if (request.Bcc != null)
             {
                 foreach (string address in request.Bcc.Where(bccValue => !string.IsNullOrWhiteSpace(bccValue)))
+                {
                     email.Bcc.Add(MailboxAddress.Parse(address.Trim()));
+                }
             }
 
             // Cc
             if (request.Cc != null)
             {
                 foreach (string? address in request.Cc.Where(ccValue => !string.IsNullOrWhiteSpace(ccValue)))
+                {
                     email.Cc.Add(MailboxAddress.Parse(address.Trim()));
+                }
             }
 
             // Headers
             if (request.Headers != null)
             {
                 foreach (var header in request.Headers)
+                {
                     email.Headers.Add(header.Key, header.Value);
+                }
             }
 
             // Content
@@ -62,7 +72,9 @@ public class SmtpMailService : IMailService
             if (request.AttachmentData != null)
             {
                 foreach (var attachmentInfo in request.AttachmentData)
+                {
                     builder.Attachments.Add(attachmentInfo.Key, attachmentInfo.Value);
+                }
             }
 
             email.Body = builder.ToMessageBody();

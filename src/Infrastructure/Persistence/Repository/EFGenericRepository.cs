@@ -36,7 +36,9 @@ namespace Infrastructure.Persistence.Repository
             IQueryable<T> query = _db;
 
             if (filter != null)
+            {
                 query = query.Where(filter);
+            }
 
             query = AddIncludes(query, includeProperties);
 
@@ -58,7 +60,9 @@ namespace Infrastructure.Persistence.Repository
             IQueryable<T> query = _db;
 
             if (filter != null)
+            {
                 query = query.Where(filter);
+            }
 
             query = AddIncludes(query, includeProperties);
 
@@ -97,7 +101,9 @@ namespace Infrastructure.Persistence.Repository
         public virtual void Delete(T? t)
         {
             if (t != null)
+            {
                 _db.Remove(t);
+            }
         }
 
         public virtual void DeleteRange(IEnumerable<T> entities)
@@ -130,7 +136,9 @@ namespace Infrastructure.Persistence.Repository
             IQueryable<T> query = _db;
 
             if (filter != null)
+            {
                 query = query.Where(filter);
+            }
 
             query = AddIncludes(query, includeProperties);
 

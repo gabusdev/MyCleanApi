@@ -14,7 +14,7 @@ public class ChangePasswordCommand : ICommand
             _currentUser = currentUser;
         }
 
-        public async override Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
             await _userService.ChangePasswordAsync(request, _currentUser.GetUserId());
             return Unit.Value;

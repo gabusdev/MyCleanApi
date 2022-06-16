@@ -17,9 +17,11 @@
         public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app, bool development)
         {
             if (development)
+            {
                 app
                     .UseSwagger()
                     .UseSwaggerUI();
+            }
 
             return app;
         }

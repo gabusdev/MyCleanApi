@@ -15,7 +15,9 @@ namespace Infrastructure.Identity
 
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded)
+            {
                 throw new ConflictException(_localizer["generic.error"]);
+            }
         }
         public async Task<string> ForgotPasswordAsync(ForgotPasswordQuery request, string origin)
         {
@@ -44,7 +46,9 @@ namespace Infrastructure.Identity
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
             if (!result.Succeeded)
+            {
                 throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
+            }
         }
     }
 }

@@ -51,7 +51,9 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
+            {
                 throw new NotFoundException(_localizer["identity.usernotfound"]);
+            }
 
             ChangeUserData(user, request);
 
@@ -68,10 +70,15 @@ namespace Infrastructure.Identity
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user is null)
+            {
                 throw new NotFoundException(_localizer["identity.usernotfound"]);
+            }
+
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
+            {
                 throw new ConflictException(_localizer["entity.delete.failed", userId]);
+            }
         }
 
         private static void ChangeUserData(ApplicationUser user, UpdateUserRequest updateRequest)

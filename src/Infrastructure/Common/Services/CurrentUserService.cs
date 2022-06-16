@@ -9,7 +9,7 @@ public class CurrentUserService : ICurrentUserService
 {
     private readonly IHttpContextAccessor _httpContextAccesor;
 
-    private ClaimsPrincipal? _user;
+    private readonly ClaimsPrincipal? _user;
 
     public CurrentUserService(IHttpContextAccessor httpContextAccesor)
     {
@@ -19,7 +19,7 @@ public class CurrentUserService : ICurrentUserService
 
     public string? Name => _user?.Identity?.Name;
 
-    private string _userId = string.Empty;
+    private readonly string _userId = string.Empty;
 
     public string GetUserId() =>
         IsAuthenticated()

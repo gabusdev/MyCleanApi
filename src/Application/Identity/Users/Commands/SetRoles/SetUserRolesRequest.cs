@@ -19,7 +19,7 @@ public class SetUserRolesRequest
             _currentUser = currentUser;
         }
 
-        public async override Task<Unit> Handle(SetUserRolesCommand request, CancellationToken cancellationToken)
+        public override async Task<Unit> Handle(SetUserRolesCommand request, CancellationToken cancellationToken)
         {
             var current = _currentUser.GetUserId();
             var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
@@ -30,9 +30,13 @@ public class SetUserRolesRequest
             if (objectiveIsAdmin)
             {
                 if (!currentIsAdmin)
+                {
                     throw new ForbiddenException("Not Enough Permissions");
+                }
                 else
+                {
                     request.UserRoles = request.UserRoles.Where(ur => ur.RoleName != ApiRoles.Admin).ToList();
+                }
             }
             else
             {

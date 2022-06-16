@@ -26,7 +26,9 @@ namespace Infrastructure.ResponseCaching
             var cacheService = context.HttpContext.RequestServices.GetService<IMemoryCache>();
 
             if (cacheService == null)
+            {
                 throw new InvalidOperationException("There is No Memory Cache Service Available");
+            }
 
             // Generate keys based on request endpoint
             string cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
@@ -77,12 +79,16 @@ namespace Infrastructure.ResponseCaching
         private bool ExistsEtagValueWithKey(string etagKey, string etagValue, IMemoryCache cacheService)
         {
             if (string.IsNullOrEmpty(etagValue))
+            {
                 return false;
+            }
 
             string cacheETagValue = cacheService.Get<string>(etagKey);
             if (string.IsNullOrEmpty(cacheETagValue) ||
                 cacheETagValue != etagValue)
+            {
                 return false;
+            }
 
             return true;
         }

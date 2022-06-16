@@ -12,7 +12,7 @@
                 _currentUser = currentUser;
             }
 
-            public async override Task<List<UserRoleDto>> Handle(GetUserRolesQuery request, CancellationToken cancellationToken)
+            public override async Task<List<UserRoleDto>> Handle(GetUserRolesQuery request, CancellationToken cancellationToken)
             {
                 /*
                 var current = _currentUser.GetUserId();
