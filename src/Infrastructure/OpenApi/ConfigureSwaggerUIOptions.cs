@@ -26,6 +26,7 @@ namespace Infrastructure.OpenApi
                     $"/swagger/{description.GroupName}/swagger.json",
                     description.GroupName.ToUpperInvariant());
             }
+            options.RoutePrefix = "dev/swagger";
         }
     }
 }
