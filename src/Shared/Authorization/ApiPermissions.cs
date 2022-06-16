@@ -17,13 +17,6 @@ public static class ApiAction
 
 public static class ApiResource
 {
-    //public const string Tenants = nameof(Tenants);
-    //public const string Dashboard = nameof(Dashboard);
-    //public const string Hangfire = nameof(Hangfire);
-
-    //public const string Products = nameof(Products);
-    //public const string Brands = nameof(Brands);
-
     public const string Notifications = nameof(Notifications);
     public const string Users = nameof(Users);
     public const string UserRoles = nameof(UserRoles);
