@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 namespace Application.Common.Behaviors;
 
+// This Class Notifies in the Log if any Request Takes too long in the server to be handled
+
 public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly Stopwatch _timer;

@@ -2,6 +2,8 @@ using System.Security.Claims;
 
 namespace Application.Common.Interfaces;
 
+// Interface To Access Data from Current User
+
 public interface ICurrentUserService
 {
     string? Name { get; }

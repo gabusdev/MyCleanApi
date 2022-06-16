@@ -31,7 +31,7 @@ namespace Infrastructure.Identity
             string passwordResetUrl = QueryHelpers.AddQueryString(endpointUri.ToString(), "Token", token);
             var mailRequest = new MailRequest(
                 new List<string> { request.Email },
-                _localizer["Reset Password"],
+                _localizer["account.resset.pssw"],
                 _localizer[$"Your Password Reset Token is '{token}'. You can reset your password using the {passwordResetUrl} Endpoint."]);
 
             _jobService.Enqueue(() => _mailService.SendAsync(mailRequest));

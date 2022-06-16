@@ -16,7 +16,7 @@ namespace Application.Identity.Users.EventHandler
         {
             Log.Information($"--->Event<--- Created new User: {@event.Item.UserName}");
 
-            var user = await _userService.GetAsync(@event.Item.Id, cancellationToken);
+            var user = await _userService.GetByIdAsync(@event.Item.Id, cancellationToken);
             await _gqlSender.SendAsync(nameof(UserCreatedEvent), user);
         }
     }

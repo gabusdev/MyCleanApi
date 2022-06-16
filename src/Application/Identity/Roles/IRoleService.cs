@@ -9,8 +9,8 @@ public interface IRoleService
     Task<bool> ExistsAsync(string roleName, string? excludeId);
 
     Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken);
-    Task<RoleDto> GetByIdAsync(string id);
-    Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken);
+    Task<RoleDto?> GetByIdAsync(string id);
+    Task<RoleDto?> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken);
 
     Task<int> GetCountAsync(CancellationToken cancellationToken);
     Task<IEnumerable<UserDetailsDto>> GetUsersByIdAsync(string roleId);

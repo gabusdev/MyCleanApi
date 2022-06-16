@@ -40,7 +40,7 @@ namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
                     throw new InternalServerException("Could not create Notification");
                 }
 
-                var users = await _userService.GetListAsync(new CancellationToken());
+                var users = await _userService.GetAsync(new CancellationToken());
 
                 foreach (var user in users)
                 {

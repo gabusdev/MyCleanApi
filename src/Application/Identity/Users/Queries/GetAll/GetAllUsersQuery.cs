@@ -10,7 +10,7 @@
 
             public override async Task<List<UserDetailsDto>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
             {
-                return await _userService.GetListAsync(cancellationToken);
+                return await _userService.GetAsync(cancellationToken);
             }
         }
     }

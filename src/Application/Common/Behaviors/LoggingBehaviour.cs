@@ -4,6 +4,8 @@ using Serilog;
 
 namespace Application.Common.Behaviors;
 
+// This Class Keeps Track of The Mediator Requests in the Log
+
 public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
 {
     private readonly ICurrentUserService _currentUserService;

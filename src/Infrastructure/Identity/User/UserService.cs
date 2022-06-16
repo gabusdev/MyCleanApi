@@ -65,12 +65,11 @@ namespace Infrastructure.Identity
             return await _userManager.Users.FirstOrDefaultAsync(x => x.PhoneNumber == phoneNumber) is ApplicationUser user && user.Id != exceptId;
         }
 
-        public async Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken)
+        public async Task<UserDetailsDto?> GetByIdAsync(string userId, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            _ = user ?? throw new NotFoundException(_localizer["identity.usernotfound"]);
-
-            return user.Adapt<UserDetailsDto>();
+            
+            return user is null ? null : user.Adapt<UserDetailsDto>();
         }
 
         public async Task<int> GetCountAsync(CancellationToken cancellationToken)
@@ -78,7 +77,7 @@ namespace Infrastructure.Identity
             return await _userManager.Users.AsNoTracking().CountAsync(cancellationToken);
         }
 
-        public async Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken)
+        public async Task<List<UserDetailsDto>> GetAsync(CancellationToken cancellationToken)
         {
             var users = await _userManager.Users.AsNoTracking().ToListAsync(cancellationToken);
             return users.Adapt<List<UserDetailsDto>>();

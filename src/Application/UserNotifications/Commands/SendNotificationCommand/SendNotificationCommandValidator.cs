@@ -11,7 +11,7 @@ namespace Application.UserNotifications.Commands.SendNotificationCommand
                 .MaximumLength(100);
             RuleFor(c => c.DestinationUserId)
                 .NotEmpty()
-                .MustAsync(async (id, ct) => await userService.GetAsync(id, ct) is not null);
+                .MustAsync(async (id, ct) => await userService.GetByIdAsync(id, ct) is not null);
         }
     }
 }

@@ -12,7 +12,7 @@
 
             public override async Task<UserDetailsDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
             {
-                return await _userService.GetAsync(request.UserId!, cancellationToken);
+                return await _userService.GetByIdAsync(request.UserId!, cancellationToken);
             }
         }
         public class GetUserByIdQueryValidator : AbstractValidator<GetUserByIdQuery>

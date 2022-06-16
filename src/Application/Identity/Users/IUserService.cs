@@ -17,8 +17,8 @@ public interface IUserService
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);
 
-    Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
-    Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken);
+    Task<UserDetailsDto?> GetByIdAsync(string userId, CancellationToken cancellationToken);
+    Task<List<UserDetailsDto>> GetAsync(CancellationToken cancellationToken);
     Task<PagedList<UserDetailsDto>> GetPagedListAsync(PaginationParams paginationParams, CancellationToken cancellationToken);
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 

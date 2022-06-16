@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 
 namespace Application.Common.Interfaces;
 
+// Interface for using Background Services
 public interface IJobService
 {
     string Enqueue(Expression<Action> methodCall);

@@ -52,14 +52,17 @@ internal class RoleService : IRoleService
             is ApplicationRole existingRole
             && existingRole.Id != excludeId;
 
-    public async Task<RoleDto> GetByIdAsync(string id) =>
+    public async Task<RoleDto?> GetByIdAsync(string id) =>
         await _db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
             ? role.Adapt<RoleDto>()
-            : throw new NotFoundException(_localizer["entity.notfound", "Role"]);
+            : null;
 
-    public async Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
+    public async Task<RoleDto?> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
     {
         var role = await GetByIdAsync(roleId);
+
+        if (role == null)
+            return null;
 
         role.Permissions = await _db.RoleClaims
             .Where(c => c.RoleId == roleId && c.ClaimType == ApiClaims.Permission)

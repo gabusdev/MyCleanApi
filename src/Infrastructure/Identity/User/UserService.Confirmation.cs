@@ -24,14 +24,14 @@ namespace Infrastructure.Identity
                 .Where(u => u.Id == userId && !u.EmailConfirmed)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            _ = user ?? throw new InternalServerException(_localizer["An error occurred while confirming E-Mail."]);
+            _ = user ?? throw new InternalServerException(_localizer["generic.error"]);
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
             return result.Succeeded
-                ? string.Format(_localizer["Account Confirmed for E-Mail {0}. You can now use the /api/tokens endpoint to generate JWT."], user.Email)
-                : throw new InternalServerException(string.Format(_localizer["An error occurred while confirming {0}"], user.Email));
+                ? string.Format(_localizer["account.confirmed", user.Email])
+                : throw new InternalServerException(string.Format(_localizer["generic.error"]));
         }
     }
 }

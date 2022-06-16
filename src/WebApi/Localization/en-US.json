@@ -1,4 +1,7 @@
 ﻿{
+  "account.resset.pssw": "Reset Password",
+  "account.comfirm": "Confirm Registration",
+  "account.confirmed": "Account Confirmed for E-Mail {0}.",
   "auth.failed": "Authentication Failed.",
   "tenant.invalid": "Invalid Tenant.",
   "tenant.expired": "Tenant Validity Has Expired. Please contact the Application Administrator.",

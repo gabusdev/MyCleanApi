@@ -1,5 +1,7 @@
 namespace Application.Common.FileStorage;
 
+// This is the Helper Class to Upload Base64 files to the Api
+
 public class FileUploadRequest
 {
     public string Name { get; set; } = default!;
