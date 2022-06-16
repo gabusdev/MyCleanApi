@@ -3,7 +3,7 @@
 // This Interface is for using for Hot Chocolate Graphql Subscriptions system
 
 public interface IGraphQLSubscriptionService
-{      
+{
     /// <summary>
     ///     Sends a Notification to the sub/pub service of GrapqhQL Subscriptions
     /// </summary>

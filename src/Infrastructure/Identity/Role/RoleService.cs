@@ -62,7 +62,9 @@ internal class RoleService : IRoleService
         var role = await GetByIdAsync(roleId);
 
         if (role == null)
+        {
             return null;
+        }
 
         role.Permissions = await _db.RoleClaims
             .Where(c => c.RoleId == roleId && c.ClaimType == ApiClaims.Permission)

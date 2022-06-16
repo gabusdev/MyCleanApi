@@ -1,4 +1,4 @@
-- [ ] Implement GrapQL
+- [x] Implement GrapQL
 - [x] Implement File Upload
   - Store Images
 - [x] Adding More Support for Entity Framework Database
@@ -10,7 +10,7 @@
   - Postgres
   - ~~NoSql~~
 - [ ] ~~Abstracting Serilog to Logger~~
-- [ ] Document the Project
+- [x] Document the Project
 - [x] Add Grafana & Prometeus
 - [x] Adding Search Filters
 - [ ] ~~Add a Home Page to the API~~
@@ -21,5 +21,5 @@
   - ~~To Pdf~~
 - [x] Dockerize The App
 - [x] Agregar Notificaciones
-- [ ] Arreglar todos los mensajes con Localizacion
+- [x] Arreglar todos los mensajes con Localizacion
 - [ ] Mejorar la Api

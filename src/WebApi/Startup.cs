@@ -23,7 +23,6 @@ namespace WebApi
         }
         public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config, bool development)
         {
-            // app.UseHttpsRedirection();
             app.UseRouting();
             app.UseHttpMetrics();
             app.UseInfraestructure(config, development);
@@ -32,9 +31,9 @@ namespace WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHangfireDashboard();
+                endpoints.MapHangfireDashboard("/dev/jobs");
                 endpoints.MapGraphQL("/api/graphql")/*.RequireAuthorization()*/;
-                endpoints.MapMetrics();
+                endpoints.MapMetrics("/dev/metrics");
             });
 
             return app;

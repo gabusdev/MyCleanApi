@@ -54,7 +54,7 @@ namespace GraphQL
             return app.UseGraphQLVoyager(new VoyagerOptions()
             {
                 GraphQLEndPoint = "/api/graphql"
-            }, "/api/graphql-voyager");
+            }, "/dev/graphql-voyager");
         }
     }
 }

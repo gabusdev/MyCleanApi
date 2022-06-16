@@ -42,7 +42,7 @@ internal static class Startup
                 }
             }
         };
-        return app.UseHangfireDashboard("/jobs", dashboardOptions);
+        return app.UseHangfireDashboard("/dev/jobs", dashboardOptions);
     }
     private static IGlobalConfiguration UseDatabase(this IGlobalConfiguration hangfireConfig, string? dbProvider, string? connectionString)
     {

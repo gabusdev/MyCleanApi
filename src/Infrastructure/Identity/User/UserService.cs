@@ -68,7 +68,7 @@ namespace Infrastructure.Identity
         public async Task<UserDetailsDto?> GetByIdAsync(string userId, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            
+
             return user is null ? null : user.Adapt<UserDetailsDto>();
         }
 
