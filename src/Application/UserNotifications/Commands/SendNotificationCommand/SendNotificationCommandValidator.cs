@@ -1,6 +1,6 @@
 ﻿using Application.Identity.Users;
 
-namespace Application.UserNotifications.Commands.SendUserNotificationCommand
+namespace Application.UserNotifications.Commands.SendNotificationCommand
 {
     public class SendNotificationCommandValidator : AbstractValidator<SendNotificationCommand>
     {

@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Domain.Entities.JoinTables;
 
-namespace Application.UserNotifications.Commands.SendUserNotificationCommand
+namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
 {
     public class SendNotificationToAllCommand : ICommand<string>
     {

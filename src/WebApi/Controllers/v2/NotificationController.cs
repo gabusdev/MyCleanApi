@@ -1,4 +1,5 @@
-﻿using Application.UserNotifications.Commands.SendUserNotificationCommand;
+﻿using Application.UserNotifications.Commands.SendNotificationCommand;
+using Application.UserNotifications.Commands.SendNotificationToAllCommand;
 using Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Microsoft.AspNetCore.Mvc;
 
