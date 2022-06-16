@@ -22,3 +22,4 @@
 - [x] Dockerize The App
 - [x] Agregar Notificaciones
 - [ ] Arreglar todos los mensajes con Localizacion
+- [ ] Mejorar la Api
