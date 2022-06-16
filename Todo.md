@@ -22,4 +22,6 @@
 - [x] Dockerize The App
 - [x] Agregar Notificaciones
 - [x] Arreglar todos los mensajes con Localizacion
+- [ ] Add Messages with SignalR
+
 - [ ] Mejorar la Api
