@@ -1,4 +1,4 @@
-﻿using Application.Identity.Users.UserQueries;
+﻿using Application.Identity.Users.Queries;
 
 namespace Application.Identity.Roles.Queries.GetUsersByRoleQuery
 {

@@ -29,27 +29,14 @@ public static class ApiResource
     public const string UserRoles = nameof(UserRoles);
     public const string Roles = nameof(Roles);
     public const string RoleClaims = nameof(RoleClaims);
-    public const string Permisions = nameof(Permisions);
+    public const string Permissions = nameof(Permissions);
     public const string Tests = nameof(Tests);
-    public const string Self = nameof(Self);
-
 }
 
 public static class ApiPermissions
 {
     private static readonly ApiPermission[] _all = new ApiPermission[]
     {
-        //new("View Dashboard", ApiAction.View, ApiResource.Dashboard),
-        //new("View Hangfire", ApiAction.View, ApiResource.Hangfire),
-        /*
-        new("View Products", ApiAction.View, ApiResource.Products, IsBasic: true),
-        new("Search Products", ApiAction.Search, ApiResource.Products, IsBasic: true),
-        new("Create Products", ApiAction.Create, ApiResource.Products),
-        new("Update Products", ApiAction.Update, ApiResource.Products),
-        new("Delete Products", ApiAction.Delete, ApiResource.Products),
-        new("Export Products", ApiAction.Export, ApiResource.Products),
-        */
-
         new("View Users", ApiAction.View, ApiResource.Users),
         new("Search Users", ApiAction.Search, ApiResource.Users),
         new("Create Users", ApiAction.Create, ApiResource.Users),
@@ -57,12 +44,12 @@ public static class ApiPermissions
         new("Delete Users", ApiAction.Delete, ApiResource.Users, IsRoot: true),
         new("Export Users", ApiAction.Export, ApiResource.Users),
 
-        new("View Notifications", ApiAction.View, ApiResource.Users, IsBasic: true),
-        new("Search Notifications", ApiAction.Search, ApiResource.Users),
-        new("Create Notifications", ApiAction.Create, ApiResource.Users),
-        new("Update Notifications", ApiAction.Update, ApiResource.Users),
-        new("Delete Notifications", ApiAction.Delete, ApiResource.Users, IsRoot: true),
-        new("Export Notifications", ApiAction.Export, ApiResource.Users),
+        new("View Notifications", ApiAction.View, ApiResource.Notifications, IsBasic: true),
+        new("Search Notifications", ApiAction.Search, ApiResource.Notifications),
+        new("Create Notifications", ApiAction.Create, ApiResource.Notifications),
+        new("Update Notifications", ApiAction.Update, ApiResource.Notifications),
+        new("Delete Notifications", ApiAction.Delete, ApiResource.Notifications, IsRoot: true),
+        new("Export Notifications", ApiAction.Export, ApiResource.Notifications),
 
         new("View UserRoles", ApiAction.View, ApiResource.UserRoles),
         new("Update UserRoles", ApiAction.Update, ApiResource.UserRoles, IsRoot: true),
@@ -76,9 +63,7 @@ public static class ApiPermissions
         new("View RoleClaims", ApiAction.View, ApiResource.RoleClaims),
         new("Update RoleClaims", ApiAction.Update, ApiResource.RoleClaims, IsRoot: true),
 
-        new("View Permissions", ApiAction.View, ApiResource.Permisions),
-
-        new("Use Tests Stuff", ApiAction.View, ApiResource.Tests)
+        new("View Permissions", ApiAction.View, ApiResource.Permissions)
 
     };
 

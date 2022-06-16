@@ -1,20 +1,20 @@
 using Application.Common.Pagination;
 using Application.Identity.Users;
+using Application.Identity.Users.Commands.CreateUser;
+using Application.Identity.Users.Commands.DeleteUser;
+using Application.Identity.Users.Commands.SetRoles;
+using Application.Identity.Users.Commands.ToggleUserStatus;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
-using Application.Identity.Users.UserCommands.CreateUser;
-using Application.Identity.Users.UserCommands.DeleteUser;
-using Application.Identity.Users.UserCommands.SetRoles;
-using Application.Identity.Users.UserCommands.ToggleUserStatus;
-using Application.Identity.Users.UserQueries;
-using Application.Identity.Users.UserQueries.GetAllPaged;
-using Application.Identity.Users.UserQueries.GetById;
-using Application.Identity.Users.UserQueries.GetUserRoles;
+using Application.Identity.Users.Queries;
+using Application.Identity.Users.Queries.GetAllPaged;
+using Application.Identity.Users.Queries.GetById;
+using Application.Identity.Users.Queries.GetUserRoles;
 using Infrastructure.ResponseCaching;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static Application.Identity.Users.UserCommands.SetRoles.SetUserRolesRequest;
+using static Application.Identity.Users.Commands.SetRoles.SetUserRolesRequest;
 
 namespace WebApi.Controllers.neutral.Identity;
 

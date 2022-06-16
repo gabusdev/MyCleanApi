@@ -1,6 +1,6 @@
-﻿using Application.Identity.Tokens.TokenQueries;
-using Application.Identity.Tokens.TokenQueries.GetToken;
-using Application.Identity.Tokens.TokenQueries.RefreshToken;
+﻿using Application.Identity.Tokens.Queries;
+using Application.Identity.Tokens.Queries.GetToken;
+using Application.Identity.Tokens.Queries.RefreshToken;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,8 +1,8 @@
-﻿using Application.Identity.Users.Password.Commands.ChangePassword;
-using Application.Identity.Users.UserCommands.UpdateUser;
-using Application.Identity.Users.UserQueries;
-using Application.Identity.Users.UserQueries.GetById;
-using Application.Identity.Users.UserQueries.GetUserPermissions;
+﻿using Application.Identity.Users.Commands.UpdateUser;
+using Application.Identity.Users.Password.Commands.ChangePassword;
+using Application.Identity.Users.Queries;
+using Application.Identity.Users.Queries.GetById;
+using Application.Identity.Users.Queries.GetUserPermissions;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +40,7 @@ namespace WebApi.Controllers.neutral.Personal
         }
 
         [HttpGet("permissions")]
-        [MustHavePermission(ApiAction.View, ApiResource.Permisions)]
+        [MustHavePermission(ApiAction.View, ApiResource.Permissions)]
         [SwaggerOperation("Get Permissions", "Get permissions of currently logged in user.")]
         public async Task<List<string>> GetPermissionsAsync(CancellationToken cancellationToken)
         {

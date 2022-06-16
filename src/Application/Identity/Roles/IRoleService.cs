@@ -1,6 +1,6 @@
 using Application.Identity.Roles.Commands.CreateUpdateCommand;
 using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
-using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.Queries;
 
 namespace Application.Identity.Roles;
 

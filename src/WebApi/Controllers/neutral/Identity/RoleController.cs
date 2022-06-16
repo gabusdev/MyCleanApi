@@ -5,7 +5,7 @@ using Application.Identity.Roles.Queries.GetAllRolesQuery;
 using Application.Identity.Roles.Queries.GetPermissionsQuery;
 using Application.Identity.Roles.Queries.GetRoleWithPermissionsQuery;
 using Application.Identity.Roles.Queries.GetUsersByRoleQuery;
-using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.neutral.Identity
@@ -41,7 +41,7 @@ namespace WebApi.Controllers.neutral.Identity
 
         [HttpGet("permissions")]
         [SwaggerOperation("Get All Permissions", "Returns a List with All Permissions to use by Roles.")]
-        [MustHavePermission(ApiAction.View, ApiResource.Permisions)]
+        [MustHavePermission(ApiAction.View, ApiResource.Permissions)]
         public async Task<List<string>> GetAllPermissions()
         {
             return await Mediator.Send(new GetAllPermissionsQuery());

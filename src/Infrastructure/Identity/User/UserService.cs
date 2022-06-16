@@ -2,8 +2,8 @@
 using Application.Common.Interfaces;
 using Application.Common.Mailing;
 using Application.Common.Pagination;
-using Application.Identity.Users.UserCommands.ToggleUserStatus;
-using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.Commands.ToggleUserStatus;
+using Application.Identity.Users.Queries;
 using Infrastructure.Auth;
 using Infrastructure.Common.Extensions;
 using Infrastructure.Identity.Role;

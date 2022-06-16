@@ -1,6 +1,6 @@
 ﻿using Application.Common.Mailing;
-using Application.Identity.Users.UserCommands.CreateUser;
-using Application.Identity.Users.UserCommands.UpdateUser;
+using Application.Identity.Users.Commands.CreateUser;
+using Application.Identity.Users.Commands.UpdateUser;
 using Infrastructure.Identity.User;
 using Shared.Authorization;
 

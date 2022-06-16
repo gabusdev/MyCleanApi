@@ -1,5 +1,5 @@
-﻿using Application.Identity.Users.UserCommands.SetRoles;
-using Application.Identity.Users.UserQueries;
+﻿using Application.Identity.Users.Commands.SetRoles;
+using Application.Identity.Users.Queries;
 using Infrastructure.Identity.Role;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,7 +1,7 @@
 using Application.Identity.Tokens;
-using Application.Identity.Tokens.TokenQueries;
-using Application.Identity.Tokens.TokenQueries.GetToken;
-using Application.Identity.Tokens.TokenQueries.RefreshToken;
+using Application.Identity.Tokens.Queries;
+using Application.Identity.Tokens.Queries.GetToken;
+using Application.Identity.Tokens.Queries.RefreshToken;
 using Infrastructure.Auth;
 using Infrastructure.Auth.Jwt;
 using Infrastructure.Identity.User;

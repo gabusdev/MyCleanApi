@@ -3,7 +3,7 @@ using Application.Common.Interfaces;
 using Application.Identity.Roles;
 using Application.Identity.Roles.Commands.CreateUpdateCommand;
 using Application.Identity.Roles.Commands.UpdatePermissionsCommand;
-using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.Queries;
 using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;

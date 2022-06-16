@@ -1,8 +1,8 @@
 ﻿using Application.Common.Exceptions;
-using Application.Identity.Users.UserQueries;
-using Application.Identity.Users.UserQueries.GetAll;
-using Application.Identity.Users.UserQueries.GetUserPermissions;
-using Application.Identity.Users.UserQueries.GetUserRoles;
+using Application.Identity.Users.Queries;
+using Application.Identity.Users.Queries.GetAll;
+using Application.Identity.Users.Queries.GetUserPermissions;
+using Application.Identity.Users.Queries.GetUserRoles;
 using GraphQL.Permissions;
 using MediatR;
 using Microsoft.Extensions.Logging;

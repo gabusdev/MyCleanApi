@@ -1,6 +1,4 @@
-﻿using Application.Common.Persistence;
-
-namespace Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
+﻿namespace Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
 
 public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto>>
 {

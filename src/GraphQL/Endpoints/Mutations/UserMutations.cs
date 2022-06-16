@@ -1,5 +1,5 @@
 ﻿using Application.Common.Exceptions;
-using Application.Identity.Users.UserCommands.CreateUser;
+using Application.Identity.Users.Commands.CreateUser;
 using MediatR;
 
 namespace GraphQL.Endpoints.Mutations

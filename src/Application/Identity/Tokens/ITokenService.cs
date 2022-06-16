@@ -1,6 +1,6 @@
-using Application.Identity.Tokens.TokenQueries;
-using Application.Identity.Tokens.TokenQueries.GetToken;
-using Application.Identity.Tokens.TokenQueries.RefreshToken;
+using Application.Identity.Tokens.Queries;
+using Application.Identity.Tokens.Queries.GetToken;
+using Application.Identity.Tokens.Queries.RefreshToken;
 
 namespace Application.Identity.Tokens;
 
