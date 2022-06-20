@@ -26,7 +26,7 @@ namespace Application.UserNotifications.Commands.SendNotificationCommand
                     throw new ForbiddenException("Dont Have Permissions to do this action");
                 }
 
-                var newNotification = new Notification
+                var newNotification = new PermaNotification
                 {
                     Id = Guid.NewGuid().ToString(),
                     Message = request.Message,

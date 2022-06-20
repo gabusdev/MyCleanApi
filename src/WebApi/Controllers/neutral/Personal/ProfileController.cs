@@ -15,9 +15,10 @@ namespace WebApi.Controllers.neutral.Personal
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]
-        public async Task<UserDetailsDto> GetProfileAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult> GetProfileAsync(CancellationToken cancellationToken)
         {
-            return await Mediator.Send(new GetUserByIdQuery() { UserId = User.GetUserId() }, cancellationToken);
+            var user = await Mediator.Send(new GetUserByIdQuery() { UserId = User.GetUserId() }, cancellationToken);
+            return user is null ? NotFound() : Ok(user);
         }
 
         [HttpPut]

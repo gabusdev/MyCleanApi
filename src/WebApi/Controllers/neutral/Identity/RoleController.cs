@@ -24,9 +24,10 @@ namespace WebApi.Controllers.neutral.Identity
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
         [MustHavePermission(ApiAction.Search, ApiResource.Roles)]
         [SwaggerOperation("Get Role Info", "Returns the Info About a specified role with its Permissions.")]
-        public async Task<RoleDto> GetRoles(string id)
+        public async Task<ActionResult> GetRoles(string id)
         {
-            return await Mediator.Send(new GetRoleWithPermissionsQuery() { RoleId = id });
+            var role = await Mediator.Send(new GetRoleWithPermissionsQuery() { RoleId = id });
+            return role is null ? NotFound() : Ok(role);
         }
 
         [HttpGet("{id}/users")]

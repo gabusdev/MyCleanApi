@@ -13,6 +13,6 @@ namespace Domain.Entities.JoinTables
 
         public IApplicationUser DestinationUser { get; set; } = null!;
         public IApplicationUser OriginUser { get; set; } = null!;
-        public Notification Notification { get; set; } = null!;
+        public PermaNotification Notification { get; set; } = null!;
     }
 }

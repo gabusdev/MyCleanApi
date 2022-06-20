@@ -3,13 +3,13 @@ using Domain.Entities.JoinTables;
 
 namespace Domain.Entities
 {
-    public class Notification : SoftAuditableEntity, IEntity
+    public class PermaNotification : SoftAuditableEntity, IEntity
     {
         public string Id { get; set; } = null!;
         public string Message { get; set; } = null!;
         public virtual ICollection<UserNotification> UserNotifications { get; set; }
 
-        public Notification()
+        public PermaNotification()
         {
             UserNotifications = new HashSet<UserNotification>();
         }

@@ -39,9 +39,10 @@ public class UserController : VersionNeutralApiController
     [MustHavePermission(ApiAction.View, ApiResource.Users)]
     [MustHavePermission(ApiAction.Search, ApiResource.Users)]
     [SwaggerOperation("Get User by Id", "Search for the user with given Id")]
-    public async Task<UserDetailsDto> GetByIdAsync(string id, CancellationToken cancellationToken)
+    public async Task<ActionResult> GetByIdAsync(string id, CancellationToken cancellationToken)
     {
-        return await Mediator.Send(new GetUserByIdQuery() { UserId = id }, cancellationToken);
+        var user = await Mediator.Send(new GetUserByIdQuery() { UserId = id }, cancellationToken);
+        return user is null ? NotFound() : Ok(user);
     }
 
     [HttpPost]
