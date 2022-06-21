@@ -10,14 +10,14 @@ internal class UnitOfWork : IUnitOfWork
 {
     public IGenericRepository<PermaNotification> Notifications { get; }
     public IGenericRepository<UserNotification> UserNotifications { get; }
-    public IGenericRepository<ExceptionLog, Guid> ExceptionLogs { get; }
+    public IGenericRepository<ExceptionLog, string> ExceptionLogs { get; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
         _context = context;
         Notifications ??= new EFGenericRepository<PermaNotification>(_context);
         UserNotifications ??= new EFGenericRepository<UserNotification>(_context);
-        ExceptionLogs ??= new EFGenericRepository<ExceptionLog, Guid>(_context);
+        ExceptionLogs ??= new EFGenericRepository<ExceptionLog, string>(_context);
     }
 
     public async Task<int> CommitAsync()

@@ -1,4 +1,6 @@
+using Application.Common.Exceptions.Exception_Tracking;
 using Application.Common.Interfaces;
+using Application.Common.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
@@ -12,13 +14,16 @@ internal class ExceptionMiddleware : IMiddleware
 {
     private readonly ICurrentUserService _currentUser;
     private readonly IStringLocalizer<ExceptionMiddleware> _localizer;
+    private readonly IUnitOfWork _uow;
 
     public ExceptionMiddleware(
         ICurrentUserService currentUser,
-        IStringLocalizer<ExceptionMiddleware> localizer)
+        IStringLocalizer<ExceptionMiddleware> localizer,
+        IUnitOfWork uow)
     {
         _currentUser = currentUser;
         _localizer = localizer;
+        _uow = uow;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -83,6 +88,25 @@ internal class ExceptionMiddleware : IMiddleware
             {
                 Log.Error($"{errorResult.Exception} Request failed with Status Code {context.Response.StatusCode} and Error Id {errorId}.");
             }
+
+            // Store ExceptionLog in Database
+            await _uow.ExceptionLogs.InsertAsync(new ExceptionLog
+                {
+                    Id = errorResult.ErrorId,
+                    Data = JsonConvert.SerializeObject(exception.Data, new JsonSerializerSettings
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    }),
+                    DataTime = DateTime.Now,
+                    ErrorDescription = errorResult.Exception,
+                    IPInfo = context.Connection.RemoteIpAddress?.MapToIPv4().ToString(),
+                    Reference = context.Request.Path,
+                    StackTrace = exception.StackTrace,
+                    UserId = userId,
+                    Source = errorResult.Source,
+                    Messages = errorResult.Messages.Aggregate((a, b) => $"{a}\n{b}")
+                });
+            await _uow.CommitAsync();
 
             var json = JsonConvert.SerializeObject(errorResult, new JsonSerializerSettings
             {

@@ -8,7 +8,7 @@ public interface IUnitOfWork : IDisposable
 {
     IGenericRepository<PermaNotification> Notifications { get; }
     IGenericRepository<UserNotification> UserNotifications { get; }
-    IGenericRepository<ExceptionLog, Guid> ExceptionLogs { get; }
+    IGenericRepository<ExceptionLog, string> ExceptionLogs { get; }
 
     Task<int> CommitAsync();
 }

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Common.Exceptions.Exception_Tracking;
-public class ExceptionLog: IEntity<Guid>
+public class ExceptionLog: IEntity<string>
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = null!;
     public string? UserId { get; set; }
     public DateTime DataTime { get; set; }
     public string? Reference { get; set; }
@@ -16,4 +16,6 @@ public class ExceptionLog: IEntity<Guid>
     public string? ErrorDescription { get; set; }
     public string? Data { get; set; }
     public string? StackTrace { get; set; }
+    public string? Source { get; set; }
+    public string? Messages { get; set; }
 }
