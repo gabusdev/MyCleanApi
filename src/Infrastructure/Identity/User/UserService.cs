@@ -1,4 +1,5 @@
 ﻿using Application.Common.Events;
+using Application.Common.FileStorage;
 using Application.Common.Interfaces;
 using Application.Common.Mailing;
 using Application.Common.Pagination;
@@ -28,6 +29,7 @@ namespace Infrastructure.Identity
         private readonly SecuritySettings _securitySettings;
         private readonly IJobService _jobService;
         private readonly IDomainEventService _eventService;
+        private readonly IFileStorageService _fileStorage;
 
         public UserService(UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -37,7 +39,8 @@ namespace Infrastructure.Identity
             IMailService mailService,
             IOptions<SecuritySettings> securitySettings,
             IJobService jobService,
-            IDomainEventService eventService)
+            IDomainEventService eventService,
+            IFileStorageService fileStorage)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -48,6 +51,7 @@ namespace Infrastructure.Identity
             _securitySettings = securitySettings.Value;
             _jobService = jobService;
             _eventService = eventService;
+            _fileStorage = fileStorage;
         }
 
         public async Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null)

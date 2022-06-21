@@ -1,6 +1,7 @@
 ﻿using Application.Common.Mailing;
 using Application.Identity.Users.Commands.CreateUser;
 using Application.Identity.Users.Commands.UpdateUser;
+using Domain.Common;
 using Infrastructure.Identity.User;
 using Shared.Authorization;
 
@@ -53,6 +54,17 @@ namespace Infrastructure.Identity
             if (user is null)
             {
                 throw new NotFoundException(_localizer["identity.usernotfound"]);
+            }
+
+            string currentImage = user.ImageUrl ?? string.Empty;
+            if (request.Image != null || request.DeleteCurrentImage)
+            {
+                user.ImageUrl = await _fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
+                if (request.DeleteCurrentImage && !string.IsNullOrEmpty(currentImage))
+                {
+                    string root = Directory.GetCurrentDirectory();
+                    _fileStorage.Remove(Path.Combine(root, currentImage));
+                }
             }
 
             ChangeUserData(user, request);

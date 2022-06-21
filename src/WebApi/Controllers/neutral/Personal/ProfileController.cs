@@ -1,6 +1,5 @@
 ﻿using Application.Identity.Users.Commands.UpdateUser;
 using Application.Identity.Users.Password.Commands.ChangePassword;
-using Application.Identity.Users.Queries;
 using Application.Identity.Users.Queries.GetById;
 using Application.Identity.Users.Queries.GetUserPermissions;
 using Mapster;

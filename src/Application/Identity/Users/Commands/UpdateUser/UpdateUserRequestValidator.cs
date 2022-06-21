@@ -1,3 +1,5 @@
+using Application.Common.FileStorage;
+using Application.Common.Validation;
 using Microsoft.Extensions.Localization;
 
 namespace Application.Identity.Users.Commands.UpdateUser;
@@ -36,5 +38,8 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
             .MustAsync(async (user, phone, _) => !await userService.ExistsWithPhoneNumberAsync(phone!, user.Id))
                 .WithMessage((_, phone) => localizer["validation.phone.used", phone!])
                 .Unless(u => string.IsNullOrWhiteSpace(u.PhoneNumber));
+
+        RuleFor(p => p.Image)
+            .SetNonNullableValidator(new FileUploadRequestValidator());
     }
 }

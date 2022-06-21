@@ -1,3 +1,5 @@
+using Application.Common.FileStorage;
+
 namespace Application.Identity.Users.Commands.UpdateUser;
 
 public class UpdateUserRequest
@@ -8,6 +10,8 @@ public class UpdateUserRequest
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
     public string? UserName { get; set; }
+    public FileUploadRequest? Image { get; set; }
+    public bool DeleteCurrentImage { get; set; } = false;
 }
 
 public class UpdateUserCommand : UpdateUserRequest, ICommand
