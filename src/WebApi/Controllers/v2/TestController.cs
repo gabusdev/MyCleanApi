@@ -6,6 +6,7 @@ using Application.Identity.Users.Queries;
 using Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Domain.Common;
 using Infrastructure.Identity.User;
+using Infrastructure.ResponseCaching;
 using Mapster;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace WebApi.Controllers.v2
             return await _cache.GetOrSetAsync("testeo", async () => await Task.Delay(5000).ContinueWith((t) => "Hola"));
         }
         [HttpGet("dapper")]
-        //[ApiResponseCache(30,ResponseCacheLocation.Any)]
+        [ApiResponseCache(Duration =  30, Location = ResponseCacheLocation.Any)]
         //[HttpCacheExpiration(CacheLocation = CacheLocation.Private, MaxAge = 15)]
         public async Task<ActionResult> TestDapper()
         {

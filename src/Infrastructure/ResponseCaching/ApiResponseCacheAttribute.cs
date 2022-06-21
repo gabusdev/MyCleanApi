@@ -47,12 +47,20 @@ namespace Infrastructure.ResponseCaching
 
                 var cacheResponse = cacheService.Get<ApiResponseCacheObject>(cacheKey);
 
+                // If there is Cache response for the Url Route,
+                // if Authorization Headers Match, return cached response 
+                // Ignore if Cache Type is public
                 if (cacheResponse is not null)
                 {
-                    context.Result = cacheResponse.Result;
-                    RestoreResponseHeaders(context.HttpContext, cacheResponse.Headers);
+                    var requestAuth = context.HttpContext.Request.Headers.Authorization;
+                    
+                    if (Location == ResponseCacheLocation.Any || requestAuth == cacheResponse.Authorization)
+                    {
+                        context.Result = cacheResponse.Result;
+                        RestoreResponseHeaders(context.HttpContext, cacheResponse.Headers);
 
-                    return;
+                        return;
+                    }
                 }
             }
 
@@ -67,7 +75,10 @@ namespace Infrastructure.ResponseCaching
                 {
                     Result = objectResult,
                     Headers = context.HttpContext.Response.Headers.ToDictionary(
-                        hd => hd.Key, hd => hd.Value.ToString())
+                        hd => hd.Key, hd => hd.Value.ToString()),
+                    Authorization = Location == ResponseCacheLocation.Any 
+                        ? string.Empty
+                        : context.HttpContext.Request.Headers.Authorization
                 };
 
                 var cacheOptions = new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(Duration) };
@@ -126,6 +137,8 @@ namespace Infrastructure.ResponseCaching
             {
                 keyBuilder.Append($"|{query}-{value}");
             }
+
+            keyBuilder.Append($"~h:Auth:{(Location == ResponseCacheLocation.Any ? "" : request.Headers.Authorization)}");
 
             return keyBuilder.ToString();
         }

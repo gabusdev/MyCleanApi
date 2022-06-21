@@ -6,5 +6,6 @@ namespace Infrastructure.ResponseCaching
     {
         public ObjectResult Result { get; set; } = null!;
         public Dictionary<string, string> Headers { get; set; } = new();
+        public string? Authorization { get; set; }
     }
 }
