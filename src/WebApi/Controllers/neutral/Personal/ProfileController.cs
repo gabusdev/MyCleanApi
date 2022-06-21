@@ -2,6 +2,7 @@
 using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Queries.GetById;
 using Application.Identity.Users.Queries.GetUserPermissions;
+using Infrastructure.ResponseCaching;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace WebApi.Controllers.neutral.Personal
     public class ProfileController : VersionNeutralApiController
     {
         [HttpGet]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ApiResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]
         public async Task<ActionResult> GetProfileAsync(CancellationToken cancellationToken)
         {

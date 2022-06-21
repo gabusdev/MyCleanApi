@@ -39,7 +39,7 @@ namespace Infrastructure.Identity
                 };
                 var mailRequest = new MailRequest(
                     new List<string> { user.Email },
-                    _localizer["account.comfirm"],
+                    _localizer["account.confirm"],
                     _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
 
                 _jobService.Enqueue(() => _mailService.SendAsync(mailRequest));

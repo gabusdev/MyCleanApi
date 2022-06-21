@@ -11,7 +11,7 @@ namespace Infrastructure.Identity
         {
             string code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            const string route = "api/user/confirm-email/";
+            const string route = "api/v1/user/confirm-email/";
             var endpointUri = new Uri(string.Concat($"{origin}/", route));
             string verificationUri = QueryHelpers.AddQueryString(endpointUri.ToString(), "userId", user.Id);
             verificationUri = QueryHelpers.AddQueryString(verificationUri, "code", code);

@@ -23,7 +23,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
         RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .MinimumLength(6)
+            .MinimumLength(4)
             .MustAsync(async (user, name, _) => !await userService.ExistsWithNameAsync(name, user.Id))
                 .WithMessage((_, name) => localizer["validation.username.used", name]);
 

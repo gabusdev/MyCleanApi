@@ -14,7 +14,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .MinimumLength(6)
+            .MinimumLength(4)
             .MustAsync(async (name, _) => !await userService.ExistsWithNameAsync(name))
                 .WithMessage((_, name) => localizer["validation.username.used", name]);
 
