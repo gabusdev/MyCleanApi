@@ -8,6 +8,7 @@ namespace Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<PermaNotification> builder)
         {
+            builder.ToTable("Notification");
             builder.Ignore(n => n.DomainEvents);
             /*
             builder.HasMany(n => n.UserNotifications)

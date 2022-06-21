@@ -21,12 +21,15 @@ public class SetUserRolesRequest
 
         public override async Task<Unit> Handle(SetUserRolesCommand request, CancellationToken cancellationToken)
         {
+            // Get the current User and if its admin
             var current = _currentUser.GetUserId();
             var currentIsAdmin = await _userService.HasRoleAsync(current, ApiRoles.Admin, cancellationToken);
 
+            // Get the objective User and if its admin
             var objective = request.UserId;
             var objectiveIsAdmin = await _userService.HasRoleAsync(objective, ApiRoles.Admin, cancellationToken);
 
+            // If the objective user is admin only can edit not Admin roles and by other Admin user
             if (objectiveIsAdmin)
             {
                 if (!currentIsAdmin)
@@ -38,12 +41,13 @@ public class SetUserRolesRequest
                     request.UserRoles = request.UserRoles.Where(ur => ur.RoleName != ApiRoles.Admin).ToList();
                 }
             }
+            // Else, if Security Level of current User is Lower from Objective Security Level, stop operation
             else
             {
                 if (await _userService.GetSecurityLevel(current, cancellationToken)
-                == await _userService.GetSecurityLevel(objective, cancellationToken))
+                >= await _userService.GetSecurityLevel(objective, cancellationToken))
                 {
-                    throw new ForbiddenException("Can't Change Roles of Same Role Objective");
+                    throw new ForbiddenException("Can't Change Roles of Same or Higher Role Objective");
                 }
             }
 
