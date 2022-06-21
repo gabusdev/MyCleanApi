@@ -1,4 +1,5 @@
-﻿using Application.PermaNotifications.Commands.SendNotificationCommand;
+﻿using Application.PermaNotifications.Commands.MarkNotificationAsReaded;
+using Application.PermaNotifications.Commands.SendNotificationCommand;
 using Application.PermaNotifications.Commands.SendNotificationToAllCommand;
 using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace WebApi.Controllers.v2
     [ApiVersion("2")]
     public class NotificationController : VersionedApiController
     {
-        [HttpGet("{userId}")]
+        [HttpGet("user/{userId}")]
         [MustHavePermission(ApiAction.Search, ApiResource.Notifications)]
         [SwaggerOperation("Get User Unreaded Notifications", "Gets Unreaded Notifications for specified user")]
         public async Task<ActionResult> GetUnreadedNotifications(string userId)
@@ -33,6 +34,15 @@ namespace WebApi.Controllers.v2
         public async Task<ActionResult> BroadcastNotification(SendNotificationToAllCommand command)
         {
             await Mediator.Send(command);
+            return NoContent();
+        }
+        
+        [HttpPut("{id}/readed")]
+        [MustHavePermission(ApiAction.View, ApiResource.Notifications)]
+        [SwaggerOperation("Set Notification as Readed", "Set Notification with given Id as Readed")]
+        public async Task<ActionResult> SetAsReaded(string id)
+        {
+            await Mediator.Send(new MarkNotificationAsReadedCommand { NotificationID = id });
             return NoContent();
         }
     }

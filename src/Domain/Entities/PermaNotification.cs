@@ -3,7 +3,7 @@ using Domain.Entities.JoinTables;
 
 namespace Domain.Entities
 {
-    public class PermaNotification : SoftAuditableEntity, IEntity
+    public class PermaNotification : SoftAuditableEntity, IEntity, IAuditableEntity
     {
         public string Id { get; set; } = null!;
         public string Message { get; set; } = null!;
