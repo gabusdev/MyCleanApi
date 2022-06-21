@@ -3,7 +3,19 @@ using Domain.Common.Contracts;
 using System.Linq.Expressions;
 
 namespace Application.Common.Persistence;
-public interface IGenericRepository<T> where T : IEntity
+/// <summary>
+/// Represents the Generic Repository for a <see cref="IEntity"/> Type
+/// with a <see cref="string"/> Primary Key Type
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public interface IGenericRepository<T> : IGenericRepository<T, string> where T : IEntity { }
+/// <summary>
+/// Represents the Generic Repository for a <see cref="IEntity"/> Type
+/// with a <see cref="TE"/> Entity Primary Key Type
+/// </summary>
+/// <typeparam name="T">The Type of The IEntity</typeparam>
+/// <typeparam name="ET">The Type of the IEntity Primary Key</typeparam>
+public interface IGenericRepository<T, ET> where T : IEntity<ET>
 {
     Task<IEnumerable<T>> GetAsync(
             Expression<Func<T, bool>>? filter = null, string includeProperties = "");
