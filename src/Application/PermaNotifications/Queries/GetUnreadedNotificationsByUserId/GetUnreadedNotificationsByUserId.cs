@@ -2,7 +2,7 @@
 
 public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto>>
 {
-    public string UserId { get; set; } = null!;
+    public string? UserId { get; set; }
 
     public class GetUnreadedNotificationsByUserIdQueryHandler : IQueryHandler<GetUnreadedNotificationsByUserIdQuery, List<NotificationDto>>
     {

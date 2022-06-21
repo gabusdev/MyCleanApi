@@ -2,6 +2,7 @@
 using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Queries.GetById;
 using Application.Identity.Users.Queries.GetUserPermissions;
+using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Infrastructure.ResponseCaching;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,15 @@ namespace WebApi.Controllers.neutral.Personal
         public async Task<List<string>> GetPermissionsAsync(CancellationToken cancellationToken)
         {
             return await Mediator.Send(new GetUserPermissionsQuery() { UserId = User.GetUserId() }, cancellationToken);
+        }
+
+        [HttpGet("notifiactions")]
+        [MustHavePermission(ApiAction.View, ApiResource.Notifications)]
+        [SwaggerOperation("Get Unreaded Notifications", "Get Unreaded Notifications for current User")]
+        public async Task<ActionResult> GetUnreadedNotifications()
+        {
+            var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = User.GetUserId() });
+            return Ok(response);
         }
     }
 }

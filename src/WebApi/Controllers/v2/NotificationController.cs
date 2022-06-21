@@ -10,6 +10,7 @@ namespace WebApi.Controllers.v2
     {
         [HttpGet("{userId}")]
         [MustHavePermission(ApiAction.Search, ApiResource.Notifications)]
+        [SwaggerOperation("Get User Unreaded Notifications", "Gets Unreaded Notifications for specified user")]
         public async Task<ActionResult> GetUnreadedNotifications(string userId)
         {
             var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = userId });
@@ -18,6 +19,7 @@ namespace WebApi.Controllers.v2
 
         [HttpPost]
         [MustHavePermission(ApiAction.Create, ApiResource.Notifications)]
+        [SwaggerOperation("Create Notification", "Creates a Notification for specified User")]
         public async Task<ActionResult> SendNotification(SendNotificationCommand command)
         {
             var id = await Mediator.Send(command);
@@ -27,6 +29,7 @@ namespace WebApi.Controllers.v2
 
         [HttpPost("broadcast")]
         [MustHavePermission(ApiAction.Create, ApiResource.Notifications)]
+        [SwaggerOperation("Broadcast Notification", "Sends a Notification to All Users")]
         public async Task<ActionResult> BroadcastNotification(SendNotificationToAllCommand command)
         {
             await Mediator.Send(command);
