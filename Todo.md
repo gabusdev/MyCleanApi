@@ -24,8 +24,9 @@
 - [x] Arreglar todos los mensajes con Localizacion
 - [ ] ~~Add Messages with SignalR~~
 - [ ] Add Exception Tracing in Database
-- [ ] Fix Custom Response Headers to avoid Same Response with diferent Authorization when cache is diferent from public
-- [ ] Add Profile Pic to User Claims
+- [x] Fix Custom Response Headers to avoid Same Response with diferent Authorization when cache is diferent from public
+- [x] Add Profile Pic to User Claims
+- [ ] Change Local File Storage Service to auto generate file names
 - [ ] Add Perma-Notification Service
 
 - [ ] Mejorar la Api

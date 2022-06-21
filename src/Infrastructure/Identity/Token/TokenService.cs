@@ -103,10 +103,11 @@ internal class TokenService : ITokenService
             new(ClaimTypes.NameIdentifier, user.Id),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, user.UserName ?? string.Empty),
-            new(ApiClaims.FirstName, user.FirstName ?? string.Empty),
-            new(ClaimTypes.Surname, user.LastName ?? string.Empty),
-            new(ApiClaims.IpAddress, ipAddress)
-            //new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+            // new(ApiClaims.FirstName, user.FirstName ?? string.Empty),
+            // new(ClaimTypes.Surname, user.LastName ?? string.Empty),
+            // new(ApiClaims.IpAddress, ipAddress)
+            // new(ClaimTypes.MobilePhone, user.PhoneNumber ?? string.Empty)
+            new(ApiClaims.ImageUrl, user.ImageUrl ?? string.Empty)
         };
 
     private string GenerateRefreshToken()
