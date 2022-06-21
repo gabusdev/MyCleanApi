@@ -1,4 +1,4 @@
-﻿namespace Application.UserNotifications.Queries
+﻿namespace Application.PermaNotifications.Queries
 {
     public class NotificationDto
     {

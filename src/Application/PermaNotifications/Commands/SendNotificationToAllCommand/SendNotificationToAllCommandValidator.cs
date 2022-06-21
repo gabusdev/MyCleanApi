@@ -1,6 +1,6 @@
 ﻿using Application.Identity.Users;
 
-namespace Application.UserNotifications.Commands.SendNotificationToAllCommand
+namespace Application.PermaNotifications.Commands.SendNotificationToAllCommand
 {
     public class SendNotificationToAllCommandValidator : AbstractValidator<SendNotificationToAllCommand>
     {

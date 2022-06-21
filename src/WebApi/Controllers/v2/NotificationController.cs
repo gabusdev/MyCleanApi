@@ -1,6 +1,6 @@
-﻿using Application.UserNotifications.Commands.SendNotificationCommand;
-using Application.UserNotifications.Commands.SendNotificationToAllCommand;
-using Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
+﻿using Application.PermaNotifications.Commands.SendNotificationCommand;
+using Application.PermaNotifications.Commands.SendNotificationToAllCommand;
+using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers.v2

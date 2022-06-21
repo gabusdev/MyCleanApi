@@ -1,7 +1,7 @@
 ﻿using Application.Identity.Users;
 using Microsoft.Extensions.Localization;
 
-namespace Application.UserNotifications.Commands.SendNotificationCommand
+namespace Application.PermaNotifications.Commands.SendNotificationCommand
 {
     public class SendNotificationCommandValidator : AbstractValidator<SendNotificationCommand>
     {

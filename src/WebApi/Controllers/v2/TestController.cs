@@ -3,7 +3,7 @@ using Application.Common.Exporters;
 using Application.Common.FileStorage;
 using Application.Common.Persistence;
 using Application.Identity.Users.Queries;
-using Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
+using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Domain.Common;
 using Infrastructure.Identity.User;
 using Infrastructure.ResponseCaching;

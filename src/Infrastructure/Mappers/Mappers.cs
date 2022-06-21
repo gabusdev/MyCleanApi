@@ -1,4 +1,4 @@
-﻿using Application.UserNotifications.Queries;
+﻿using Application.PermaNotifications.Queries;
 using Domain.Entities.JoinTables;
 
 namespace Infrastructure.Mappers

@@ -1,4 +1,4 @@
-﻿namespace Application.UserNotifications.Queries.GetUnreadedNotificationsByUserId;
+﻿namespace Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 
 public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto>>
 {
