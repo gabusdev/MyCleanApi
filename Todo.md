@@ -28,5 +28,6 @@
 - [x] Add Profile Pic to User Claims
 - [ ] Change Local File Storage Service to auto generate file names
 - [ ] Add Perma-Notification Service
+- [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
 
 - [ ] Mejorar la Api

@@ -9,7 +9,13 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Persistence.Repository
 {
-    internal class EFGenericRepository<T> : IGenericRepository<T> where T : class, IEntity
+    internal class EFGenericRepository<T> : EFGenericRepository<T, string>, IGenericRepository<T> where T : class, IEntity
+    {
+        public EFGenericRepository(ApplicationDbContext context) : base(context)
+        {
+        }
+    }
+    internal class EFGenericRepository<T, ET> : IGenericRepository<T, ET> where T : class, IEntity<ET>
     {
         protected readonly ApplicationDbContext _context;
         protected readonly DbSet<T> _db;
@@ -51,7 +57,7 @@ namespace Infrastructure.Persistence.Repository
 
             query = AddIncludes(query, includeProperties);
 
-            return (await query.FirstOrDefaultAsync(i => i.Id == Convert.ToString(id))) ?? default;
+            return (await query.FirstOrDefaultAsync(i => Convert.ToString(i.Id) == Convert.ToString(id))) ?? default;
         }
 
         public virtual async Task<PagedList<T>> GetPagedAsync
