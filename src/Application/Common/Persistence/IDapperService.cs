@@ -12,5 +12,7 @@ namespace Application.Common.Persistence
 
         Task<T> QuerySingleAsync<T>(string sql, object? @params = null)
             where T : class, IEntity;
+
+        Task<T> Execute<T>(string sql, object? @params = null);
     }
 }
