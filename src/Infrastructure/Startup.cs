@@ -4,6 +4,7 @@ using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
 using Infrastructure.Common;
 using Infrastructure.Cors;
+using Infrastructure.CurrentUser;
 using Infrastructure.FileStorage;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
@@ -36,7 +37,8 @@ namespace Infrastructure
                 .AddOpenApi()
                 .AddMyApiVersioning()
                 .AddCorsPolicy(config)
-                .AddFileStorageService();
+                .AddFileStorageService()
+                .AddCurrentUser();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
@@ -49,6 +51,7 @@ namespace Infrastructure
                 .UseBackgroundJobs(config)
                 .UseFileStorage()
                 .UseAuth()
+                .UseCurrentUser()
                 .UseOpenApi(development);
         }
     }
