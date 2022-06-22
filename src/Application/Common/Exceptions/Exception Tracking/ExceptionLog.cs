@@ -13,4 +13,5 @@ public class ExceptionLog : IEntity<string>
     public string? StackTrace { get; set; }
     public string? Source { get; set; }
     public string? Messages { get; set; }
+    public string? ExceptionType { get; set; }
 }

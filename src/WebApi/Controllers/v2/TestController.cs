@@ -48,7 +48,8 @@ namespace WebApi.Controllers.v2
         {
             var query = "select*from AspNetUsers u where u.Email = @mail";
             var param = new { mail = "admin@mail.com" };
-            var result = await _dapper.QueryFirstOrDefaultAsync<ApplicationUser>(query, param);
+            //var result = await _dapper.QueryFirstOrDefaultAsync<ApplicationUser>(query, param);
+            var result = await _dapper.Execute("create database Test");
             Log.Information(">>>>>>> Using Dapper");
             return Ok(result);
         }
