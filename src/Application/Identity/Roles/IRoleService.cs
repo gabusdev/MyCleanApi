@@ -15,7 +15,7 @@ public interface IRoleService
     Task<int> GetCountAsync(CancellationToken cancellationToken);
     Task<IEnumerable<UserDetailsDto>> GetUsersByIdAsync(string roleId);
 
-    Task CreateOrUpdateAsync(CreateOrUpdateRoleCommand request);
+    Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleCommand request);
     Task DeleteAsync(string id);
 
     List<string> GetAllPermissions();
