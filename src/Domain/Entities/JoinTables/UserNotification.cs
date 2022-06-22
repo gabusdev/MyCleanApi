@@ -6,7 +6,7 @@ namespace Domain.Entities.JoinTables
     {
         public string Id { get; set; } = null!;
         public string DestinationUserId { get; set; } = null!;
-        public string OriginUserId { get; set; } = null!;
+        public string OriginUserId { get; set; } = "admin";
         public string NotificationId { get; set; } = null!;
         public bool Readed { get; set; }
         public DateTime? ReadedOn { get; set; }

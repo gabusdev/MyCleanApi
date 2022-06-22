@@ -66,7 +66,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExceptionLog");
+                    b.ToTable("ExceptionLog", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.JoinTables.UserNotification", b =>
@@ -100,7 +100,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("OriginUserId");
 
-                    b.ToTable("UserNotification");
+                    b.ToTable("UserNotification", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.PermaNotification", b =>
