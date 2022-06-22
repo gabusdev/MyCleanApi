@@ -29,6 +29,6 @@
 - [ ] Change Local File Storage Service to auto generate file names
 - [ ] ~~Add Perma-Notification Service~~
 - [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
-- [ ] Fix Current User
+- [x] Fix Current User
 
 - [ ] Mejorar la Api
