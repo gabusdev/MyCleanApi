@@ -23,10 +23,10 @@ namespace Application.PermaNotifications
             _localizer = localizer;
             _userService = userService;
         }
-        public async Task<IEnumerable<UserNotification>> GetUnreadedNotifications(string userId)
+        public async Task<IEnumerable<UserNotification>> GetNotifications(string userId, bool readed = false)
         {
             var userNotifications = await _uow.UserNotifications.GetOrderedByAsync(
-                un => un.DestinationUserId == userId && un.Readed == false,
+                un => un.DestinationUserId == userId && un.Readed == readed,
                 un => un.Notification.CreatedOn, true, "Notification");
 
             return userNotifications;

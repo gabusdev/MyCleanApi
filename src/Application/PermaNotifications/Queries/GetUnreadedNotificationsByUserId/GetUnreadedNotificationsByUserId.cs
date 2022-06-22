@@ -15,7 +15,7 @@ public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto
 
         public async Task<List<NotificationDto>> Handle(GetUnreadedNotificationsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var userNotifications = await _notificationService.GetUnreadedNotifications(request.UserId);
+            var userNotifications = await _notificationService.GetNotifications(request.UserId);
 
             return userNotifications.Adapt<List<NotificationDto>>();
         }

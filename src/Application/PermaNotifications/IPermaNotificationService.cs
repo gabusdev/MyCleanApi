@@ -12,7 +12,7 @@ namespace Application.PermaNotifications
     {
         Task<string> SendNotificationToUser(string message, string destinationId, string? senderId = null);
         Task SendNotificationToAll(string message, string? senderId = null);
-        Task<IEnumerable<UserNotification>> GetUnreadedNotifications(string userId);
+        Task<IEnumerable<UserNotification>> GetNotifications(string userId, bool readed = false);
         Task SetNotificationAsReaded(string userId, string notificationId);
     }
 }
