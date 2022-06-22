@@ -2,22 +2,20 @@
 
 public class GetUnreadedNotificationsByUserIdQuery : IQuery<List<NotificationDto>>
 {
-    public string? UserId { get; set; }
+    public string UserId { get; set; } = null!;
 
     public class GetUnreadedNotificationsByUserIdQueryHandler : IQueryHandler<GetUnreadedNotificationsByUserIdQuery, List<NotificationDto>>
     {
-        private readonly IUnitOfWork _uow;
+        private readonly IPermaNotificationService _notificationService;
 
-        public GetUnreadedNotificationsByUserIdQueryHandler(IUnitOfWork uow)
+        public GetUnreadedNotificationsByUserIdQueryHandler(IPermaNotificationService notificationService)
         {
-            _uow = uow;
+            _notificationService = notificationService;
         }
 
         public async Task<List<NotificationDto>> Handle(GetUnreadedNotificationsByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var userNotifications = await _uow.UserNotifications.GetOrderedByAsync(
-                un => un.DestinationUserId == request.UserId && un.Readed == false,
-                un => un.Notification.CreatedOn, true, "Notification");
+            var userNotifications = await _notificationService.GetUnreadedNotifications(request.UserId);
 
             return userNotifications.Adapt<List<NotificationDto>>();
         }

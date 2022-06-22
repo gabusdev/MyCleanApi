@@ -23,9 +23,13 @@ namespace Application.PermaNotifications
             _localizer = localizer;
             _userService = userService;
         }
-        public Task<IEnumerable<PermaNotification>> GetUnreadedNotifications(string userId)
+        public async Task<IEnumerable<UserNotification>> GetUnreadedNotifications(string userId)
         {
-            throw new NotImplementedException();
+            var userNotifications = await _uow.UserNotifications.GetOrderedByAsync(
+                un => un.DestinationUserId == userId && un.Readed == false,
+                un => un.Notification.CreatedOn, true, "Notification");
+
+            return userNotifications;
         }
 
         public async Task SendNotificationToAll(string message, string? senderId = null)

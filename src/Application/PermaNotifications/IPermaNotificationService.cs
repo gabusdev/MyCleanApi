@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.JoinTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Application.PermaNotifications
     {
         Task<string> SendNotificationToUser(string message, string destinationId, string? senderId = null);
         Task SendNotificationToAll(string message, string? senderId = null);
-        Task<IEnumerable<PermaNotification>> GetUnreadedNotifications(string userId);
+        Task<IEnumerable<UserNotification>> GetUnreadedNotifications(string userId);
         Task SetNotificationAsReaded(string userId, string notificationId);
     }
 }
