@@ -1,4 +1,5 @@
-﻿using Infrastructure.Identity;
+﻿using Infrastructure.Identity.Role;
+using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -104,7 +105,10 @@ namespace Infrastructure.Persistence.Initialization
                 await _roleManager.CreateAsync(role);
             }
             else
+            {
                 role = existingRole;
+            }
+
             await AssignPermissionsToRoleAsync(dbContext, permissions, role);
         }
         private async Task AssignPermissionsToRoleAsync(ApplicationDbContext dbContext, IReadOnlyList<ApiPermission> permissions, ApplicationRole role)

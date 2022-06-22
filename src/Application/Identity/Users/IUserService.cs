@@ -1,11 +1,12 @@
+using Application.Common.Pagination;
+using Application.Identity.Users.Commands.CreateUser;
+using Application.Identity.Users.Commands.SetRoles;
+using Application.Identity.Users.Commands.ToggleUserStatus;
+using Application.Identity.Users.Commands.UpdateUser;
 using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Password.Commands.ResetPassword;
 using Application.Identity.Users.Password.Queries.ForgotPasswordQuery;
-using Application.Identity.Users.UserCommands.CreateUser;
-using Application.Identity.Users.UserCommands.SetRoles;
-using Application.Identity.Users.UserCommands.ToggleUserStatus;
-using Application.Identity.Users.UserCommands.UpdateUser;
-using Application.Identity.Users.UserQueries;
+using Application.Identity.Users.Queries;
 
 namespace Application.Identity.Users;
 
@@ -16,8 +17,9 @@ public interface IUserService
     Task<bool> ExistsWithEmailAsync(string email, string? exceptId = null);
     Task<bool> ExistsWithPhoneNumberAsync(string phoneNumber, string? exceptId = null);
 
-    Task<UserDetailsDto> GetAsync(string userId, CancellationToken cancellationToken);
-    Task<List<UserDetailsDto>> GetListAsync(CancellationToken cancellationToken);
+    Task<UserDetailsDto?> GetByIdAsync(string userId, CancellationToken cancellationToken);
+    Task<List<UserDetailsDto>> GetAsync(CancellationToken cancellationToken);
+    Task<PagedList<UserDetailsDto>> GetPagedListAsync(PaginationParams paginationParams, CancellationToken cancellationToken);
     Task<int> GetCountAsync(CancellationToken cancellationToken);
 
     Task<List<string>> GetPermissionsAsync(string userId, CancellationToken cancellationToken);
@@ -34,7 +36,9 @@ public interface IUserService
     Task UpdateAsync(UpdateUserRequest request, string userId);
     Task DeleteAsync(string userId, CancellationToken cancellationToken);
 
-    Task<string> ForgotPasswordAsync(ForgotPasswordQuery request);
+    Task<string> ForgotPasswordAsync(ForgotPasswordQuery request, string origin);
     Task ResetPasswordAsync(ResetPasswordCommand request);
     Task ChangePasswordAsync(ChangePasswordCommand request, string userId);
+
+    Task<string> ConfirmEmailAsync(string userId, string code, CancellationToken cancellationToken);
 }

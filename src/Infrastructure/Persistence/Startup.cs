@@ -1,8 +1,8 @@
-﻿using Infrastructure.Persistence.Context;
+﻿using Application.Common.Persistence;
+using Infrastructure.Persistence.Context;
 using Infrastructure.Persistence.Initialization;
+using Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Persistence
 {
@@ -17,9 +17,14 @@ namespace Infrastructure.Persistence
 
             // Add Database Context form Enviroment or Configuration files
             var dBSettings = DatabaseSettings.GetDbSettings(config);
-
             services.AddDbContext<ApplicationDbContext>(m =>
                 m.UseDatabase(dBSettings.DBProvider!, dBSettings.ConnectionString!));
+
+            // Adding Support for Dapper with same Connection String
+            services
+                .AddSingleton<DapperContext>()
+                .AddScoped<IDapperService, DapperService>()
+                .AddTransient<IUnitOfWork, UnitOfWork>();
 
             Log.Information($"Using Database Context: {dBSettings.DBProvider} with connString: {dBSettings.ConnectionString}");
 
@@ -39,13 +44,8 @@ namespace Infrastructure.Persistence
                     return (builder.UseSqlServer(connectionString), defaultLifetime);
                 case DbProviderKeys.MySql:
                     return (builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)), defaultLifetime);
-                /*
                 case DbProviderKeys.Oracle:
-                    return builder.UseOracle(connectionString, e =>
-                         e.MigrationsAssembly("Migrators.Oracle"));
-                */
-                case DbProviderKeys.InMemory:
-                    return (builder.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);
+                    return (builder.UseOracle(connectionString), defaultLifetime);
                 default:
                     throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
             }

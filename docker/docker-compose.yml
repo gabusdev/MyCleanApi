@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  api-prometheus:
+    image: "prom/prometheus"
+    container_name: dev_prometheus_api
+    ports:
+      - "30090:9090"
+    environment:
+      - TZ=America/Nassau
+    volumes:
+      - ./volumes/prom/prometheus.yml:/etc/prometheus/prometheus.yml
+  api-redis:
+    image: "redis:alpine"
+    container_name: dev_redis_api
+    command: redis-server
+    ports:
+      - "36379:6379"
+  api-grafana:
+    image: "grafana/grafana"
+    container_name: dev_grafana_api
+    ports:
+      - "30091:3000"
+    volumes:
+      - ./volumes/grafana-data/data:/var/lib/grafana

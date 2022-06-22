@@ -1,0 +1,34 @@
+- [x] Implement GrapQL
+- [x] Implement File Upload
+  - Store Images
+- [x] Adding More Support for Entity Framework Database
+  - Oracle
+  - ~~MongoDB~~
+  - ~~InMemory _( fix )_~~
+- [x] Adding more support for Hangfire Database
+  - Mysql
+  - Postgres
+  - ~~NoSql~~
+- [ ] ~~Abstracting Serilog to Logger~~
+- [x] Document the Project
+- [x] Add Grafana & Prometeus
+- [x] Adding Search Filters
+- [ ] ~~Add a Home Page to the API~~
+- [ ] ~~Make All Rest Responses the Same~~
+- [x] Configure Cors
+- [x] Add Exports
+  - To Excel
+  - ~~To Pdf~~
+- [x] Dockerize The App
+- [x] Agregar Notificaciones
+- [x] Arreglar todos los mensajes con Localizacion
+- [ ] ~~Add Messages with SignalR~~
+- [x] Add Exception Tracing in Database
+- [x] Fix Custom Response Headers to avoid Same Response with diferent Authorization when cache is diferent from public
+- [x] Add Profile Pic to User Claims
+- [ ] Change Local File Storage Service to auto generate file names
+- [ ] ~~Add Perma-Notification Service~~
+- [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
+- [x] Fix Current User
+
+- [ ] Mejorar la Api

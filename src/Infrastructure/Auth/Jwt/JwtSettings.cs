@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Infrastructure.Auth.Jwt
+﻿namespace Infrastructure.Auth.Jwt
 {
     internal class JwtSettings
     {
@@ -20,26 +18,36 @@ namespace Infrastructure.Auth.Jwt
 
             GetSettingsFromEnv(jwtSettings);
             if (jwtSettings.Key is null || (jwtSettings.Encrypt is true && jwtSettings.Secret is null))
+            {
                 throw new InvalidOperationException("There are not Keys provided for Jwt");
+            }
 
             if (jwtSettings.ExpirationInMinutes == default)
+            {
                 jwtSettings.ExpirationInMinutes = 15;
+            }
 
             if (jwtSettings.RefreshExpirationInDays == default)
+            {
                 jwtSettings.RefreshExpirationInDays = 1;
+            }
 
             return jwtSettings;
         }
 
         private static void GetSettingsFromEnv(JwtSettings jwtSettings)
         {
-            var jwtKey = Environment.GetEnvironmentVariable("jwtKey");
+            var jwtKey = Environment.GetEnvironmentVariable("jwtKey", EnvironmentVariableTarget.User);
             if (jwtKey != null)
+            {
                 jwtSettings.Key = jwtKey;
+            }
 
-            var jwtSecret = Environment.GetEnvironmentVariable("jwtSecret");
+            var jwtSecret = Environment.GetEnvironmentVariable("jwtSecret", EnvironmentVariableTarget.User);
             if (jwtSecret != null)
+            {
                 jwtSettings.Secret = jwtSecret;
+            }
         }
     }
 }

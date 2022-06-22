@@ -2,9 +2,6 @@
 using Infrastructure.Auth.Permissions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Auth;
 internal static class Startup
@@ -12,6 +9,7 @@ internal static class Startup
     internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config, bool locked = false)
     {
         return services
+            .Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)))
             .AddPermissions()
             .AddAuthorization(opt =>
             {
@@ -39,6 +37,6 @@ internal static class Startup
         app
             .UseAuthentication()
             .UseAuthorization();
-            
+
 }
 

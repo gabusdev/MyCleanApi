@@ -1,6 +1,6 @@
 namespace Application.Identity.Roles;
 
-public class RoleDto
+public class RoleDto : IDto
 {
     public string Id { get; set; } = default!;
     public string Name { get; set; } = default!;

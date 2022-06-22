@@ -1,9 +1,10 @@
 using Application.Identity.Roles;
 using Application.Identity.Tokens;
+using Infrastructure.Identity.Role;
+using Infrastructure.Identity.Token;
+using Infrastructure.Identity.User;
 using Infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 
 namespace Infrastructure.Identity;

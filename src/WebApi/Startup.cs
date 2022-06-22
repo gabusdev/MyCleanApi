@@ -1,7 +1,5 @@
-﻿using Application;
-using Application.Common.Interfaces;
+﻿using GraphQL;
 using Infrastructure;
-using WebApi.Services;
 
 namespace WebApi
 {
@@ -9,34 +7,20 @@ namespace WebApi
     {
         public static IServiceCollection AddConfigurations(this IServiceCollection services, IConfiguration config)
         {
-            services.AddHttpContextAccessor();
-            services.AddTransient<ICurrentUser, CurrentUser>();
-            services.AddTransient<IHttpContextService, HttpContextService>();
-
-            services.AddApplication();
-            services.AddInfrastructure(config);
-
             services.AddControllers();
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c =>
-                c.EnableAnnotations()
-            );
+            services.AddInfrastructure(config);
+            services.AddMyGraphQL();
 
             return services;
         }
-        public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config)
+        public static IApplicationBuilder UseConfigurations(this IApplicationBuilder app, IConfiguration config, bool development)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseInfraestructure(config, development);
+            app.UseMyGraphQL();
 
-            app.UseRouting();
-            app.UseInfraestructure();
-
-            app.UseHttpsRedirection();
-            
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGraphQL("/api/graphql")/*.RequireAuthorization()*/;
             });
 
             return app;
