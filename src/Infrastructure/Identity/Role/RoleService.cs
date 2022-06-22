@@ -40,7 +40,7 @@ internal class RoleService : IRoleService
 
     public async Task<List<RoleDto>> GetListAsync(CancellationToken cancellationToken) =>
         (await _cache.GetOrSetAsync("rolesList",
-            () => _roleManager.Roles.ToListAsync(cancellationToken), absoluteExpiration: 
+            () => _roleManager.Roles.ToListAsync(cancellationToken), absoluteExpiration:
             TimeSpan.FromMinutes(5)))!
         .Adapt<List<RoleDto>>();
 

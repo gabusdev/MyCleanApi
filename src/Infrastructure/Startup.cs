@@ -1,4 +1,6 @@
-﻿using Infrastructure.ApiVersioning;
+﻿using Application;
+using Hangfire;
+using Infrastructure.ApiVersioning;
 using Infrastructure.Auth;
 using Infrastructure.BackgroundJobs;
 using Infrastructure.Caching;
@@ -15,6 +17,7 @@ using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Infrastructure.RateLimit;
 using Infrastructure.ResponseCaching;
+using Prometheus;
 
 namespace Infrastructure
 {
@@ -23,6 +26,8 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             return services
+                .AddHttpContextAccessor()
+                .AddApplication()
                 .AddCustomMappers()
                 .AddCommon(config)
                 .AddCaching(config)
@@ -38,21 +43,30 @@ namespace Infrastructure
                 .AddMyApiVersioning()
                 .AddCorsPolicy(config)
                 .AddFileStorageService()
-                .AddCurrentUser();
+                .AddCurrentUser()
+                .AddEndpointsApiExplorer();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
             return app
-                .UseCustomMiddlewares()
-                .UseCorsPolicy()
-                .UseMyResponseCaching()
-                .UseRateLimit()
                 .UseLocalization()
-                .UseBackgroundJobs(config)
                 .UseFileStorage()
+                .UseCustomMiddlewares()
+                .UseRouting()
+                .UseCorsPolicy()
                 .UseAuth()
                 .UseCurrentUser()
-                .UseOpenApi(development);
+                .UseMyResponseCaching()
+                .UseRateLimit()
+                .UseBackgroundJobs(config)
+                .UseOpenApi(development)
+                .UseHttpMetrics()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapHangfireDashboard("/dev/jobs");
+                    endpoints.MapMetrics("/dev/metrics");
+                });
         }
     }
 }

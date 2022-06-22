@@ -42,7 +42,7 @@ namespace WebApi.Controllers.neutral.Personal
         }
 
         [HttpGet("permissions")]
-        [MustHavePermission(ApiAction.View, ApiResource.Permissions)]
+        //[MustHavePermission(ApiAction.View, ApiResource.Permissions)]
         [SwaggerOperation("Get Permissions", "Get permissions of currently logged in user.")]
         public async Task<List<string>> GetPermissionsAsync(CancellationToken cancellationToken)
         {

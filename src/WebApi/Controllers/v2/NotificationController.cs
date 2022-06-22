@@ -36,7 +36,7 @@ namespace WebApi.Controllers.v2
             await Mediator.Send(command);
             return NoContent();
         }
-        
+
         [HttpPut("{id}/readed")]
         [MustHavePermission(ApiAction.View, ApiResource.Notifications)]
         [SwaggerOperation("Set Notification as Readed", "Set Notification with given Id as Readed")]

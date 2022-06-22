@@ -53,7 +53,7 @@ namespace Infrastructure.ResponseCaching
                 if (cacheResponse is not null)
                 {
                     var requestAuth = context.HttpContext.Request.Headers.Authorization;
-                    
+
                     if (Location == ResponseCacheLocation.Any || requestAuth == cacheResponse.Authorization)
                     {
                         context.Result = cacheResponse.Result;
@@ -76,7 +76,7 @@ namespace Infrastructure.ResponseCaching
                     Result = objectResult,
                     Headers = context.HttpContext.Response.Headers.ToDictionary(
                         hd => hd.Key, hd => hd.Value.ToString()),
-                    Authorization = Location == ResponseCacheLocation.Any 
+                    Authorization = Location == ResponseCacheLocation.Any
                         ? string.Empty
                         : context.HttpContext.Request.Headers.Authorization
                 };

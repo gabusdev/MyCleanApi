@@ -3,7 +3,6 @@ using Application.Common.Exporters;
 using Application.Common.Interfaces;
 using Infrastructure.Common.Export;
 using Infrastructure.Common.Services;
-using Infrastructure.CurrentUser;
 
 namespace Infrastructure.Common;
 

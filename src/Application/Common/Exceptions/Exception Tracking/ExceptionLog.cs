@@ -1,12 +1,7 @@
 ﻿using Domain.Common.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Common.Exceptions.Exception_Tracking;
-public class ExceptionLog: IEntity<string>
+public class ExceptionLog : IEntity<string>
 {
     public string Id { get; set; } = null!;
     public string? UserId { get; set; }

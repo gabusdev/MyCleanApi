@@ -1,10 +1,4 @@
-﻿using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
-using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Localization;
 
 namespace Application.PermaNotifications.Commands.MarkNotificationAsReaded
 {
@@ -28,7 +22,9 @@ namespace Application.PermaNotifications.Commands.MarkNotificationAsReaded
             {
                 var current = _currentUserService.GetUserId();
                 if (current == string.Empty)
+                {
                     throw new ForbiddenException(_localizer["identity.notallowed"]);
+                }
 
                 var userUnreadedNotifications =
                     await _uow.UserNotifications.GetAsync(filter:

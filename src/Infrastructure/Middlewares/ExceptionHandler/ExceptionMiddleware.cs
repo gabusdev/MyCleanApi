@@ -91,21 +91,21 @@ internal class ExceptionMiddleware : IMiddleware
 
             // Store ExceptionLog in Database
             await _uow.ExceptionLogs.InsertAsync(new ExceptionLog
+            {
+                Id = errorResult.ErrorId,
+                Data = JsonConvert.SerializeObject(exception.Data, new JsonSerializerSettings
                 {
-                    Id = errorResult.ErrorId,
-                    Data = JsonConvert.SerializeObject(exception.Data, new JsonSerializerSettings
-                    {
-                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                    }),
-                    DataTime = DateTime.Now,
-                    ErrorDescription = errorResult.Exception,
-                    IPInfo = context.Connection.RemoteIpAddress?.MapToIPv4().ToString(),
-                    Reference = context.Request.Path,
-                    StackTrace = exception.StackTrace,
-                    UserId = userId,
-                    Source = errorResult.Source,
-                    Messages = errorResult.Messages.Aggregate((a, b) => $"{a}\n{b}")
-                });
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                }),
+                DataTime = DateTime.Now,
+                ErrorDescription = errorResult.Exception,
+                IPInfo = context.Connection.RemoteIpAddress?.MapToIPv4().ToString(),
+                Reference = context.Request.Path,
+                StackTrace = exception.StackTrace,
+                UserId = userId,
+                Source = errorResult.Source,
+                Messages = errorResult.Messages.Aggregate((a, b) => $"{a}\n{b}")
+            });
             await _uow.CommitAsync();
 
             var json = JsonConvert.SerializeObject(errorResult, new JsonSerializerSettings
