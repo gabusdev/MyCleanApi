@@ -27,7 +27,7 @@
 - [x] Fix Custom Response Headers to avoid Same Response with diferent Authorization when cache is diferent from public
 - [x] Add Profile Pic to User Claims
 - [ ] Change Local File Storage Service to auto generate file names
-- [ ] ~~Add Perma-Notification Service~~
+- [ ] Add Perma-Notification Service
 - [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
 - [x] Fix Current User
 

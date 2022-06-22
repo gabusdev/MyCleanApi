@@ -28,5 +28,6 @@
   "validation.role.seclevel": "Security Level of Role Must Be greater than 0",
   "validation.role.similar": "There is already a Role with similar Name.",
   "validation.username.used": "Username {0} is already taken.",
+  "welcomeMessage": "Welcome to this Api",
   "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis."
 }

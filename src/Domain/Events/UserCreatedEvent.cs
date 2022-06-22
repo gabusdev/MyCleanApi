@@ -4,10 +4,10 @@ namespace Domain.Events;
 
 public class UserCreatedEvent : DomainEvent
 {
-    public UserCreatedEvent(IApplicationUser item)
+    public UserCreatedEvent(string item)
     {
-        Item = item;
+        userId = item;
     }
 
-    public IApplicationUser Item { get; }
+    public string userId { get; }
 }

@@ -21,6 +21,8 @@ namespace Infrastructure.Persistence.Configurations
                 .HasMaxLength(250);
             builder.Property(e => e.Messages)
                 .HasMaxLength(500);
+            builder.Property(e => e.ExceptionType)
+                .HasMaxLength(100);
         }
     }
 }
