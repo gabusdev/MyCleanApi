@@ -18,23 +18,21 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, strin
     private readonly IUserService _userService;
     private readonly IHttpContextService _httpContextService;
     private readonly IDomainEventService _eventService;
-    private readonly IJobService _jobService;
 
     public CreateUserCommandHandler(IUserService userService, IHttpContextService httpContextService,
-        IDomainEventService eventService, IJobService jobService)
+        IDomainEventService eventService)
     {
         _userService = userService;
         _httpContextService = httpContextService;
         _eventService = eventService;
-        _jobService = jobService;
     }
 
     public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var newUserId = await _userService.CreateAsync(request, _httpContextService.GetOrigin());
-        // Launches the UserCreatedEvent
-        //_jobService.Enqueue(() => _eventService.Publish(new UserCreatedEvent(newUserId)));
-        //await _eventService.Publish(new UserCreatedEvent(newUserId));
+        
+        await _eventService.Publish(new UserCreatedEvent(newUserId));
+        
         return newUserId;
     }
 }
