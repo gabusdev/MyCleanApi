@@ -7,7 +7,6 @@ using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Domain.Common;
 using Infrastructure.Identity.User;
 using Mapster;
-using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -35,7 +34,6 @@ namespace WebApi.Controllers.v2
             return "Hello from Version 2";
         }
         [HttpGet("cache")]
-        [HttpCacheIgnore]
         public async Task<string> CaheTest()
         {
             return await _cache.GetOrSetAsync("testeo", async () => await Task.Delay(5000).ContinueWith((t) => "Hola"));
