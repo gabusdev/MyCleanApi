@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Infrastructure.Auth;
 internal static class Startup
 {
-    internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config, bool locked = false)
+    internal static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration config)
     {
         return services
             .Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)))

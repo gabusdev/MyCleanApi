@@ -31,16 +31,6 @@ internal class PermissionPolicyProvider : IAuthorizationPolicyProvider
         return FallbackPolicyProvider.GetPolicyAsync(policyName);
     }
 
-    public Task<AuthorizationPolicy?> GetFallbackPolicyAsync()
-    {
-        var path = _contextService.GetPath().ToLower();
-        if (path.StartsWith("/api") || path.StartsWith("/files"))
-            return Task.FromResult<AuthorizationPolicy?>(new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build());
-        else 
-            return Task.FromResult<AuthorizationPolicy?>(null);
-    }
+    public Task<AuthorizationPolicy?> GetFallbackPolicyAsync() => Task.FromResult<AuthorizationPolicy?>(null);
         
 }
