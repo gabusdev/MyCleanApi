@@ -13,13 +13,6 @@ internal static class Startup
             .AddPermissions()
             .AddAuthorization(opt =>
             {
-                if (locked)
-                {
-                    opt.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-                    .RequireAuthenticatedUser()
-                    .Build();
-                }
                 /*
                 opt.AddPolicy("AdminRights",
                     policy => policy.RequireRole(Enum.GetName(RoleEnum.Admin)!));
