@@ -1,4 +1,5 @@
 ﻿using Application.Common.Behaviors;
+using Application.PermaNotifications;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -13,7 +14,8 @@ namespace Application
             services
                 .AddMediatR(assembly)
                 .AddValidatorsFromAssembly(assembly)
-                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+                .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
+                .AddScoped<IPermaNotificationService, PermaNotificatinService>();
 
             return services;
         }

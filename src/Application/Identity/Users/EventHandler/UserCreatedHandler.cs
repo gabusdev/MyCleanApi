@@ -1,5 +1,6 @@
 ﻿
-using Serilog;
+using Application.PermaNotifications;
+using Microsoft.Extensions.Localization;
 
 namespace Application.Identity.Users.EventHandler
 {
@@ -7,16 +8,25 @@ namespace Application.Identity.Users.EventHandler
     {
         private readonly IGraphQLSubscriptionService _gqlSender;
         private readonly IUserService _userService;
-        public UserCreatedHandler(IGraphQLSubscriptionService gqlSender, IUserService userService)
+        private readonly IPermaNotificationService _notificationService;
+        private readonly IStringLocalizer<UserCreatedHandler> _localizer;
+        public UserCreatedHandler(IGraphQLSubscriptionService gqlSender, IUserService userService,
+            IPermaNotificationService notificationService,
+            IStringLocalizer<UserCreatedHandler> localizer)
         {
             _gqlSender = gqlSender;
             _userService = userService;
+            _localizer = localizer;
+            _notificationService = notificationService;
         }
         public override async Task Handle(UserCreatedEvent @event, CancellationToken cancellationToken)
         {
-            Log.Information($"--->Event<--- Created new User: {@event.Item.UserName}");
+            var user = await _userService.GetByIdAsync(@event.userId, cancellationToken);
 
-            var user = await _userService.GetByIdAsync(@event.Item.Id, cancellationToken);
+            await _notificationService.SendNotificationToUser(
+                _localizer["welcomeMessage"],
+                @event.userId);
+
             await _gqlSender.SendAsync(nameof(UserCreatedEvent), user);
         }
     }

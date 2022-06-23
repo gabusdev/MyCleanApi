@@ -12,6 +12,15 @@ internal class DapperService : IDapperService
         _context = context;
     }
 
+    public async Task<int> Execute(string sql, object? @params = null)
+    {
+        using (var connection = _context.CreateConnection())
+        {
+            var result = await connection.ExecuteAsync(sql, @params);
+            return result;
+        }
+    }
+
     async Task<IReadOnlyList<T>> IDapperService.QueryAsync<T>(string sql, object? @params)
     {
         using (var connection = _context.CreateConnection())

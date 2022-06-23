@@ -74,7 +74,7 @@ internal class RoleService : IRoleService
         return role;
     }
 
-    public async Task CreateOrUpdateAsync(CreateOrUpdateRoleCommand request)
+    public async Task<string> CreateOrUpdateAsync(CreateOrUpdateRoleCommand request)
     {
         if (string.IsNullOrEmpty(request.Id))
         {
@@ -86,6 +86,8 @@ internal class RoleService : IRoleService
             {
                 throw new InternalServerException(_localizer["entity.create.failed", "Role"], result.GetErrors());
             }
+
+            request.Id = role.Id;
         }
         else
         {
@@ -110,6 +112,8 @@ internal class RoleService : IRoleService
                 throw new InternalServerException(_localizer["entity.update.failed", role.Id], result.GetErrors());
             }
         }
+
+        return request.Id;
     }
 
     public async Task UpdatePermissionsAsync(UpdateRolePermissionsCommand request, CancellationToken cancellationToken)

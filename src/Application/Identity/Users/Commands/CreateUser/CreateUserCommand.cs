@@ -15,16 +15,21 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, strin
 {
     private readonly IUserService _userService;
     private readonly IHttpContextService _httpContextService;
+    private readonly IDomainEventService _eventService;
 
-    public CreateUserCommandHandler(IUserService userService, IHttpContextService httpContextService)
+    public CreateUserCommandHandler(IUserService userService, IHttpContextService httpContextService,
+        IDomainEventService eventService)
     {
         _userService = userService;
         _httpContextService = httpContextService;
+        _eventService = eventService;
     }
 
     public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var newUserId = await _userService.CreateAsync(request, _httpContextService.GetOrigin());
+
+        await _eventService.Publish(new UserCreatedEvent(newUserId));
 
         return newUserId;
     }

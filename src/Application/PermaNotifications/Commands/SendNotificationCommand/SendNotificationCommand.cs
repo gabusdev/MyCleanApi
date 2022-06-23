@@ -1,7 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Entities.JoinTables;
-
-namespace Application.PermaNotifications.Commands.SendNotificationCommand
+﻿namespace Application.PermaNotifications.Commands.SendNotificationCommand
 {
     public class SendNotificationCommand : ICommand<string>
     {
@@ -10,13 +7,13 @@ namespace Application.PermaNotifications.Commands.SendNotificationCommand
 
         public class SendNotificationCommandHandler : ICommandHandler<SendNotificationCommand, string>
         {
-            private readonly IUnitOfWork _uow;
+            private readonly IPermaNotificationService _notificationService;
             private readonly ICurrentUserService _currentUserService;
 
-            public SendNotificationCommandHandler(IUnitOfWork uow, ICurrentUserService currentUserService)
+            public SendNotificationCommandHandler(IPermaNotificationService notificationService, ICurrentUserService currentUserService)
             {
                 _currentUserService = currentUserService;
-                _uow = uow;
+                _notificationService = notificationService;
             }
             public async Task<string> Handle(SendNotificationCommand request, CancellationToken cancellationToken)
             {
@@ -26,35 +23,9 @@ namespace Application.PermaNotifications.Commands.SendNotificationCommand
                     throw new ForbiddenException("Dont Have Permissions to do this action");
                 }
 
-                var newNotification = new PermaNotification
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Message = request.Message,
-                };
+                var notId = await _notificationService.SendNotificationToUser(request.Message, request.DestinationUserId, currentUserId);
 
-                var result = await _uow.Notifications.InsertAsync(newNotification);
-                if (!result)
-                {
-                    throw new InternalServerException("Could not create Notification");
-                }
-
-                var userNotification = new UserNotification
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    DestinationUserId = request.DestinationUserId,
-                    NotificationId = newNotification.Id,
-                    OriginUserId = currentUserId,
-                    Readed = false
-                };
-
-                result = await _uow.UserNotifications.InsertAsync(userNotification);
-                if (!result)
-                {
-                    throw new InternalServerException("Could not create Notification");
-                }
-
-                await _uow.CommitAsync();
-                return userNotification.Id;
+                return notId;
             }
         }
     }

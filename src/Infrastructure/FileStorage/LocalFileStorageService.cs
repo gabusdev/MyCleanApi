@@ -71,10 +71,7 @@ public class LocalFileStorageService : IFileStorageService
             string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
             Directory.CreateDirectory(pathToSave);
 
-            string fileName = request.Name.Trim('"');
-            fileName = RemoveSpecialCharacters(fileName);
-            fileName = fileName.ReplaceWhitespace("-");
-            fileName += request.Extension.Trim();
+            string fileName = GenerateRandomFileName(request.Extension.Trim());
             string fullPath = Path.Combine(pathToSave, fileName);
             string dbPath = Path.Combine(folderName, fileName);
             if (File.Exists(dbPath))
@@ -171,5 +168,12 @@ public class LocalFileStorageService : IFileStorageService
     private bool CheckExtension(string base64Extension, string extension)
     {
         return base64Extension.ToLower() == extension[1..].ToLower();
+    }
+
+    private string GenerateRandomFileName(string? extension = null)
+    {
+        var filename = Path.GetRandomFileName();
+        filename += extension is null ? string.Empty : $"{extension}";
+        return filename;
     }
 }

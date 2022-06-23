@@ -2,24 +2,24 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.Identity.Roles.Commands.CreateUpdateCommand;
 
-public class CreateOrUpdateRoleCommand : ICommand
+public class CreateOrUpdateRoleCommand : ICommand<string>
 {
     public string? Id { get; set; }
     public string Name { get; set; } = default!;
     public string? Description { get; set; }
     public double SecurityLevel { get; set; }
 
-    public class CreateOrUpdateRoleCommandHandler : ICommandHandler<CreateOrUpdateRoleCommand, Unit>
+    public class CreateOrUpdateRoleCommandHandler : ICommandHandler<CreateOrUpdateRoleCommand, string>
     {
         private readonly IRoleService _roleService;
         public CreateOrUpdateRoleCommandHandler(IRoleService roleService)
         {
             _roleService = roleService;
         }
-        public async Task<Unit> Handle(CreateOrUpdateRoleCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreateOrUpdateRoleCommand request, CancellationToken cancellationToken)
         {
-            await _roleService.CreateOrUpdateAsync(request);
-            return Unit.Value;
+            var id = await _roleService.CreateOrUpdateAsync(request);
+            return id;
         }
     }
 }

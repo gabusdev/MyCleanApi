@@ -17,7 +17,7 @@ namespace Infrastructure.Persistence.Configurations
                 .WithMany(n => n.UserNotifications)
                 .HasForeignKey(un => un.NotificationId);
 
-            builder.HasOne(un => (ApplicationUser)un.OriginUser)
+            builder.HasOne(un => (ApplicationUser?)un.OriginUser)
                 .WithMany()
                 .HasForeignKey(un => un.OriginUserId)
                 .OnDelete(DeleteBehavior.NoAction);

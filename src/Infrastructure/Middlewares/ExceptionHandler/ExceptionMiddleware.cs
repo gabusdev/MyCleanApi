@@ -104,7 +104,8 @@ internal class ExceptionMiddleware : IMiddleware
                 StackTrace = exception.StackTrace,
                 UserId = userId,
                 Source = errorResult.Source,
-                Messages = errorResult.Messages.Aggregate((a, b) => $"{a}\n{b}")
+                Messages = errorResult.Messages.Aggregate((a, b) => $"{a}\n{b}"),
+                ExceptionType = exception.GetType().Name
             });
             await _uow.CommitAsync();
 

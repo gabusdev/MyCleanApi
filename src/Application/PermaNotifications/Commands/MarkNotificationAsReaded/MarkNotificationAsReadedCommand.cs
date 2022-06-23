@@ -8,14 +8,14 @@ namespace Application.PermaNotifications.Commands.MarkNotificationAsReaded
 
         public class MarkNotificationAsReadedCommandHandler : ICommandHandler<MarkNotificationAsReadedCommand, Unit>
         {
-            private readonly IUnitOfWork _uow;
+            private readonly IPermaNotificationService _notificationService;
             private readonly ICurrentUserService _currentUserService;
             private readonly IStringLocalizer<MarkNotificationAsReadedCommandHandler> _localizer;
-            public MarkNotificationAsReadedCommandHandler(IUnitOfWork unitOfWork, ICurrentUserService currentUserService,
+            public MarkNotificationAsReadedCommandHandler(IPermaNotificationService notificationService, ICurrentUserService currentUserService,
                 IStringLocalizer<MarkNotificationAsReadedCommandHandler> localizer)
             {
                 _currentUserService = currentUserService;
-                _uow = unitOfWork;
+                _notificationService = notificationService;
                 _localizer = localizer;
             }
             public async Task<Unit> Handle(MarkNotificationAsReadedCommand request, CancellationToken cancellationToken)
@@ -26,24 +26,7 @@ namespace Application.PermaNotifications.Commands.MarkNotificationAsReaded
                     throw new ForbiddenException(_localizer["identity.notallowed"]);
                 }
 
-                var userUnreadedNotifications =
-                    await _uow.UserNotifications.GetAsync(filter:
-                        un => un.DestinationUserId == current
-                        && un.Readed == false);
-
-                var notification = userUnreadedNotifications.FirstOrDefault(n => n.Id == request.NotificationID);
-
-                if (notification is not null)
-                {
-                    notification.Readed = true;
-                    notification.ReadedOn = DateTime.Now;
-                    _uow.UserNotifications.Update(notification);
-                    await _uow.CommitAsync();
-                }
-                else
-                {
-                    throw new NotFoundException(_localizer["entity.notfound", "Notification"]);
-                }
+                await _notificationService.SetNotificationAsReaded(current, request.NotificationID);
 
                 return Unit.Value;
             }

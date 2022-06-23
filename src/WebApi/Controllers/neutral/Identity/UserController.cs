@@ -51,7 +51,7 @@ public class UserController : VersionNeutralApiController
     public async Task<ActionResult<string>> CreateAsync(CreateUserCommand request)
     {
         var userId = await Mediator.Send(request);
-        return Created("/users/" + userId, userId);
+        return Created("/api/v1/users/" + userId, userId);
     }
 
     [HttpPost("self-register")]
@@ -60,7 +60,7 @@ public class UserController : VersionNeutralApiController
     public async Task<ActionResult<string>> SelfRegisterAsync(CreateUserCommand request)
     {
         var userId = await Mediator.Send(request);
-        return Created("/users/" + userId, userId);
+        return Created("/api/v1/profile", userId);
     }
 
     [HttpPost("{id}/toggle-status")]
