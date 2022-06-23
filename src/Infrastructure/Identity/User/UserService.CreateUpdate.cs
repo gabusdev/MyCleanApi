@@ -68,10 +68,9 @@ namespace Infrastructure.Identity
             else if (request.Image != null)
             {
                 user.ImageUrl = await _fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
-                if (request.DeleteCurrentImage && !string.IsNullOrEmpty(currentImage))
+                if (!string.IsNullOrEmpty(currentImage))
                 {
-                    string root = Directory.GetCurrentDirectory();
-                    _fileStorage.Remove(Path.Combine(root, currentImage));
+                    _fileStorage.Remove(currentImage);
                 }
             }
 
