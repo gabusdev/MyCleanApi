@@ -6,7 +6,6 @@ using Application.Identity.Users.Queries;
 using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Domain.Common;
 using Infrastructure.Identity.User;
-using Infrastructure.ResponseCaching;
 using Mapster;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Mvc;
@@ -46,7 +45,6 @@ namespace WebApi.Controllers.v2
         //[HttpCacheExpiration(CacheLocation = CacheLocation.Private, MaxAge = 15)]
         public async Task<ActionResult> TestDapper()
         {
-            var query = "select*from AspNetUsers u where u.Email = @mail";
             var param = new { mail = "admin@mail.com" };
             //var result = await _dapper.QueryFirstOrDefaultAsync<ApplicationUser>(query, param);
             var result = await _dapper.Execute("create database Test");

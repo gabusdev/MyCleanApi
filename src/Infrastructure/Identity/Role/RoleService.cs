@@ -86,7 +86,7 @@ internal class RoleService : IRoleService
             {
                 throw new InternalServerException(_localizer["entity.create.failed", "Role"], result.GetErrors());
             }
-            
+
             request.Id = role.Id;
         }
         else

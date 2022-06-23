@@ -1,7 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Entities.JoinTables;
-
-namespace Application.PermaNotifications.Commands.SendNotificationCommand
+﻿namespace Application.PermaNotifications.Commands.SendNotificationCommand
 {
     public class SendNotificationCommand : ICommand<string>
     {
@@ -25,9 +22,9 @@ namespace Application.PermaNotifications.Commands.SendNotificationCommand
                 {
                     throw new ForbiddenException("Dont Have Permissions to do this action");
                 }
-                
+
                 var notId = await _notificationService.SendNotificationToUser(request.Message, request.DestinationUserId, currentUserId);
-                
+
                 return notId;
             }
         }

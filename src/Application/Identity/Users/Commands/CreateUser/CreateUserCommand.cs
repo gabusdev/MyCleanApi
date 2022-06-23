@@ -1,5 +1,3 @@
-using Application.Common.Events;
-
 namespace Application.Identity.Users.Commands.CreateUser;
 
 public class CreateUserCommand : ICommand<string>
@@ -30,9 +28,9 @@ public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, strin
     public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         var newUserId = await _userService.CreateAsync(request, _httpContextService.GetOrigin());
-        
+
         await _eventService.Publish(new UserCreatedEvent(newUserId));
-        
+
         return newUserId;
     }
 }

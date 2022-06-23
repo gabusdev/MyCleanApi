@@ -25,9 +25,9 @@ namespace Application.PermaNotifications.Commands.MarkNotificationAsReaded
                 {
                     throw new ForbiddenException(_localizer["identity.notallowed"]);
                 }
-                
+
                 await _notificationService.SetNotificationAsReaded(current, request.NotificationID);
-                
+
                 return Unit.Value;
             }
         }

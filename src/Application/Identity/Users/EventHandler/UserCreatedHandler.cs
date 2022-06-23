@@ -1,8 +1,6 @@
 ﻿
 using Application.PermaNotifications;
-using Application.PermaNotifications.Commands.SendNotificationCommand;
 using Microsoft.Extensions.Localization;
-using Serilog;
 
 namespace Application.Identity.Users.EventHandler
 {
@@ -28,7 +26,7 @@ namespace Application.Identity.Users.EventHandler
             await _notificationService.SendNotificationToUser(
                 _localizer["welcomeMessage"],
                 @event.userId);
-            
+
             await _gqlSender.SendAsync(nameof(UserCreatedEvent), user);
         }
     }

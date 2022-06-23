@@ -1,8 +1,4 @@
-﻿using Application.Identity.Users;
-using Domain.Entities;
-using Domain.Entities.JoinTables;
-
-namespace Application.PermaNotifications.Commands.SendNotificationToAllCommand
+﻿namespace Application.PermaNotifications.Commands.SendNotificationToAllCommand
 {
     public class SendNotificationToAllCommand : ICommand<string>
     {
@@ -25,9 +21,9 @@ namespace Application.PermaNotifications.Commands.SendNotificationToAllCommand
                 {
                     throw new ForbiddenException("Dont Have Permissions to do this action");
                 }
-                
+
                 await _notificationService.SendNotificationToAll(request.Message, currentUserId);
-                
+
                 return "";
             }
         }
