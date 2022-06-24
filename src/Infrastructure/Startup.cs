@@ -57,7 +57,7 @@ namespace Infrastructure
                 .UseAuth()
                 .UseCurrentUser()
                 .UseMyResponseCaching()
-                .UseRateLimit()
+                //.UseRateLimit()
                 .UseBackgroundJobs(config)
                 .UseOpenApi(development)
                 .UseHttpMetrics()

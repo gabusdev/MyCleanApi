@@ -10,7 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IntegrationTest;
-public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> where TEntryPoint : Program
+public class CustomWebApplicationFactory<TStartup>
+        : WebApplicationFactory<TStartup> where TStartup : class
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -20,28 +21,21 @@ public class TestingWebAppFactory<TEntryPoint> : WebApplicationFactory<Program> 
                 d => d.ServiceType ==
                     typeof(DbContextOptions<ApplicationDbContext>));
 
-            if (descriptor != null)
-                services.Remove(descriptor);
+            services.Remove(descriptor);
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseInMemoryDatabase("InMemoryEmployeeTest");
+                options.UseInMemoryDatabase("InMemoryDbForTesting");
             });
 
             var sp = services.BuildServiceProvider();
+
             using (var scope = sp.CreateScope())
-            using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
             {
-                try
-                {
-                    appContext.Database.EnsureCreated();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    //Log errors or do anything you think it's needed
-                    throw;
-                }
+                var scopedServices = scope.ServiceProvider;
+                var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                
+                db.Database.EnsureCreated();
             }
         });
     }
