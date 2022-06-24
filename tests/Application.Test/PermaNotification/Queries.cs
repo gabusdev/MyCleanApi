@@ -1,7 +1,11 @@
+using Application.Common.Exceptions;
+using Application.PermaNotifications.Queries;
+using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using MediatR;
+using System.Collections.Generic;
 using Xunit;
 
-namespace Application.Test.PermaNotification
+namespace Application.IntegrationTest.PermaNotification
 {
     public class Queries
     {
@@ -11,10 +15,13 @@ namespace Application.Test.PermaNotification
             Mediator = mediator;
         }
         [Fact]
-        public void GetNotificationsReturnsNotificationDtoList()
+        public async void GetNotificationsReturnsNotificationDtoList()
         {
-            //var request = new GetUnreadedNotificationsByUserIdQuery()
-            //var result = Mediator.Send()
+            var request = new GetUnreadedNotificationsByUserIdQuery();
+            var result = await Mediator.Send(request);
+
+            Assert.IsType<List<NotificationDto>>(result);
+            Assert.Empty(result);
         }
     }
 }

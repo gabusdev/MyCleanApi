@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace WebApi.Test.User
+namespace WebApi.IntegrationTest.User
 {
     public class UnitTest1
     {

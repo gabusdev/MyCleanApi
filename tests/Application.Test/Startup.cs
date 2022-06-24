@@ -2,8 +2,9 @@ using Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Respawn;
 
-namespace Application.Test;
+namespace Application.IntegrationTest;
 
 public class Startup
 {

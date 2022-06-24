@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Application.Test.PermaNotification
+namespace Application.IntegrationTest.PermaNotification
 {
     public class Commands
     {

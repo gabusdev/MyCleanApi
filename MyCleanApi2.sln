@@ -36,9 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{E4762B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4D0D1644-70E4-4F8D-B79D-7ED67B7EA800}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Test", "tests\Application.Test\Application.Test.csproj", "{86946708-3BF6-4AD6-BA23-16BC913ED026}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.IntegrationTest", "tests\Application.Test\Application.IntegrationTest.csproj", "{86946708-3BF6-4AD6-BA23-16BC913ED026}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.Test", "tests\WebApi.Test\WebApi.Test.csproj", "{822675C5-F65E-45EA-B9FD-EA605A209C5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi.IntegrationTest", "tests\WebApi.Test\WebApi.IntegrationTest.csproj", "{822675C5-F65E-45EA-B9FD-EA605A209C5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
