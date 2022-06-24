@@ -31,3 +31,4 @@ finally
     Log.Warning("Application is Shuting Down...");
     Log.CloseAndFlush();
 }
+public partial class Program { }
