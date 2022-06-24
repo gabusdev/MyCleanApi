@@ -1,7 +1,6 @@
 ﻿using Application.Common.FileStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
-using System.Net;
 
 namespace Infrastructure.FileStorage;
 
