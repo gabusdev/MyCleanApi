@@ -22,10 +22,6 @@ namespace Application.Test.PermaNotification
         {
             var request = new GetUnreadedNotificationsByUserIdQuery();
             var result = await Mediator.Send(request);
-            var controller = new NotificationController();
-            controller.ControllerContext = new ControllerContext();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext();
-            var x = await controller.SetAsReaded("123");
 
             Assert.IsType<List<NotificationDto>>(result);
             Assert.Empty(result);
