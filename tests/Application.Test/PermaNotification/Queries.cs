@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using WebApi.Controllers.v2;
 using Xunit;
 
-namespace Application.IntegrationTest.PermaNotification
+namespace Application.Test.PermaNotification
 {
     public class Queries
     {

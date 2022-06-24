@@ -1,6 +1,7 @@
 ﻿using AspNetCoreRateLimit;
 using AspNetCoreRateLimit.Redis;
 using Infrastructure.Caching;
+using Microsoft.AspNetCore.HttpOverrides;
 using StackExchange.Redis;
 
 namespace Infrastructure.RateLimit;
@@ -42,6 +43,11 @@ internal static class Startup
     }
     internal static IApplicationBuilder UseRateLimit(this IApplicationBuilder app)
     {
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
+
         return app.UseIpRateLimiting();
     }
 }

@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace IntegrationTest;
+namespace WebApi.IntegrationTest;
 
 public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -17,6 +17,7 @@ public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
     public async void Index_WhenCalled_ReturnsApplicationForm()
     {
         var client = _factory.CreateClient();
+
         var response = await client.GetAsync("/api/v2/test/versions");
         Assert.NotNull(response);
         response.EnsureSuccessStatusCode();
