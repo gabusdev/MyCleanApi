@@ -21,65 +21,65 @@ public class CustomWebApplicationFactory<TStartup>
     {
         builder.ConfigureServices(services =>
         {
-            Console.WriteLine("Helooooooo");
-            Log.Information("Adding Test Filter");
-            services.AddScoped<CustomRemoteIpAddressMiddleware>();
-            services.AddScoped<IpChecker>();
-            services.AddSingleton<IStartupFilter>(new CustomRemoteIpStartupFilter(IPAddress.Parse("127.0.0.1")));
-
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType ==
+                    typeof(DbContextOptions<ApplicationDbContext>));
+            if (descriptor != null)
+                services.Remove(descriptor);
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseInMemoryDatabase("InMemoryEmployeeTest");
+            });
             var sp = services.BuildServiceProvider();
+            using (var scope = sp.CreateScope())
+            using (var appContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+            {
+                try
+                {
+                    appContext.Database.EnsureCreated();
+                }
+                catch (Exception ex)
+                {
+                    //Log errors or do anything you think it's needed
+                    throw;
+                }
+            }
         });
     }
-    public class CustomRemoteIpAddressMiddleware : IMiddleware
+}
+public class CustomRemoteIpAddressMiddleware : IMiddleware
+{
+
+    private readonly IPAddress _fakeIpAddress;
+
+    public CustomRemoteIpAddressMiddleware(IPAddress? fakeIpAddress = null)
     {
-
-        private readonly IPAddress _fakeIpAddress;
-
-        public CustomRemoteIpAddressMiddleware(IPAddress? fakeIpAddress = null)
-        {
-            _fakeIpAddress = fakeIpAddress ?? IPAddress.Parse("127.0.0.1");
-        }
-
-
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-        {
-            context.Connection.RemoteIpAddress = _fakeIpAddress;
-            await next(context);
-        }
-    }
-    public class IpChecker
-    {
-        private readonly RequestDelegate _next;
-
-        public IpChecker(RequestDelegate next)
-        {
-            _next = next;
-        }
-
-        public async Task Invoke(HttpContext httpContext)
-        {
-            Log.Information($"Ip before:{httpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString()}");
-            await _next(httpContext);
-        }
+        _fakeIpAddress = fakeIpAddress ?? IPAddress.Parse("127.0.0.1");
     }
 
-    public class CustomRemoteIpStartupFilter : IStartupFilter
+
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        private readonly IPAddress _remoteIp;
+        context.Connection.RemoteIpAddress = _fakeIpAddress;
+        await next(context);
+        context.Response.StatusCode = 465;
+    }
+}
+public class CustomRemoteIpStartupFilter : IStartupFilter
+{
+    private readonly IPAddress? _remoteIp;
 
-        public CustomRemoteIpStartupFilter(IPAddress remoteIp)
-        {
-            _remoteIp = remoteIp;
-        }
+    public CustomRemoteIpStartupFilter(IPAddress? remoteIp = null)
+    {
+        _remoteIp = remoteIp;
+    }
 
-        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+    public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+    {
+        return app =>
         {
-            return app =>
-            {
-                app.UseMiddleware<CustomRemoteIpAddressMiddleware>(_remoteIp);
-                app.UseMiddleware<IpChecker>(_remoteIp);
-                next(app);
-            };
-        }
+            app.UseMiddleware<CustomRemoteIpAddressMiddleware>(_remoteIp);
+            next(app);
+        };
     }
 }

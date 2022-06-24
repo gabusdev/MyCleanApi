@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace WebApi.IntegrationTest;
 
-public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
+public class BasicTests : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly WebApplicationFactory<Program> _factory;
+    private readonly CustomWebApplicationFactory<Program> _factory;
 
-    public BasicTests(WebApplicationFactory<Program> factory)
+    public BasicTests(CustomWebApplicationFactory<Program> factory)
     {
         _factory = factory;
     }
@@ -21,8 +22,8 @@ public class BasicTests : IClassFixture<WebApplicationFactory<Program>>
         var response = await client.GetAsync("/api/v2/test/versions");
         Assert.NotNull(response);
         response.EnsureSuccessStatusCode();
-        //var responseString = await response.Content.ReadAsStringAsync();
+        var responseString = await response.Content.ReadAsStringAsync();
         //Assert.Contains("Mark", responseString);
-        //Assert.Contains("Hola", responseString);
+        Assert.Contains("Hello", responseString);
     }
 }
