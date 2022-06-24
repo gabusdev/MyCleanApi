@@ -57,7 +57,7 @@ namespace Infrastructure
                 .UseAuth()
                 .UseCurrentUser()
                 .UseMyResponseCaching()
-                #if !DEBUG // Because Integration Tests Not Using Ip Address and Library Fails
+                #if DEBUG // Because Integration Tests Not Using Ip Address and Library Fails
                 .UseRateLimit()
                 #endif
                 .UseBackgroundJobs(config)

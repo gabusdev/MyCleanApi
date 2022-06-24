@@ -26,6 +26,8 @@ public class CustomWebApplicationFactory<TStartup>
                     typeof(DbContextOptions<ApplicationDbContext>));
             if (descriptor != null)
                 services.Remove(descriptor);
+
+            services.AddSingleton<IStartupFilter>(new CustomRemoteIpStartupFilter(IPAddress.Parse("127.0.0.1")));
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseInMemoryDatabase("InMemoryEmployeeTest");
@@ -47,22 +49,23 @@ public class CustomWebApplicationFactory<TStartup>
         });
     }
 }
-public class CustomRemoteIpAddressMiddleware : IMiddleware
+public class CustomRemoteIpAddressMiddleware
 {
 
     private readonly IPAddress _fakeIpAddress;
+    private readonly RequestDelegate _next;
 
-    public CustomRemoteIpAddressMiddleware(IPAddress? fakeIpAddress = null)
+    public CustomRemoteIpAddressMiddleware(RequestDelegate next, IPAddress? fakeIpAddress = null)
     {
+        _next = next;
         _fakeIpAddress = fakeIpAddress ?? IPAddress.Parse("127.0.0.1");
     }
 
 
-    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    public async Task Invoke(HttpContext context)
     {
         context.Connection.RemoteIpAddress = _fakeIpAddress;
-        await next(context);
-        context.Response.StatusCode = 465;
+        await _next(context);
     }
 }
 public class CustomRemoteIpStartupFilter : IStartupFilter
