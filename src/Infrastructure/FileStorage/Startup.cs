@@ -8,8 +8,11 @@ internal static class Startup
 {
     internal static IServiceCollection AddFileStorageService(this IServiceCollection services) =>
         services.AddTransient<IFileStorageService, LocalFileStorageService>();
-    internal static IApplicationBuilder UseFileStorage(this IApplicationBuilder app) =>
-        app.UseStaticFiles(new StaticFileOptions()
+    internal static IApplicationBuilder UseFileStorage(this IApplicationBuilder app)
+    {
+        CreateBaseDirectory("Files");
+
+        return app.UseStaticFiles(new StaticFileOptions()
         {
             FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
             RequestPath = new PathString("/Files"),
@@ -29,4 +32,12 @@ internal static class Startup
             }
             */
         });
+    }
+
+    private static void CreateBaseDirectory(string relativePath)
+    {
+        var dir = Path.GetFullPath(relativePath);
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+    }
 }

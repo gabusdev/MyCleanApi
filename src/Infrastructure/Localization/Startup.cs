@@ -10,7 +10,7 @@ internal static class Startup
     {
         return services.AddLocalization()
             .AddSingleton<LocalizerMiddleware>()
-            .AddDistributedMemoryCache()
+            //.AddDistributedMemoryCache()
             .AddSingleton<IStringLocalizerFactory, JsonStringLocalizerFactory>();
     }
     internal static IApplicationBuilder UseLocalization(this IApplicationBuilder app)
