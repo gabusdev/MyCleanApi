@@ -5,12 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace WebApi.IntegrationTest;
@@ -25,7 +22,9 @@ public class CustomWebApplicationFactory<TStartup>
                 d => d.ServiceType ==
                     typeof(DbContextOptions<ApplicationDbContext>));
             if (descriptor != null)
+            {
                 services.Remove(descriptor);
+            }
 
             services.AddSingleton<IStartupFilter>(new CustomRemoteIpStartupFilter(IPAddress.Parse("127.0.0.1")));
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -40,7 +39,7 @@ public class CustomWebApplicationFactory<TStartup>
                 {
                     appContext.Database.EnsureCreated();
                 }
-                catch (Exception ex)
+                catch /*(Exception ex)*/
                 {
                     //Log errors or do anything you think it's needed
                     throw;

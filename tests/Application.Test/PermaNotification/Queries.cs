@@ -1,11 +1,7 @@
-using Application.Common.Exceptions;
 using Application.PermaNotifications.Queries;
 using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebApi.Controllers.v2;
 using Xunit;
 
 namespace Application.Test.PermaNotification
