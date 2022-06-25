@@ -1,6 +1,7 @@
 ﻿using Application.PermaNotifications.Commands.MarkNotificationAsReaded;
 using Application.PermaNotifications.Commands.SendNotificationCommand;
 using Application.PermaNotifications.Commands.SendNotificationToAllCommand;
+using Application.PermaNotifications.Queries;
 using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,10 @@ namespace WebApi.Controllers.v2
         [HttpGet("user/{userId}")]
         [MustHavePermission(ApiAction.Search, ApiResource.Notifications)]
         [SwaggerOperation("Get User Unreaded Notifications", "Gets Unreaded Notifications for specified user")]
-        public async Task<ActionResult> GetUnreadedNotifications(string userId)
+        public async Task<ActionResult<List<NotificationDto>>> GetUnreadedNotifications(string userId)
         {
             var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = userId });
-            return Ok(new { notifications = response });
+            return Ok(response);
         }
 
         [HttpPost]
