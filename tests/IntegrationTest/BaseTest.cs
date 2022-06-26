@@ -15,7 +15,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         _factory = factory;
         _client = _factory.CreateClient();
-        Route = route ?? "/";
+        Route = route ?? "";
     }
     /// <summary>
     /// Tries to Login a user with the specified email and password
