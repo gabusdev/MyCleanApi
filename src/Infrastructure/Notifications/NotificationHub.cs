@@ -32,10 +32,11 @@ public class NotificationHub : Hub
         Log.Information("A client disconnected from NotificationHub: {connectionId}", Context.ConnectionId);
     }
 
-    public async Task Test()
+    public async Task<string> Test()
     {
         Log.Information($"Executing SgnalR Test Method for conecction {Context.ConnectionId} and " +
             $"user with id {Context.UserIdentifier}");
-        await Clients.Caller.SendAsync("This is Response from Server");
+        await Clients.Caller.SendAsync("Test","This is Response from Server");
+        return "Kk de Mono";
     }
 }
