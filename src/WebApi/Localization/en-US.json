@@ -29,5 +29,6 @@
   "validation.role.similar": "There is already a Role with similar Name.",
   "validation.username.used": "Username {0} is already taken.",
   "welcomeMessage": "Welcome to this Api",
-  "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis."
+  "exceptionmiddleware.supportmessage": "Provide the ErrorId to the support team for further analysis.",
+  "notifications.new": "You have a new Notification"
 }

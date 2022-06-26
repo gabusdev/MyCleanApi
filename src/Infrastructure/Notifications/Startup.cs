@@ -1,3 +1,4 @@
+using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +39,9 @@ internal static class Startup
 
             logger.Information($"SignalR Backplane Current Provider: {backplaneSettings.Provider}.");
         }
-        services.AddTransient<NotificationHub>();
+
+        services.AddTransient<INotificationSender, NotificationSender>();
+
         return services;
     }
 
