@@ -13,6 +13,7 @@ using Infrastructure.Localization;
 using Infrastructure.Mailing;
 using Infrastructure.Mappers;
 using Infrastructure.Middlewares;
+using Infrastructure.Notifications;
 using Infrastructure.OpenApi;
 using Infrastructure.Persistence;
 using Infrastructure.RateLimit;
@@ -44,7 +45,8 @@ namespace Infrastructure
                 .AddCorsPolicy(config)
                 .AddFileStorageService()
                 .AddCurrentUser()
-                .AddEndpointsApiExplorer();
+                .AddEndpointsApiExplorer()
+                .AddNotifications(config);
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {
@@ -66,6 +68,7 @@ namespace Infrastructure
                     endpoints.MapControllers();
                     endpoints.MapHangfireDashboard("/dev/jobs");
                     endpoints.MapMetrics("/dev/metrics");
+                    endpoints.MapNotifications();
                 });
         }
     }
