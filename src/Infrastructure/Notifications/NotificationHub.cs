@@ -25,4 +25,14 @@ public class NotificationHub : Hub
 
         Log.Information("A client disconnected from NotificationHub: {connectionId}", Context.ConnectionId);
     }
+
+#if DEBUG
+    // Only for testing Purpouses
+    public async Task TestingEchoFunction(string message)
+    {
+        await Clients
+            .Caller
+            .SendAsync("EchoTesting", message);
+    }
+#endif
 }
