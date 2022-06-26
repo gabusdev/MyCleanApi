@@ -15,7 +15,7 @@ namespace Application
                 .AddMediatR(assembly)
                 .AddValidatorsFromAssembly(assembly)
                 .AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))
-                .AddScoped<IPermaNotificationService, PermaNotificatinService>();
+                .AddScoped<IPermaNotificationService, PermaNotificationService>();
 
             return services;
         }

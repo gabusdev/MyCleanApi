@@ -1,22 +1,16 @@
-﻿using Application.PermaNotifications.Queries;
-using System;
+﻿using Application.PermaNotifications.Commands.SendNotificationCommand;
+using Application.PermaNotifications.Queries;
+using AutoFixture;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Microsoft.AspNetCore.Authentication;
-using FluentAssertions;
-using AutoFixture;
-using Application.PermaNotifications.Commands.SendNotificationCommand;
 
 namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
 {
     public class EndpointResponseTests : BaseTest
     {
-        private string _bearer;
-        private string _originUserId;
+        private readonly string _bearer;
+        private readonly string _originUserId;
         public EndpointResponseTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
             Route = "/api/v2/notification";
@@ -57,7 +51,7 @@ namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
         public async Task PostNotificationAndGetNotificationWorksOk()
         {
             AuthorizeClient(_client, _bearer);
-            
+
             // Create New Notificatiation
             var (_, destUserId) = await TryLogin("guest@mail.com", "guest");
             var fixture = new Fixture();

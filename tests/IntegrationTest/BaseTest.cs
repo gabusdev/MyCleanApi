@@ -26,7 +26,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
     protected async Task<(string, string)> TryLogin(string mail = "admin@mail.com", string pass = "admin")
     {
         var client = _factory.CreateClient();
-        
+
         var formModel = new Dictionary<string, string>
         {
             {"email", mail },
@@ -41,7 +41,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
         response = await client.GetAsync("/api/v1/profile");
         response.EnsureSuccessStatusCode();
         var user = await response.Content.ReadAsAsync<UserDetailsDto>();
-        
+
         return (token.Token, user.Id ?? "");
     }
     /// <summary>
@@ -49,9 +49,10 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
     /// </summary>
     /// <param name="client">The <see cref="HttpClient"/> client</param>
     /// <param name="token">The token for <c>Authorization</c> Header</param>
-    protected static void AuthorizeClient (HttpClient client, string token)
+    protected void AuthorizeClient(HttpClient client, string token)
     {
         client.DefaultRequestHeaders.Remove("Authorization");
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
     }
+    protected void AuthorizeClient(string token) => AuthorizeClient(_client, token);
 }

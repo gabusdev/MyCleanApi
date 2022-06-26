@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 namespace WebApi.IntegrationTest;
 public class CustomWebApplicationFactory<TStartup>

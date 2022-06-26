@@ -5,13 +5,13 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.PermaNotifications
 {
-    internal class PermaNotificatinService : IPermaNotificationService
+    internal class PermaNotificationService : IPermaNotificationService
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserService _userService;
-        private readonly IStringLocalizer<PermaNotificatinService> _localizer;
-        public PermaNotificatinService(IUnitOfWork uow,
-            IStringLocalizer<PermaNotificatinService> localizer,
+        private readonly IStringLocalizer<PermaNotificationService> _localizer;
+        public PermaNotificationService(IUnitOfWork uow,
+            IStringLocalizer<PermaNotificationService> localizer,
             IUserService userService)
         {
             _uow = uow;
