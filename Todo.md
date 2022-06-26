@@ -29,7 +29,7 @@
 - [x] Add Perma-Notification Service
 - [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
 - [x] Fix Current User
-- [ ] Use Automate Tests
+- [x] Use Automate Tests
 - [ ] Add Messages with SignalR
 
 - [ ] Mejorar la Api
