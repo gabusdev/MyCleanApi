@@ -8,37 +8,60 @@ using System.Threading.Tasks;
 using Xunit;
 using Microsoft.AspNetCore.Authentication;
 using FluentAssertions;
+using AutoFixture;
+using Application.PermaNotifications.Commands.SendNotificationCommand;
 
 namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
 {
     public class EndpointResponseTests : BaseTest
     {
+        private string _bearer;
+        private string _originUserId;
         public EndpointResponseTests(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
             Route = "/api/v2/notification";
+            (_bearer, _originUserId) = Task.Run(async () => await TryLogin()).Result;
         }
 
         [Fact]
         public async void NotificationsControllerEndpointsWorksCorrectlly()
         {
-            var (berarToken, userId) = await TryLogin();
-            AuthorizeClient(_client, berarToken);
+            AuthorizeClient(_client, _bearer);
 
-            await CheckWithNoMessages(userId);
+            await CheckWithNoMessages();
+
+            await CheckCreationOfNotification();
 
             await CheckCreationOfNotificationBroadCast();
 
-            var notId = await CheckWithNewMessage(userId);
-            Assert.NotNull(notId);
-
+            var notId = await CheckWithNewMessage();
+            
             await CheckSettingNotificationAsReaded(notId);
 
-            await CheckNowMessageNotShowing(userId);
+            await CheckNowMessageNotShowing();
         }
 
-        private async Task CheckNowMessageNotShowing(string userId)
+        private async Task CheckCreationOfNotification()
         {
-            var response = await _client.GetAsync($"{Route}/user/{userId}");
+            var (_, destUserId) = await TryLogin("guest@mail.com", "guest");
+            var fixture = new Fixture();
+            var notification = fixture.Create<SendNotificationCommand>();
+            notification.DestinationUserId = destUserId;
+
+            var response = await _client.PostAsJsonAsync($"{Route}", notification);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            response = await _client.GetAsync($"{Route}/user/{destUserId}");
+            response.EnsureSuccessStatusCode();
+
+            var result = await response.Content.ReadAsAsync<List<NotificationDto>>();
+            Assert.NotEmpty(result);
+            Assert.Contains(notification.Message, result.Select(r => r.Message).ToList());
+        }
+
+        private async Task CheckNowMessageNotShowing()
+        {
+            var response = await _client.GetAsync($"{Route}/user/{_originUserId}");
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsAsync<List<NotificationDto>>();
@@ -60,10 +83,10 @@ namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
             var response = await _client.PostAsJsonAsync($"{Route}/broadcast", formModel);
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
-        private async Task CheckWithNoMessages(string userId)
+        private async Task CheckWithNoMessages()
         {
             // Check That authorized User can access the endpoint but with empty response
-            var response = await _client.GetAsync($"{Route}/user/{userId}");
+            var response = await _client.GetAsync($"{Route}/user/{_originUserId}");
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsAsync<List<NotificationDto>>();
@@ -71,16 +94,18 @@ namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
             Assert.Empty(result);
         }
 
-        private async Task<string?> CheckWithNewMessage(string userId)
+        private async Task<string?> CheckWithNewMessage()
         {
             // Check that response is not empty with existent User
-            var response = await _client.GetAsync($"{Route}/user/{userId}");
+            var response = await _client.GetAsync($"{Route}/user/{_originUserId}");
             response.EnsureSuccessStatusCode();
 
             var result = await response.Content.ReadAsAsync<List<NotificationDto>>();
             Assert.NotEmpty(result);
             Assert.Contains("Test Notification", result.Select(r => r.Message).ToList());
-            return result.Find(r => r.Message == "Test Notification")?.Id;
+            var notId = result.Find(r => r.Message == "Test Notification")?.Id;
+            Assert.NotNull(notId);
+            return notId;
         }
     }
 }

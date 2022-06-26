@@ -51,6 +51,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
     /// <param name="token">The token for <c>Authorization</c> Header</param>
     protected static void AuthorizeClient (HttpClient client, string token)
     {
+        client.DefaultRequestHeaders.Remove("Authorization");
         client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
     }
 }
