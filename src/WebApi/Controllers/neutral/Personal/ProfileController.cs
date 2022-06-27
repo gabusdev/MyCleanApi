@@ -1,5 +1,6 @@
 ﻿using Application.Identity.Users.Commands.UpdateUser;
 using Application.Identity.Users.Password.Commands.ChangePassword;
+using Application.Identity.Users.Queries;
 using Application.Identity.Users.Queries.GetById;
 using Application.Identity.Users.Queries.GetUserPermissions;
 using Application.PermaNotifications.Queries.GetUnreadedNotificationsByUserId;
@@ -16,10 +17,10 @@ namespace WebApi.Controllers.neutral.Personal
         [HttpGet]
         [ApiResponseCache(Duration = 120, Location = ResponseCacheLocation.Client)]
         [SwaggerOperation("Get Profile", "Get profile details of currently logged in user.")]
-        public async Task<ActionResult> GetProfileAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<UserDetailsDto>> GetProfileAsync(CancellationToken cancellationToken)
         {
             var user = await Mediator.Send(new GetUserByIdQuery() { UserId = User.GetUserId() }, cancellationToken);
-            return user is null ? NotFound() : Ok(user);
+            return user is null ? BadRequest() : Ok(user);
         }
 
         [HttpPut]
@@ -49,7 +50,7 @@ namespace WebApi.Controllers.neutral.Personal
             return await Mediator.Send(new GetUserPermissionsQuery() { UserId = User.GetUserId() }, cancellationToken);
         }
 
-        [HttpGet("notifiactions")]
+        [HttpGet("notifications")]
         [MustHavePermission(ApiAction.View, ApiResource.Notifications)]
         [SwaggerOperation("Get Unreaded Notifications", "Get Unreaded Notifications for current User")]
         public async Task<ActionResult> GetUnreadedNotifications()

@@ -30,6 +30,6 @@
 - [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
 - [x] Fix Current User
 - [x] Use Automate Tests
-- [ ] Add Messages with SignalR
+- [x] Add Messages with SignalR
 
 - [ ] Mejorar la Api
