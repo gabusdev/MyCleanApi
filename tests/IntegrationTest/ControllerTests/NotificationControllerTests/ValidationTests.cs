@@ -26,17 +26,17 @@ namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
             };
 
             var result = await _client.PostAsJsonAsync($"{Route}", notification);
-            result.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             (await result.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(1);
 
             (notification.Message, notification.DestinationUserId) = ("asd", "123");
             result = await _client.PostAsJsonAsync($"{Route}", notification);
-            result.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             (await result.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(1);
 
             (notification.Message, notification.DestinationUserId) = ("", "123");
             result = await _client.PostAsJsonAsync($"{Route}", notification);
-            result.StatusCode.Should().Be(HttpStatusCode.UnprocessableEntity);
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             (await result.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(3);
 
             (notification.Message, notification.DestinationUserId) = ("asd", _userId);
