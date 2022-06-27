@@ -26,7 +26,7 @@ public class BaseTest : IClassFixture<CustomWebApplicationFactory<Program>>
     protected async Task<(string, string)> TryLogin(string mail = "admin@mail.com", string pass = "admin")
     {
         var client = _factory.CreateClient();
-
+                
         var formModel = new Dictionary<string, string>
         {
             {"email", mail },

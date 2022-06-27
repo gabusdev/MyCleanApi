@@ -38,7 +38,7 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
             var fixture = new Fixture();
             var newData = fixture.Create<UpdateUserRequest>();
             newData.Id = _originUserId;
-            newData.Email = "testing@mail.com";
+            newData.Email = "admin@mail.com";
             newData.Image = null;
             
             var response = await _client.PutAsJsonAsync(Route, newData);
@@ -69,18 +69,23 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
         [Fact]
         public async Task PostChangePasswordWorksOk()
         {
+            var testClient = _factory.CreateClient();
+            var (testBearer, _ ) = await TryLogin("guest@mail.com", "guest");
+            AuthorizeClient(testClient, testBearer);
+
             var newPass = "new123pass,";
             var newData = new ChangePasswordCommand
             {
-                Password = "admin",
+                Password = "guest",
                 NewPassword = newPass,
                 ConfirmNewPassword = newPass
             };
             
-            var response = await _client.PutAsJsonAsync($"{Route}/change-password", newData);
+
+            var response = await testClient.PutAsJsonAsync($"{Route}/change-password", newData);
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
 
-            await TryLogin(pass: newPass);
+            await TryLogin("guest@mail.com", newPass);
         }
 
         [Fact]
