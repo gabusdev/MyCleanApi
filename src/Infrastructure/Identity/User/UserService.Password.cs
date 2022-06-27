@@ -16,7 +16,7 @@ namespace Infrastructure.Identity
             var result = await _userManager.ChangePasswordAsync(user, request.Password, request.NewPassword);
             if (!result.Succeeded)
             {
-                throw new ConflictException(_localizer["generic.error"]);
+                throw new ValidationException(_localizer["validation.errors"], result.GetErrors());
             }
         }
         public async Task<string> ForgotPasswordAsync(ForgotPasswordQuery request, string origin)
