@@ -31,8 +31,5 @@
     <ItemGroup>
 	    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="ControllerTests\ProfileControllerTests\" />
-    </ItemGroup>
 
 </Project>
