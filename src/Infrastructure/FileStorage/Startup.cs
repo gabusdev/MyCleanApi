@@ -1,18 +1,23 @@
 ﻿using Application.Common.FileStorage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
-using System.Net;
 
 namespace Infrastructure.FileStorage;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddFileStorageService(this IServiceCollection services) =>
-        services.AddTransient<IFileStorageService, LocalFileStorageService>();
-    internal static IApplicationBuilder UseFileStorage(this IApplicationBuilder app) =>
-        app.UseStaticFiles(new StaticFileOptions()
+    internal static IServiceCollection AddFileStorageService(this IServiceCollection services)
+    {
+        return services.AddTransient<IFileStorageService, LocalFileStorageService>();
+    }
+    internal static IApplicationBuilder UseFileStorage(this IApplicationBuilder app)
+    {
+        string path = "Files";
+        CreateBaseDirectory(path);
+
+        return app.UseStaticFiles(new StaticFileOptions()
         {
-            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
+            FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), path)),
             RequestPath = new PathString("/Files"),
             // To make Files Unaccesible if not Loged In
             /*
@@ -30,4 +35,15 @@ internal static class Startup
             }
             */
         });
+    }
+
+    private static void CreateBaseDirectory(string relativePath)
+    {
+
+        var dir = Path.GetFullPath(relativePath);
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+    }
 }

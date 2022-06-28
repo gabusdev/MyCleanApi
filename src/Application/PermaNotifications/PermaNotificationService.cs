@@ -5,13 +5,13 @@ using Microsoft.Extensions.Localization;
 
 namespace Application.PermaNotifications
 {
-    internal class PermaNotificatinService : IPermaNotificationService
+    internal class PermaNotificationService : IPermaNotificationService
     {
         private readonly IUnitOfWork _uow;
         private readonly IUserService _userService;
-        private readonly IStringLocalizer<PermaNotificatinService> _localizer;
-        public PermaNotificatinService(IUnitOfWork uow,
-            IStringLocalizer<PermaNotificatinService> localizer,
+        private readonly IStringLocalizer<PermaNotificationService> _localizer;
+        public PermaNotificationService(IUnitOfWork uow,
+            IStringLocalizer<PermaNotificationService> localizer,
             IUserService userService)
         {
             _uow = uow;
@@ -30,12 +30,8 @@ namespace Application.PermaNotifications
         public async Task SendNotificationToAll(string message, string? senderId = null)
         {
 
-            var newNotification = new PermaNotification
-            {
-                Id = Guid.NewGuid().ToString(),
-                Message = message,
-            };
-
+            var newNotification = CreatePermaNotification(message);
+            
             var result = await _uow.Notifications.InsertAsync(newNotification);
             if (!result)
             {
@@ -67,11 +63,7 @@ namespace Application.PermaNotifications
 
         public async Task<string> SendNotificationToUser(string message, string destinationId, string? senderId = null)
         {
-            var newNotification = new PermaNotification
-            {
-                Id = Guid.NewGuid().ToString(),
-                Message = message,
-            };
+            var newNotification = CreatePermaNotification(message);
 
             var result = await _uow.Notifications.InsertAsync(newNotification);
             if (!result)
@@ -97,6 +89,20 @@ namespace Application.PermaNotifications
             await _uow.CommitAsync();
 
             return userNotification.Id;
+        }
+
+        private static PermaNotification CreatePermaNotification(string message)
+        {
+            
+            var not =  new PermaNotification
+            {
+                Id = Guid.NewGuid().ToString(),
+                Message = message,
+            };
+
+            not.DomainEvents.Add(new NotificationCreatedEvent(not));
+
+            return not;
         }
 
         public async Task SetNotificationAsReaded(string userId, string notificationId)

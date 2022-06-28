@@ -22,7 +22,6 @@
 - [x] Dockerize The App
 - [x] Agregar Notificaciones
 - [x] Arreglar todos los mensajes con Localizacion
-- [ ] ~~Add Messages with SignalR~~
 - [x] Add Exception Tracing in Database
 - [x] Fix Custom Response Headers to avoid Same Response with diferent Authorization when cache is diferent from public
 - [x] Add Profile Pic to User Claims
@@ -30,6 +29,7 @@
 - [x] Add Perma-Notification Service
 - [ ] Make Database Performance Improvement with Fluent Language on Entity Framework Table Configurations
 - [x] Fix Current User
-- [ ] Use Automate Tests
+- [x] Use Automate Tests
+- [x] Add Messages with SignalR
 
 - [ ] Mejorar la Api

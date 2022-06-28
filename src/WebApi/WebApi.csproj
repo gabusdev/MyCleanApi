@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\" />
+    <Folder Include="Files\" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

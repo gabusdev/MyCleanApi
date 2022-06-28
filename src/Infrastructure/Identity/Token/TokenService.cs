@@ -66,7 +66,16 @@ internal class TokenService : ITokenService
 
     public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenQuery request, string ipAddress)
     {
-        var userPrincipal = GetPrincipalFromExpiredToken(request.Token);
+        ClaimsPrincipal userPrincipal;
+        try
+        {
+            userPrincipal = GetPrincipalFromExpiredToken(request.Token);
+        }
+        catch 
+        {
+            throw new UnauthorizedException(_localizer["auth.failed"]);
+        }
+        
         string? userEmail = userPrincipal.GetEmail();
         var user = await _userManager.FindByEmailAsync(userEmail);
         if (user is null)

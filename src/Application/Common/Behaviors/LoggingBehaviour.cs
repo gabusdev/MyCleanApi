@@ -26,8 +26,7 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where T
             userName = _currentUserService.Name ?? string.Empty;
         }
 
-        Log.Information("Api Request: {Name} by {@UserName} with Id: {@UserId} ",
-            requestName, userId, userName);
+        Log.Information($"Api Request: {requestName} by {userName} with Id: {userId}");
 
         return Task.CompletedTask;
     }
