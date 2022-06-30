@@ -40,6 +40,7 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
             newData.Id = _originUserId;
             newData.Email = "admin@mail.com";
             newData.Image = null;
+            newData.UserName = "testName";
             
             var response = await _client.PutAsJsonAsync(Route, newData);
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
