@@ -22,7 +22,7 @@ namespace Domain.UnitTests
         [Fact]
         public void Test()
         {
-            string[] x = {"a", "b", "c"};
+            string[] x = { "a", "b", "c" };
             System.Collections.Generic.List<string> y = x.ToList();
             int z = y.First() switch
             {

@@ -1,5 +1,5 @@
 ﻿using Application.Identity.Users.Commands.UpdateUser;
-using Application.PermaNotifications.Commands.SendNotificationCommand;
+using Application.Identity.Users.Password.Commands.ChangePassword;
 using Infrastructure.Middlewares.ExceptionHandler;
 using System.Net;
 
@@ -34,7 +34,30 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
             var result = await _client.PutAsJsonAsync($"{Route}", userData);
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             (await result.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(6);
+        }
+        [Fact]
+        public async Task PutChangePasswordWorksOk()
+        {
+            AuthorizeClient(_bearer);
 
+            var newData = new ChangePasswordCommand
+            {
+                Password = "admin",
+                NewPassword = "",
+                ConfirmNewPassword = "s"
+            };
+
+
+            var response = await _client.PutAsJsonAsync($"{Route}/change-password", newData);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            (await response.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(2);
+
+            newData.NewPassword = "abcdef";
+            newData.ConfirmNewPassword = newData.NewPassword;
+
+            response = await _client.PutAsJsonAsync($"{Route}/change-password", newData);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            (await response.Content.ReadAsAsync<ErrorResult>()).Messages.Should().HaveCount(1);
         }
     }
 }
