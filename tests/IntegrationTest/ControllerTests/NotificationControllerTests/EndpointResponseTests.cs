@@ -53,7 +53,7 @@ namespace WebApi.IntegrationTest.ControllerTests.NotificationControllerTests
             AuthorizeClient(_client, _bearer);
 
             // Create New Notificatiation
-            var (_, destUserId) = await TryLogin("guest@mail.com", "guest");
+            var (_, destUserId) = await TryLogin();
             var fixture = new Fixture();
             var notification = fixture.Create<SendNotificationCommand>();
             notification.DestinationUserId = destUserId;

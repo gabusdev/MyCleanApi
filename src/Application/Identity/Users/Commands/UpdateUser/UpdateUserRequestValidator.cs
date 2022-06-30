@@ -23,11 +23,11 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
         RuleFor(u => u.UserName).Cascade(CascadeMode.Stop)
             .NotEmpty()
-            .MinimumLength(4)
+            .Length(4, 15)
             .MustAsync(async (user, name, _) => !await userService.ExistsWithNameAsync(name, user.Id))
                 .WithMessage((_, name) => localizer["validation.username.used", name]);
 
-        RuleFor(p => p.Email)
+        RuleFor(p => p.Email).Cascade(CascadeMode.Stop)
             .NotEmpty()
             .EmailAddress()
                 .WithMessage("Invalid Email Address.")
