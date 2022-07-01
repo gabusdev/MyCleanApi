@@ -15,7 +15,7 @@ namespace WebApi.Controllers.neutral.Identity
         [HttpGet]
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
         [SwaggerOperation("Get Roles", "Returns a List with All Roles.")]
-        public async Task<List<RoleDto>> GetAllRoles()
+        public async Task<ActionResult<List<RoleDto>>> GetAllRoles()
         {
             return await Mediator.Send(new GetAllRolesQuery());
         }
@@ -24,7 +24,7 @@ namespace WebApi.Controllers.neutral.Identity
         [MustHavePermission(ApiAction.View, ApiResource.Roles)]
         [MustHavePermission(ApiAction.Search, ApiResource.Roles)]
         [SwaggerOperation("Get Role Info", "Returns the Info About a specified role with its Permissions.")]
-        public async Task<ActionResult> GetRoles(string id)
+        public async Task<ActionResult<RoleDto>> GetRoles(string id)
         {
             var role = await Mediator.Send(new GetRoleWithPermissionsQuery() { RoleId = id });
             return role is null ? NotFound() : Ok(role);
@@ -35,7 +35,7 @@ namespace WebApi.Controllers.neutral.Identity
         [MustHavePermission(ApiAction.View, ApiResource.Users)]
         [MustHavePermission(ApiAction.View, ApiResource.UserRoles)]
         [SwaggerOperation("Get Users by Role", "Returns a List with all Users within a Role.")]
-        public async Task<List<UserDetailsDto>> GetUsersbyRoles(string id)
+        public async Task<ActionResult<List<UserDetailsDto>>> GetUsersbyRoles(string id)
         {
             return await Mediator.Send(new GetUsersByRoleQuery() { RoleId = id });
         }
@@ -43,7 +43,7 @@ namespace WebApi.Controllers.neutral.Identity
         [HttpGet("permissions")]
         [SwaggerOperation("Get All Permissions", "Returns a List with All Permissions to use by Roles.")]
         [MustHavePermission(ApiAction.View, ApiResource.Permissions)]
-        public async Task<List<string>> GetAllPermissions()
+        public async Task<ActionResult<List<string>>> GetAllPermissions()
         {
             return await Mediator.Send(new GetAllPermissionsQuery());
         }
