@@ -71,11 +71,11 @@ internal class TokenService : ITokenService
         {
             userPrincipal = GetPrincipalFromExpiredToken(request.Token);
         }
-        catch 
+        catch
         {
             throw new UnauthorizedException(_localizer["auth.failed"]);
         }
-        
+
         string? userEmail = userPrincipal.GetEmail();
         var user = await _userManager.FindByEmailAsync(userEmail);
         if (user is null)
