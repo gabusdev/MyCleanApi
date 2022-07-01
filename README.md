@@ -32,3 +32,4 @@
 - Notification service with Real time Support
 - Swagger Documentation
 - Support for Prometeus Api Log and Grafana
+- CQRS Pattern with MediatR

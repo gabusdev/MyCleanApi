@@ -3,12 +3,8 @@ using Application.Identity.Users.Password.Commands.ChangePassword;
 using Application.Identity.Users.Queries;
 using Application.PermaNotifications.Queries;
 using AutoFixture;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
 {
@@ -40,7 +36,8 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
             newData.Id = _originUserId;
             newData.Email = "admin@mail.com";
             newData.Image = null;
-            
+            newData.UserName = "testName";
+
             var response = await _client.PutAsJsonAsync(Route, newData);
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
 
@@ -48,7 +45,7 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
             response = await _client.GetAsync(Route);
             var result = await response.Content.ReadAsAsync<UserDetailsDto>();
             result.Should().NotBeNull();
-            
+
             result.Id.Should().Be(_originUserId);
             result.Email.Should().Be(newData.Email);
             result.FirstName.Should().Be(newData.FirstName);
@@ -70,7 +67,7 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
         public async Task PostChangePasswordWorksOk()
         {
             var testClient = _factory.CreateClient();
-            var (testBearer, _ ) = await TryLogin("guest@mail.com", "guest");
+            var (testBearer, _) = await TryLogin("guest@mail.com", "guest");
             AuthorizeClient(testClient, testBearer);
 
             var newPass = "new123pass,";
@@ -80,7 +77,7 @@ namespace WebApi.IntegrationTest.ControllerTests.ProfileControllerTests
                 NewPassword = newPass,
                 ConfirmNewPassword = newPass
             };
-            
+
 
             var response = await testClient.PutAsJsonAsync($"{Route}/change-password", newData);
             response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);

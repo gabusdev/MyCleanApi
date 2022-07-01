@@ -31,7 +31,7 @@ namespace Application.PermaNotifications
         {
 
             var newNotification = CreatePermaNotification(message);
-            
+
             var result = await _uow.Notifications.InsertAsync(newNotification);
             if (!result)
             {
@@ -93,8 +93,8 @@ namespace Application.PermaNotifications
 
         private static PermaNotification CreatePermaNotification(string message)
         {
-            
-            var not =  new PermaNotification
+
+            var not = new PermaNotification
             {
                 Id = Guid.NewGuid().ToString(),
                 Message = message,
