@@ -10,37 +10,32 @@ services:
       dockerfile: Dockerfile
     container_name: cleanapi_api
     volumes:
-      - .volumes/logs:/app/Logs
+      - ./volumes/logs:/app/Logs
+      - ./volumes/appsettings/appsettings.json:/app/appsettings.json
+      # - ./publish:/app
     networks:
       - cleanapi_net
     expose:
-      - 80
+      - 5060
     ports:
-      - 2090:80
+      - "3011:5060"
     depends_on:
       - api-redis
       - api-db
-    # restart: on-failure
+    restart: on-failure
 
   api-db:
-    image: postgres:alpine
+    image: mysql
     container_name: cleanapi_db
     environment:
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_USER=postgres
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
-      - APP_DB_NAME=appdatabase
-      - JOBS_DB_NAME=hangfire
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=hangfire
     volumes:
-      - ./volumes/database/data:/var/lib/postgresql/data
-      - ./volumes/database/scripts:/docker-entrypoint-initdb.d/
+      - ./volumes/database/data:/var/lib/mysql
     networks:
       - cleanapi_net
-    ports:
-      - 5432:5432
     expose:
-      - 5432
+      - 3306
 
   api-prometheus:
     image: "prom/prometheus"
@@ -89,15 +84,14 @@ services:
     depends_on:
       - api
       - api-grafana
+      - adminer
+    restart: on-failure
 
-  pgadmin:
-    container_name: pgadmin4_container
-    image: dpage/pgadmin4
+  adminer:
+    container_name: cleanapi_adminer
+    image: adminer
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: root
-    ports:
-      - "3050:80"
+    expose:
+      - 8080
     networks:
       - cleanapi_net
