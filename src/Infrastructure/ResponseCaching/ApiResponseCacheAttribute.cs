@@ -33,6 +33,7 @@ namespace Infrastructure.ResponseCaching
             // Generate keys based on request endpoint
             string cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
             string etagKey = GenerateETagKeyFromRequest(context.HttpContext.Request);
+            // Get ETag Header Value from request if exists
             string etagValue = context.HttpContext.Request.Headers.IfNoneMatch.ToString() ?? "";
 
             // Search for cahed key if no-cache header is present in request
