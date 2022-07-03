@@ -6,6 +6,9 @@
 # My specific files
 src/WebApi/Files/*
 docker/volumes/grafana-data/*
+docker/volumes/database/data/*
+docker/publish/*
+
 
 # User-specific files
 *.rsuser
