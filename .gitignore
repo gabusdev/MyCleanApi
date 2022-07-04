@@ -8,6 +8,7 @@ src/WebApi/Files/*
 docker/volumes/grafana-data/*
 docker/volumes/database/data/*
 docker/publish/*
+docker/volumes/appsettings/appsettings.json
 
 
 # User-specific files
@@ -339,4 +340,3 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
-
