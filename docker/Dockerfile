@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 
 WORKDIR /app
 
-COPY publish .
+# COPY publish .
 
 # ENV ASPNETCORE_URLS=https://+:5050;http://+:5060
 ENV ASPNETCORE_URLS=http://+:5060

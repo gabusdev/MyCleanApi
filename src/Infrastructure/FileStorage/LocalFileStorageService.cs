@@ -58,7 +58,7 @@ public class LocalFileStorageService : IFileStorageService
         if (streamData.Length > 0)
         {
             string folder = typeof(T).Name;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 folder = folder.Replace(@"\", "/");
             }
