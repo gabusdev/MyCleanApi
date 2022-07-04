@@ -55,7 +55,7 @@ namespace Infrastructure
                 .UseFileStorage()
                 .UseCustomMiddlewares()
                 .UseRouting()
-                //.UseCorsPolicy()
+                .UseCorsPolicy()
                 .UseAuth()
                 .UseCurrentUser()
                 .UseMyResponseCaching()
