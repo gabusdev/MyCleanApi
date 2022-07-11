@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Cors;
 using Infrastructure.CurrentUser;
 using Infrastructure.FileStorage;
+using Infrastructure.HttpRequests;
 using Infrastructure.Identity;
 using Infrastructure.Localization;
 using Infrastructure.Mailing;
@@ -46,7 +47,8 @@ namespace Infrastructure
                 .AddFileStorageService()
                 .AddCurrentUser()
                 .AddEndpointsApiExplorer()
-                .AddNotifications(config);
+                .AddNotifications(config)
+                .AddHttpFetcher();
         }
         public static IApplicationBuilder UseInfraestructure(this IApplicationBuilder app, IConfiguration config, bool development)
         {

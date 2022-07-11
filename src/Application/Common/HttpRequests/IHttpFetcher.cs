@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 
 namespace Application.Common.HttpRequests
 {
@@ -17,5 +18,9 @@ namespace Application.Common.HttpRequests
         void RemoveQueryParam(string key);
         void AddHeader(string header, string value);
         string ShowLink(string path = "");
+
+        public string BaseUrl { get; set; }
+        public Dictionary<string, string> QueryParams { get; }
+        public HttpRequestHeaders DefaultHeaders { get; }
     }
 }

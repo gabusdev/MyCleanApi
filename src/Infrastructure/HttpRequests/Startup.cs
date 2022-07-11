@@ -9,7 +9,7 @@ namespace Infrastructure.HttpRequests;
 
 internal static class Startup
 {
-    internal static IServiceCollection AddCustomMiddlewares(this IServiceCollection services) =>
+    internal static IServiceCollection AddHttpFetcher(this IServiceCollection services) =>
         services
             .AddScoped<IHttpFetcher, Fetcher>();
 }

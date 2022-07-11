@@ -1,4 +1,5 @@
-﻿using Application.Common.HttpRequests;
+﻿using Application.Common.Exceptions.Custom_Exceptions;
+using Application.Common.HttpRequests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,8 @@ partial class Fetcher
         }
         catch (HttpRequestException e)
         {
-            Console.WriteLine(e.Message + "Type: " + e.GetType().Name);
-            return default(T);
+            Log.Error($"Failed Getting Resource: {ShowLink(path)} with error {e.Message}");
+            throw new HttpFetchRequestException("Something Went Wrong");
         }
     }
     public async Task<string> GetAsync(string path = "")
@@ -43,8 +44,8 @@ partial class Fetcher
         }
         catch (HttpRequestException e)
         {
-            Console.WriteLine(e.Message + "Type: " + e.GetType().Name);
-            return string.Empty;
+            Log.Error($"Failed Getting Resource: {ShowLink(path)} with error {e.Message}");
+            throw new HttpFetchRequestException("Something Went Wrong");
         }
     }
 }

@@ -44,9 +44,10 @@ partial class Fetcher
             {
                 query += $"{param.Key}={param.Value}&";
             }
+            query = query[0..^1];
         }
 
-        return query[0..^1];
+        return query;
     }
     private static bool ContainsCharacterAtPos(string text, char character, int pos)
     {

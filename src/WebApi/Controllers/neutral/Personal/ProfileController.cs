@@ -55,7 +55,7 @@ namespace WebApi.Controllers.neutral.Personal
         [SwaggerOperation("Get Unreaded Notifications", "Get Unreaded Notifications for current User")]
         public async Task<ActionResult> GetUnreadedNotifications()
         {
-            var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = User.GetUserId() });
+            var response = await Mediator.Send(new GetUnreadedNotificationsByUserIdQuery { UserId = User.GetUserId()! });
             return Ok(response);
         }
     }
