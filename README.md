@@ -33,3 +33,4 @@
 - Swagger Documentation
 - Support for Prometeus Api Log and Grafana
 - CQRS Pattern with MediatR
+- Http Fetching Support
